@@ -6,4 +6,6 @@
     <string name="text_sos_alert">SOS Alert</string>
     <string name="text_click_button">Click the button</string>
     <string name="text_send_help">to send help</string>
+    <string name="first_names">First Names</string>
+    <string name="last_names">Last Names</string>
 </resources>

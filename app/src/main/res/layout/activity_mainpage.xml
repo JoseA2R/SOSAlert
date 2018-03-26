@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context="com.acin.josefigueira.sosalert.MainActivity">
 
     <TextView
@@ -12,6 +13,8 @@
         android:layout_height="wrap_content"
         android:text="@string/welcome_alert"
         android:layout_gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/colorTextBlack"
         android:layout_marginTop="50px"
         android:layout_marginBottom="50px"
         android:textSize="30dp"
@@ -19,21 +22,22 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="100sp"
-        android:layout_height="100sp"
-        android:layout_marginTop="100px"
-        android:layout_marginBottom="50sp"
+        android:layout_width="200sp"
+        android:layout_height="200sp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="30sp"
         android:layout_gravity="center"
-        app:srcCompat="@android:drawable/btn_star" />
+        app:srcCompat="@drawable/sos" />
 
     <Button
-        android:id="@+id/button"
-        android:layout_width="400px"
+        android:id="@+id/app-start-btn"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100px"
-        android:layout_marginBottom="100px"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="15dp"
         android:layout_gravity="center"
-        android:text="NEXT" />
+        android:text="NEXT"
+        android:onClick="onClick" />
 
     <TextView
         android:id="@+id/textView"
