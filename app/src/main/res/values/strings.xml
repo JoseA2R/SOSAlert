@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SOSAlert</string>
+    <string name="welcome_alert">Welcome To SOSAlert</string>
+    <string name="select_language">Select Language</string>
+    <string name="text_data">Insert your Personal Data</string>
+    <string name="text_sos_alert">SOS Alert</string>
+    <string name="text_click_button">Click the button</string>
+    <string name="text_send_help">to send help</string>
+</resources>
