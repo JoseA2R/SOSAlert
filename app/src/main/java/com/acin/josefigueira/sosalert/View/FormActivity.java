@@ -26,6 +26,7 @@ import java.util.Locale;
 
 public class FormActivity extends AppCompatActivity {
 
+    private final static String DEFAULT_LOCAL = "Portugal";
     Spinner spcountry;
     ArrayAdapter<String> adapter;
 
@@ -67,8 +68,10 @@ public class FormActivity extends AppCompatActivity {
 
 
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, countries);
+        spcountry.setSelection(adapter.getPosition(DEFAULT_LOCAL));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);
+
 
     }
 

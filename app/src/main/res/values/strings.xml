@@ -8,4 +8,7 @@
     <string name="text_send_help">to send help</string>
     <string name="first_names">First Names</string>
     <string name="last_names">Last Names</string>
+    <string name="edit_comments">Provide any comments here (alergies, type of blood, etc.)</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="next_btn">Next</string>
 </resources>
