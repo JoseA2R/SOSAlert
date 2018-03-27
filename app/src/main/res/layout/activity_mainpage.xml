@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/white"
-    tools:context="com.acin.josefigueira.sosalert.MainActivity">
+    tools:context="com.acin.josefigueira.sosalert.View.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
