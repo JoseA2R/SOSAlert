@@ -3,6 +3,8 @@ package com.acin.josefigueira.sosalert.POJO;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
+
 /**
  * Created by jose.figueira on 27-03-2018.
  */
@@ -23,7 +25,7 @@ public class User {
     private String description;
     @SerializedName("phone")
     @Expose
-    private String phone;
+    private ArrayList<String> phone;
 
     public String getFirstName() {return first_name; }
 
@@ -36,6 +38,12 @@ public class User {
     public String getCountry() { return country; }
 
     public void setCountry() { this.country = country; }
+
+    public String getDescription(){return description; }
+
+    public void setDescription(){ this.description = description; }
+
+
 
 }
 

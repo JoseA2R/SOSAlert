@@ -15,9 +15,9 @@
         android:layout_gravity="center"
         android:textStyle="bold"
         android:textColor="@color/colorTextBlack"
-        android:layout_marginTop="50px"
-        android:layout_marginBottom="50px"
-        android:textSize="30dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="50dp"
+        android:textSize="30sp"
         />
 
     <ImageView
@@ -36,7 +36,7 @@
         android:layout_marginTop="30dp"
         android:layout_marginBottom="15dp"
         android:layout_gravity="center"
-        android:text="NEXT"
+        android:text="@string/next_btn1"
         android:onClick="onClick" />
 
     <TextView

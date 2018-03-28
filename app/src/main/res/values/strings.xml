@@ -11,4 +11,5 @@
     <string name="edit_comments">Provide any comments here (alergies, type of blood, etc.)</string>
     <string name="phone_number">Phone Number</string>
     <string name="next_btn">Next</string>
+    <string name="next_btn1">NEXT</string>
 </resources>
