@@ -40,7 +40,9 @@ public class UserData {
 
     public void storeData(){
 
-        //SharedPreferences userSharedPreferences = this.getSharedPreferences();
+        SharedPreferences userSharedPreferences;
+        SharedPreferences.Editor editor;
+
 
     }
 

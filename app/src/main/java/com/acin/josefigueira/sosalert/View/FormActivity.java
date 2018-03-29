@@ -2,6 +2,7 @@ package com.acin.josefigueira.sosalert.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -145,6 +146,14 @@ public class FormActivity extends AppCompatActivity {
         user.setCountry(spcountry.getSelectedItem().toString());
         user.setDescription(etDescription.getText().toString());
         user.setPhone(etPhone.getText().toString());
+
+    }
+
+    public void storeData(){
+
+        SharedPreferences userSharedPreferences = null;
+        SharedPreferences.Editor editor;
+        userSharedPreferences.getSharedPreferences("useref",MODE_PRIVATE);
 
     }
 
