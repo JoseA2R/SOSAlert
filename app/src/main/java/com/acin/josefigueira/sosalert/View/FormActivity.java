@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.Controller.UserController;
 import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
 import com.mikelau.countrypickerx.Country;
@@ -41,21 +42,24 @@ public class FormActivity extends AppCompatActivity {
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
     User user;
+    UserController controller;
 
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userdata);
+
+        user = new User();
+        controller = new UserController();
+
         spcountry = findViewById(R.id.spinnerCountry);
         etFName = (EditText) findViewById(R.id.etFName);
         etLName = (EditText) findViewById(R.id.etSName);
         spcountry = findViewById(R.id.spinnerCountry);
         etDescription = (EditText) findViewById(R.id.etDescription);
         etPhone = (EditText) findViewById(R.id.etPhone);
-
         btnNext  = findViewById(R.id.btnNext);
-        user = new User();
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
@@ -80,6 +84,8 @@ public class FormActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 btnNextClicked();
+                controller.SaveData(user);
+                Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
 
             }
         });
