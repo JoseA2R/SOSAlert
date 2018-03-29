@@ -1,5 +1,7 @@
 package com.acin.josefigueira.sosalert.Model;
 
+import android.content.SharedPreferences;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -33,6 +35,12 @@ public class UserData {
         _Country = country;
         _Description = description;
         _Phone = phone;
+
+    }
+
+    public void storeData(){
+
+        //SharedPreferences userSharedPreferences = this.getSharedPreferences();
 
     }
 
