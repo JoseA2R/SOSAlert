@@ -25,7 +25,7 @@ public class User {
     private String description;
     @SerializedName("phone")
     @Expose
-    private ArrayList<String> phone;
+    private String phone;
 
     public String getFirstName() {return first_name; }
 
@@ -33,15 +33,20 @@ public class User {
 
     public String getLastName() { return last_name; }
 
-    public void setLastname() { this.last_name = last_name; }
+    public void setLastname(String last_name) { this.last_name = last_name; }
 
     public String getCountry() { return country; }
 
-    public void setCountry() { this.country = country; }
+    public void setCountry(String country) { this.country = country; }
 
     public String getDescription(){return description; }
 
-    public void setDescription(){ this.description = description; }
+    public void setDescription(String description){ this.description = description; }
+
+    public String getPhone(){return phone; }
+
+    public void setPhone(String phone){ this.phone = phone; }
+
 
 
 

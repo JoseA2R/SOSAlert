@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
 import com.mikelau.countrypickerx.Country;
 import com.mikelau.countrypickerx.CountryPickerCallbacks;
@@ -35,7 +37,10 @@ public class FormActivity extends AppCompatActivity {
     Spinner spcountry;
     ArrayAdapter<String> adapter;
     int numberOfRows  = 0;
+    Button btnNext;
     private LinearLayout parentLinearLayout;
+    EditText etFName, etLName, etDescription, etPhone;
+    User user;
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +48,14 @@ public class FormActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_userdata);
         spcountry = findViewById(R.id.spinnerCountry);
+        etFName = (EditText) findViewById(R.id.etFName);
+        etLName = (EditText) findViewById(R.id.etSName);
+        spcountry = findViewById(R.id.spinnerCountry);
+        etDescription = (EditText) findViewById(R.id.etDescription);
+        etPhone = (EditText) findViewById(R.id.etPhone);
+
+        btnNext  = findViewById(R.id.btnNext);
+        user = new User();
 
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
@@ -60,6 +73,17 @@ public class FormActivity extends AppCompatActivity {
 
             }
         });
+
+        btnNext.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                btnNextClicked();
+
+            }
+        });
+
 
     }
 
@@ -108,20 +132,13 @@ public class FormActivity extends AppCompatActivity {
         parentLinearLayout.removeView((View) v.getParent());
     }
 
-    public void btnNextClicked(View v){
+    public void btnNextClicked(){
 
-        EditText etFName = (EditText) findViewById(R.id.etFName);
-        EditText etLName = (EditText) findViewById(R.id.etSName);
-        spcountry = findViewById(R.id.spinnerCountry);
-        EditText etDescription = (EditText) findViewById(R.id.etDescription);
-        EditText etPhone = (EditText) findViewById(R.id.etPhone);
-
-        String FName = etFName.getText().toString();
-        String LName = etLName.getText().toString();
-        String Country = spcountry.getSelectedItem().toString();
-        String Description = etDescription.getText().toString();
-        String Phone = etFName.getText().toString();
-
+        user.setFirstName(etFName.getText().toString());
+        user.setLastname(etLName.getText().toString());
+        user.setCountry(spcountry.getSelectedItem().toString());
+        user.setDescription(etDescription.getText().toString());
+        user.setPhone(etPhone.getText().toString());
 
     }
 
