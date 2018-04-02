@@ -58,6 +58,24 @@
             android:textSize="30sp" />
     </ScrollView>
 
+    <TextView
+        android:id="@+id/txtLatitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlack"
+        android:text="Latitude: "
+        android:textSize="24dp"
+        />
+
+    <TextView
+        android:id="@+id/txtLongitude"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorTextBlack"
+        android:text="Longitude: "
+        android:textSize="24dp"
+        />
+
 
     <Button
         android:id="@+id/btnprueba"
