@@ -9,11 +9,11 @@
 
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/sosalerttv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50px"
-        android:layout_marginBottom="10px"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center"
         android:text="@string/text_sos_alert"
         android:textSize="30sp"
@@ -21,7 +21,7 @@
         android:textColor="@color/colorTextBlack"/>
 
     <TextView
-        android:id="@+id/textView4"
+        android:id="@+id/clickbtntv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -29,20 +29,35 @@
         android:text="@string/text_click_button" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/sendhelptv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10px"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center"
         android:textColor="@color/colorTextBlack"
         android:text="@string/text_send_help" />
 
+    <TextView
+        android:id="@+id/pruebacoordinates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="Coordinates"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:id="@+id/pruebaCOORD"
+        android:text="REQUEST LOCATION"
+        android:layout_gravity="center"/>
+
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnSOS"
         android:layout_width="280sp"
         android:layout_height="280sp"
-        android:layout_marginTop="100px"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="50sp"
         android:layout_gravity="center"
         app:srcCompat="@drawable/sos_btn" />
+
+
 </LinearLayout>

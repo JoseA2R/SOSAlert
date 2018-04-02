@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
        _btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                _btn.setEnabled(false);
+
                 startActivity(new Intent(MainActivity.this,FormActivity.class));
             }
         });
@@ -32,6 +32,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClick(View view) {
+
+
+
     }
 
 

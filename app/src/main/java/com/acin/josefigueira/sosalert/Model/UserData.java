@@ -1,7 +1,11 @@
 package com.acin.josefigueira.sosalert.Model;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.view.View;
 
+import com.acin.josefigueira.sosalert.View.FormActivity;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.ArrayList;
@@ -22,6 +26,7 @@ public class UserData {
     private String _Description;
     @SerializedName("_Phone")
     private String _Phone;
+    Context FormACtivity;
 
 
     public UserData() {
@@ -39,10 +44,6 @@ public class UserData {
     }
 
     public void storeData(){
-
-        SharedPreferences userSharedPreferences;
-        SharedPreferences.Editor editor;
-
 
     }
 

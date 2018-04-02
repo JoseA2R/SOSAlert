@@ -1,6 +1,9 @@
 package com.acin.josefigueira.sosalert.Controller;
 
+import android.widget.EditText;
+
 import com.acin.josefigueira.sosalert.POJO.User;
+import com.acin.josefigueira.sosalert.R;
 
 /**
  * Created by jose.figueira on 28-03-2018.

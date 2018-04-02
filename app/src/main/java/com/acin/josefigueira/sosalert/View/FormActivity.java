@@ -2,8 +2,11 @@ package com.acin.josefigueira.sosalert.View;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -44,6 +47,7 @@ public class FormActivity extends AppCompatActivity {
     EditText etFName, etLName, etDescription, etPhone;
     User user;
     UserController controller;
+
 
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,7 @@ public class FormActivity extends AppCompatActivity {
                 btnNextClicked();
                 controller.SaveData(user);
                 Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
+                startActivity(new Intent(FormActivity.this,SOSActivity.class));
 
             }
         });
@@ -133,13 +138,13 @@ public class FormActivity extends AppCompatActivity {
     }
 
     public void onDelete(View v) {
-
-
-
         parentLinearLayout.removeView((View) v.getParent());
     }
 
     public void btnNextClicked(){
+
+        SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editorPreferences = SPreferences.edit();
 
         user.setFirstName(etFName.getText().toString());
         user.setLastname(etLName.getText().toString());
@@ -147,13 +152,16 @@ public class FormActivity extends AppCompatActivity {
         user.setDescription(etDescription.getText().toString());
         user.setPhone(etPhone.getText().toString());
 
+        editorPreferences.putString("First Name: ",user.getFirstName());
+        editorPreferences.putString("Last Name: ",user.getLastName());
+        editorPreferences.putString("Country : ",user.getCountry());
+        editorPreferences.putString("Description : ",user.getDescription());
+        editorPreferences.putString("Phone Number : ",user.getPhone());
+        editorPreferences.commit();
+
     }
 
     public void storeData(){
-
-        SharedPreferences userSharedPreferences = null;
-        SharedPreferences.Editor editor;
-        userSharedPreferences.getSharedPreferences("useref",MODE_PRIVATE);
 
     }
 
