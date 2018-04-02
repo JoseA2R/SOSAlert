@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -34,6 +35,7 @@ public class SOSActivity extends AppCompatActivity {
     Location location;
     LocationManager locationManager;
     LocationListener listener;
+    static final int REQUEST_LOCATION = 1;
 
     private TextView txtLongitude;
     private TextView txtLatitude;
@@ -59,10 +61,56 @@ public class SOSActivity extends AppCompatActivity {
 
         } else{
 
-            locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+                locationManager = (LocationManager) this
+                        .getSystemService(Context.LOCATION_SERVICE);
+
+                // getting GPS status
+                boolean isGPSEnabled = locationManager
+                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                // getting network status
+                boolean isNetworkEnabled = locationManager
+                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                if (!isGPSEnabled && !isNetworkEnabled) {
+                    // no network provider is enabled
+                } else {
+
+                    // First get location from Network Provider
+                    if (isNetworkEnabled) {
+                        if (locationManager != null) {
+                            location = locationManager
+                                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                            longitude = location.getLongitude();
+                            latitude = location.getLatitude();
+                            txtLongitude.setText("Longitude: " + longitude);
+                            txtLatitude.setText("Latitude: " +latitude);
+                            return;
+                        }
+                    }
+                    // if GPS Enabled get lat/long using GPS Services
+                    if (isGPSEnabled) {
+                        if (location == null) {
+                            if (locationManager != null) {
+                                location = locationManager
+                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                longitude = location.getLongitude();
+                                latitude = location.getLatitude();
+                                txtLongitude.setText("Longitude: " + longitude);
+                                txtLatitude.setText("Latitude: " +latitude);
+                                return;
+                            }
+                        }
+                    }
+                }
+
+
+          /* locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);*/
 
         }
+
         if (location != null){
 
             longitude = location.getLongitude();
