@@ -101,19 +101,7 @@ public class FormActivity extends AppCompatActivity {
 
     public void setCountriesSpinner(){
 
-        Locale[] locale = Locale.getAvailableLocales();
-        ArrayList<String> countries = new ArrayList<String>();
-        String country;
-        for( Locale loc : locale ){
-            country = loc.getDisplayCountry();
-            if( country.length() > 0 && !countries.contains(country) ){
-                countries.add( country );
-            }
-        }
-        Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);
-
-
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, countries);
+        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, controller.getLocales());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);
 
@@ -143,8 +131,8 @@ public class FormActivity extends AppCompatActivity {
 
     public void btnNextClicked(){
 
-        SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editorPreferences = SPreferences.edit();
+        /*SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
 
         user.setFirstName(etFName.getText().toString());
         user.setLastname(etLName.getText().toString());
@@ -152,12 +140,14 @@ public class FormActivity extends AppCompatActivity {
         user.setDescription(etDescription.getText().toString());
         user.setPhone(etPhone.getText().toString());
 
-        editorPreferences.putString("First Name: ",user.getFirstName());
+        controller.putStringData(this);
+
+        /*editorPreferences.putString("First Name: ",user.getFirstName());
         editorPreferences.putString("Last Name: ",user.getLastName());
         editorPreferences.putString("Country : ",user.getCountry());
         editorPreferences.putString("Description : ",user.getDescription());
         editorPreferences.putString("Phone Number : ",user.getPhone());
-        editorPreferences.commit();
+        editorPreferences.apply();*/
 
     }
 

@@ -37,27 +37,34 @@
         android:textColor="@color/colorTextBlack"
         android:text="@string/text_send_help" />
 
-    <TextView
-        android:id="@+id/pruebacoordinates"
-        android:layout_width="wrap_content"
+
+
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Coordinates"/>
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/button">
+
+        <TextView
+            android:id="@+id/tvprueba"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/button"
+            android:gravity="center"
+            android:text="Coordinates: "
+            android:textSize="30sp" />
+    </ScrollView>
+
 
     <Button
+        android:id="@+id/btnprueba"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:id="@+id/pruebaCOORD"
-        android:text="REQUEST LOCATION"
-        android:layout_gravity="center"/>
-
-    <ImageButton
-        android:id="@+id/btnSOS"
-        android:layout_width="280sp"
-        android:layout_height="280sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="50sp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/sos_btn" />
-
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Request Location" />
 
 </LinearLayout>

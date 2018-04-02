@@ -1,6 +1,7 @@
 package com.acin.josefigueira.sosalert.View;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.R;
 
@@ -24,26 +26,27 @@ import com.acin.josefigueira.sosalert.R;
 
 public class SOSActivity extends AppCompatActivity {
 
-    Button btnSOS;
-    TextView coordinates;
+    Button button;
+    TextView textView;
     LocationManager locationManager;
-    LocationListener locationListener;
+    LocationListener listener;
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alert_button);
 
-        btnSOS = (Button) findViewById(R.id.pruebaCOORD);
-        coordinates = (TextView) findViewById(R.id.pruebacoordinates);
+        button = (Button) findViewById(R.id.btnprueba);
+        textView = (TextView) findViewById(R.id.tvprueba);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener() {
+
+        listener = new LocationListener() {
 
             @Override
             public void onLocationChanged(Location location) {
-                coordinates.append("\n "+location.getLatitude() + " "
-                +location.getLongitude());
+                textView.append("\n " + location.getLatitude() + " "
+                        + location.getLongitude());
             }
 
             @Override
@@ -64,44 +67,51 @@ public class SOSActivity extends AppCompatActivity {
 
         };
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                    PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                    (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION,
-                    Manifest.permission.INTERNET}, 10 );
-
-                return;
-            }
-
-        } else{
-            configureButton();
-        }
+        configure_button();
 
     }
 
 
-    public void onRequestPermissionResult(int requestCode, String[] permissions,int[] grantResults){
-        switch(requestCode){
+    public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
             case 10:
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                    configureButton();
-                    return;
-                }
+
+                configure_button();
+                return;
+
+            default:
+                break;
         }
 
     }
 
-    private void configureButton(){
-        btnSOS.setOnClickListener(new View.OnClickListener() {
+
+    void configure_button() {
+
+
+
+        button.setOnClickListener(new View.OnClickListener() {
+
+            @SuppressLint("ResourceType")
             @Override
             public void onClick(View view) {
-                locationManager.requestLocationUpdates("gps", 5000, 0, locationListener);
+              /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
+                            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
+                            (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            }
-        });
-    }
+                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
+                                Manifest.permission.ACCESS_COARSE_LOCATION,
+                                Manifest.permission.INTERNET}, 10);
+                    }
+                    return;
+                }*/
+                locationManager.requestLocationUpdates("gps", 10000, 0, listener);
 
+                }
+            });
+
+        }
 }
+
+
