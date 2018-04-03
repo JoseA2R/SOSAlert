@@ -69,6 +69,7 @@ public class SOSActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 showRequestPermissionsInfoAlertDialog();
+
             }
         });
 
@@ -86,6 +87,14 @@ public class SOSActivity extends AppCompatActivity {
         // latitude.setText(objeto.latitude)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
+
+
+        // GPSData objeto { Float latitude, Float longitude, }
+        // SMSModel retorna GPSData
+        // SMSController retorna GPSData
+        // GPSData obj
+        // latitude.setText(objeto.latitude)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED){
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -172,9 +181,8 @@ public class SOSActivity extends AppCompatActivity {
 
     /**
      * Request runtime SMS permission
-     * @param onClickListener
      */
-        private void requestReadAndSendSmsPermission(DialogInterface.OnClickListener onClickListener) {
+        private void requestReadAndSendSmsPermission() {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
                 // You may display a non-blocking explanation here, read more in the documentation:
                 // https://developer.android.com/training/permissions/requesting.html
@@ -198,7 +206,7 @@ public class SOSActivity extends AppCompatActivity {
                 dialog.dismiss();
                 // Display system runtime permission request?
                 if (makeSystemRequest) {
-                    requestReadAndSendSmsPermission(this);
+                    requestReadAndSendSmsPermission();
                 }
             }
         });
@@ -207,8 +215,7 @@ public class SOSActivity extends AppCompatActivity {
         builder.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
+    public void onRequestPermissionsesult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case SMS_PERMISSION_CODE: {
