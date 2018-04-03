@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -20,6 +21,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.R;
 
 import static com.acin.josefigueira.sosalert.View.GPSPruebActivity.REQUEST_LOCATION;
@@ -37,6 +39,9 @@ public class SOSActivity extends AppCompatActivity {
     LocationListener listener;
     static final int REQUEST_LOCATION = 1;
 
+    double longitude = 0.0;
+    double latitude = 0.0;
+
     private TextView txtLongitude;
     private TextView txtLatitude;
 
@@ -51,8 +56,21 @@ public class SOSActivity extends AppCompatActivity {
         txtLongitude = (TextView) findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) findViewById(R.id.txtLatitude);
 
-        double longitude = 0.0;
-        double latitude = 0.0;
+        getLocation();
+
+        txtLongitude.setText("Longitude: " + longitude);
+        txtLatitude.setText("Latitude: " +latitude);
+
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sendTextMessage();
+            }
+        });
+
+    }
+
+    public void getLocation(){
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
@@ -62,26 +80,39 @@ public class SOSActivity extends AppCompatActivity {
         } else{
 
 
-                locationManager = (LocationManager) this
-                        .getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) this
+                    .getSystemService(Context.LOCATION_SERVICE);
 
-                // getting GPS status
-                boolean isGPSEnabled = locationManager
-                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
+            // getting GPS status
+            boolean isGPSEnabled = locationManager
+                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-                // getting network status
-                boolean isNetworkEnabled = locationManager
-                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            // getting network status
+            boolean isNetworkEnabled = locationManager
+                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-                if (!isGPSEnabled && !isNetworkEnabled) {
-                    // no network provider is enabled
-                } else {
+            if (!isGPSEnabled && !isNetworkEnabled) {
+                // no network provider is enabled
+            } else {
 
-                    // First get location from Network Provider
-                    if (isNetworkEnabled) {
+                // First get location from Network Provider
+                if (isNetworkEnabled) {
+                    if (locationManager != null) {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                        txtLongitude.setText("Longitude: " + longitude);
+                        txtLatitude.setText("Latitude: " +latitude);
+                        return;
+                    }
+                }
+                // if GPS Enabled get lat/long using GPS Services
+                if (isGPSEnabled) {
+                    if (location == null) {
                         if (locationManager != null) {
                             location = locationManager
-                                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
                             longitude = location.getLongitude();
                             latitude = location.getLatitude();
                             txtLongitude.setText("Longitude: " + longitude);
@@ -89,21 +120,8 @@ public class SOSActivity extends AppCompatActivity {
                             return;
                         }
                     }
-                    // if GPS Enabled get lat/long using GPS Services
-                    if (isGPSEnabled) {
-                        if (location == null) {
-                            if (locationManager != null) {
-                                location = locationManager
-                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                                longitude = location.getLongitude();
-                                latitude = location.getLatitude();
-                                txtLongitude.setText("Longitude: " + longitude);
-                                txtLatitude.setText("Latitude: " +latitude);
-                                return;
-                            }
-                        }
-                    }
                 }
+            }
 
 
           /* locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -118,82 +136,20 @@ public class SOSActivity extends AppCompatActivity {
 
         }
 
-        txtLongitude.setText("Longitude: " + longitude);
-        txtLatitude.setText("Latitude: " +latitude);
-
-       /* locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        listener = new LocationListener() {
-
-            @Override
-            public void onLocationChanged(Location location) {
-                textView.append("\n " + location.getLatitude() + " "
-                        + location.getLongitude());
-            }
-
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
-
-            }
-
-            @Override
-            public void onProviderEnabled(String s) {
-
-            }
-
-            @Override
-            public void onProviderDisabled(String s) {
-                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                startActivity(intent);
-            }
-
-        };
-
-        configure_button();*/
-
     }
 
+    public void sendTextMessage(){
+        String strPhone = "+351965639423";
 
-   /*public void onRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {
-        switch (requestCode) {
-            case 10:
+        String strMessage = "Lorem\nIpsum";
 
-                configure_button();
-                return;
+        SmsManager sms = SmsManager.getDefault();
 
-            default:
-                break;
-        }
+        sms.sendTextMessage(strPhone, null, strMessage, null, null);
 
+        Toast.makeText(this, "Sent.", Toast.LENGTH_SHORT).show();
     }
 
-
-    void configure_button() {
-
-
-
-        button.setOnClickListener(new View.OnClickListener() {
-
-            @SuppressLint("ResourceType")
-            @Override
-            public void onClick(View view) {
-              /*  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
-                            PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission
-                            (this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION,
-                                Manifest.permission.ACCESS_COARSE_LOCATION,
-                                Manifest.permission.INTERNET}, 10);
-                    }
-                    return;
-                }
-                locationManager.requestLocationUpdates("gps", 10000, 0, listener);
-
-                }
-            });
-
-        }*/
 }
 
 

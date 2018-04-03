@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+          android:id="@+id/nav_sos"
+          android:title="@string/nav_sos_button"
+        android:icon="@drawable/ic_whatshot_black_24px"/>
+
+    <item android:id="@+id/nav_profile"
+          android:title="@string/settings_nav"
+        android:icon="@mipmap/ic_settings_black_24dp"/>
+
+</menu>

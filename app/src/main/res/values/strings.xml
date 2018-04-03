@@ -12,4 +12,8 @@
     <string name="phone_number">Phone Number</string>
     <string name="next_btn">Next</string>
     <string name="next_btn1">NEXT</string>
+    <string name="nav_sos_button">SOS Button</string>
+    <string name="settings_nav">Settings</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>
