@@ -25,9 +25,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Controller.GPSController;
+import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.R;
-
-import static com.acin.josefigueira.sosalert.View.GPSPruebActivity.REQUEST_LOCATION;
 
 /**
  * Created by jose.figueira on 27-03-2018.
@@ -42,6 +41,7 @@ public class SOSActivity extends AppCompatActivity {
     LocationListener listener;
     static final int REQUEST_LOCATION = 1;
     private static final int SMS_PERMISSION_CODE = 123;
+    private SMSController controller_sms = null;
 
     double longitude = 0.0;
     double latitude = 0.0;
@@ -64,7 +64,7 @@ public class SOSActivity extends AppCompatActivity {
 
         txtLongitude.setText("Longitude: " + longitude);
         txtLatitude.setText("Latitude: " +latitude);
-
+        controller_sms = new SMSController(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -76,6 +76,14 @@ public class SOSActivity extends AppCompatActivity {
 
     public void getLocation(){
 
+
+
+
+        // GPSData objeto { Float latitude, Float longitude, }
+        // SMSModel retorna GPSData
+        // SMSController retorna GPSData
+        // GPSData obj
+        // latitude.setText(objeto.latitude)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED){
 
@@ -146,7 +154,7 @@ public class SOSActivity extends AppCompatActivity {
 
         String strPhone = "+351965639423";
 
-        String strMessage = "Lorem\nIpsum";
+        String strMessage = "Testing";
 
 
             SmsManager sms = SmsManager.getDefault();
