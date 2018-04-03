@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Controller.GPSController;
+import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.R;
 
 import static com.acin.josefigueira.sosalert.View.GPSPruebActivity.REQUEST_LOCATION;
@@ -42,6 +43,7 @@ public class SOSActivity extends AppCompatActivity {
     LocationListener listener;
     static final int REQUEST_LOCATION = 1;
     private static final int SMS_PERMISSION_CODE = 123;
+    private SMSController controller_sms = null;
 
     double longitude = 0.0;
     double latitude = 0.0;
@@ -64,11 +66,12 @@ public class SOSActivity extends AppCompatActivity {
 
         txtLongitude.setText("Longitude: " + longitude);
         txtLatitude.setText("Latitude: " +latitude);
-
+        controller_sms = new SMSController(this);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showRequestPermissionsInfoAlertDialog();
+
             }
         });
 
@@ -76,8 +79,14 @@ public class SOSActivity extends AppCompatActivity {
 
     public void getLocation(){
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+
+
+        // GPSData objeto { Float latitude, Float longitude, }
+        // SMSModel retorna GPSData
+        // SMSController retorna GPSData
+        // GPSData obj
+        // latitude.setText(objeto.latitude)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED){
 
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
@@ -164,9 +173,8 @@ public class SOSActivity extends AppCompatActivity {
 
     /**
      * Request runtime SMS permission
-     * @param onClickListener
      */
-        private void requestReadAndSendSmsPermission(DialogInterface.OnClickListener onClickListener) {
+        private void requestReadAndSendSmsPermission() {
             if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
                 // You may display a non-blocking explanation here, read more in the documentation:
                 // https://developer.android.com/training/permissions/requesting.html
@@ -190,7 +198,7 @@ public class SOSActivity extends AppCompatActivity {
                 dialog.dismiss();
                 // Display system runtime permission request?
                 if (makeSystemRequest) {
-                    requestReadAndSendSmsPermission(this);
+                    requestReadAndSendSmsPermission();
                 }
             }
         });
@@ -199,8 +207,7 @@ public class SOSActivity extends AppCompatActivity {
         builder.show();
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
+    public void onRequestPermissionsesult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case SMS_PERMISSION_CODE: {
