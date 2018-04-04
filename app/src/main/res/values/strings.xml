@@ -14,9 +14,9 @@
     <string name="next_btn1">NEXT</string>
     <string name="nav_sos_button">SOS Button</string>
     <string name="settings_nav">Settings</string>
-    <string name="open">Open</string>
-    <string name="close">Close</string>
     <string name="permission_alert_dialog_title">SMS Permission</string>
     <string name="permission_dialog_message">SOSAlert Message will now request to send SMS from your device.</string>
     <string name="action_ok">ok</string>
+    <string name="open">Open</string>
+    <string name="close">Close</string>
 </resources>

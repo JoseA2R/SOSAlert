@@ -122,7 +122,9 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:text="@string/next_btn" />
+                android:background="#E28F4B"
+                android:text="@string/next_btn"
+                android:textColor="@color/white"/>
 
         </LinearLayout>
     </ScrollView>

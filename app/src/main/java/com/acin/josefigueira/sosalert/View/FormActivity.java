@@ -1,17 +1,14 @@
 package com.acin.josefigueira.sosalert.View;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
-import android.preference.Preference;
-import android.preference.PreferenceManager;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,14 +20,6 @@ import android.widget.Toast;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
-import com.mikelau.countrypickerx.Country;
-import com.mikelau.countrypickerx.CountryPickerCallbacks;
-import com.mikelau.countrypickerx.CountryPickerDialog;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Created by jose.figueira on 26-03-2018.
@@ -91,7 +80,7 @@ public class FormActivity extends AppCompatActivity {
                 btnNextClicked();
                 controller.SaveData(user);
                 Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
-                startActivity(new Intent(FormActivity.this,SOSActivity.class));
+                startActivity(new Intent(FormActivity.this,MainMenuActivity.class));
 
             }
         });

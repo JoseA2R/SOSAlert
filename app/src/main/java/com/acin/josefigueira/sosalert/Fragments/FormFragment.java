@@ -56,6 +56,7 @@ public class FormFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.activity_userdata,container,false);
+        insertData(view);
         return view;
     }
 
@@ -129,8 +130,8 @@ public class FormFragment extends Fragment{
         }else {*/
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        final View rowView = inflater.inflate(R.layout.phone_field, null);
-        parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 1);
+        v = inflater.inflate(R.layout.phone_field, null);
+        parentLinearLayout.addView(v, parentLinearLayout.getChildCount() - 1);
 
         //}
     }
