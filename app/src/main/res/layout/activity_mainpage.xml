@@ -4,47 +4,47 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/firefighter_waiting_next_call"
     android:orientation="vertical"
-    android:background="@color/white"
     tools:context="com.acin.josefigueira.sosalert.View.MainActivity">
 
+
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/welcome_alert"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:textStyle="bold"
-        android:textColor="@color/colorTextBlack"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="50dp"
-        android:textSize="30sp"
-        />
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="200sp"
-        android:layout_height="200sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="30sp"
-        android:layout_gravity="center"
-        app:srcCompat="@drawable/sos" />
-
-    <Button
-        android:id="@+id/app-start-btn"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="15dp"
-        android:layout_gravity="center"
-        android:text="@string/next_btn1"
-        android:onClick="onClick" />
+        android:textSize="60sp"
+        android:textColor="@color/white"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="30dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="@string/select_language" />
+        android:text="@string/select_language"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textSize="16sp"
+        android:background="@color/Gray"/>
+
+    <Button
+        android:id="@+id/app-start-btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="160dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_gravity="center"
+        android:background="#E28F4B"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:text="@string/next_btn1"
+        android:onClick="onClick" />
 
 
 </LinearLayout>

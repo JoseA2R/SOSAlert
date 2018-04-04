@@ -75,9 +75,7 @@ public class SOSActivity extends AppCompatActivity {
 
     }
 
-    public void getLocation(){
-
-
+    public void getLocation() {
 
 
         // GPSData objeto { Float latitude, Float longitude, }
@@ -86,77 +84,78 @@ public class SOSActivity extends AppCompatActivity {
         // GPSData obj
         // latitude.setText(objeto.latitude)
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED){
+                != PackageManager.PERMISSION_GRANTED) {
 
 
-        // GPSData objeto { Float latitude, Float longitude, }
-        // SMSModel retorna GPSData
-        // SMSController retorna GPSData
-        // GPSData obj
-        // latitude.setText(objeto.latitude)
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)  != PackageManager.PERMISSION_GRANTED){
+            // GPSData objeto { Float latitude, Float longitude, }
+            // SMSModel retorna GPSData
+            // SMSController retorna GPSData
+            // GPSData obj
+            // latitude.setText(objeto.latitude)
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
 
-        } else{
-
-
-            locationManager = (LocationManager) this
-                    .getSystemService(Context.LOCATION_SERVICE);
-
-            // getting GPS status
-            boolean isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            // getting network status
-            boolean isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            if (!isGPSEnabled && !isNetworkEnabled) {
-                // no network provider is enabled
             } else {
 
-                // First get location from Network Provider
-                if (isNetworkEnabled) {
-                    if (locationManager != null) {
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        longitude = location.getLongitude();
-                        latitude = location.getLatitude();
-                        txtLongitude.setText("Longitude: " + longitude);
-                        txtLatitude.setText("Latitude: " +latitude);
-                        return;
-                    }
-                }
-                // if GPS Enabled get lat/long using GPS Services
-                if (isGPSEnabled) {
-                    if (location == null) {
+
+                locationManager = (LocationManager) this
+                        .getSystemService(Context.LOCATION_SERVICE);
+
+                // getting GPS status
+                boolean isGPSEnabled = locationManager
+                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+                // getting network status
+                boolean isNetworkEnabled = locationManager
+                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+                if (!isGPSEnabled && !isNetworkEnabled) {
+                    // no network provider is enabled
+                } else {
+
+                    // First get location from Network Provider
+                    if (isNetworkEnabled) {
                         if (locationManager != null) {
                             location = locationManager
-                                    .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
                             longitude = location.getLongitude();
                             latitude = location.getLatitude();
                             txtLongitude.setText("Longitude: " + longitude);
-                            txtLatitude.setText("Latitude: " +latitude);
+                            txtLatitude.setText("Latitude: " + latitude);
                             return;
                         }
                     }
+                    // if GPS Enabled get lat/long using GPS Services
+                    if (isGPSEnabled) {
+                        if (location == null) {
+                            if (locationManager != null) {
+                                location = locationManager
+                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                                longitude = location.getLongitude();
+                                latitude = location.getLatitude();
+                                txtLongitude.setText("Longitude: " + longitude);
+                                txtLatitude.setText("Latitude: " + latitude);
+                                return;
+                            }
+                        }
+                    }
                 }
-            }
 
 
           /* locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
             location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);*/
 
+            }
+
+            if (location != null) {
+
+                longitude = location.getLongitude();
+                latitude = location.getLatitude();
+
+            }
+
         }
-
-        if (location != null){
-
-            longitude = location.getLongitude();
-            latitude = location.getLatitude();
-
-        }
-
     }
 
     public void sendTextMessage(){

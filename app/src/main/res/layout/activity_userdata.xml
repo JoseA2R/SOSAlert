@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@drawable/firefighter_cut">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,17 +17,28 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView2InsertData"
+                android:id="@+id/txt_insert_your"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/text_data"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:text="INSERT YOUR"
+                android:layout_marginTop="60dp"
                 android:textSize="28dp"
                 android:textStyle="bold"
-                android:textColor="@color/colorTextBlack"
+                android:textColor="@color/white"
                 android:layout_gravity="center"
                  />
+
+            <TextView
+                android:id="@+id/txt_personal_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="PERSONAL DATA"
+                android:textSize="28dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:layout_gravity="center"
+                />
+
 
             <EditText
                 android:id="@+id/etFName"
@@ -38,7 +49,8 @@
                 android:hint="@string/first_names"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"/>
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="70dp"/>
 
             <EditText
                 android:id="@+id/etSName"
@@ -106,7 +118,7 @@
                 android:id="@+id/btnNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginBottom="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
