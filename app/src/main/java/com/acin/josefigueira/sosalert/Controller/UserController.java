@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.acin.josefigueira.sosalert.Model.UserModel;
 import com.acin.josefigueira.sosalert.POJO.User;
 
 import java.util.ArrayList;
@@ -17,10 +18,15 @@ import java.util.Locale;
 public class UserController {
 
     private User user;
+    UserModel model;
+    SharedPreferences SPreferences;
+    SharedPreferences.Editor editorPreferences;
+    Context mContext;
 
-    public UserController(){
+    public UserController(Context context){
 
         this.user = new User();
+        mContext = context;
 
     }
 
@@ -28,7 +34,8 @@ public class UserController {
         this.user = user;
     }
 
-    public void ClearUser(){
+    public void ClearPreferences(){
+
 
         this.user.setFirstName("");
         this.user.setLastname("");
@@ -69,18 +76,50 @@ public class UserController {
 
     }
 
+    public void setData(String fname,String lname, String country, String description, String phone){
+
+        user.setFirstName(fname);
+        user.setLastname(lname);
+        user.setCountry(country);
+        user.setDescription(description);
+        user.setPhone(phone);
+
+    }
+
     public void putStringData(Context context){
 
-        SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        SharedPreferences.Editor editorPreferences = SPreferences.edit();
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        editorPreferences = SPreferences.edit();
 
-        editorPreferences.putString("First Name: ",this.user.getFirstName());
-        editorPreferences.putString("Last Name: ",this.user.getLastName());
-        editorPreferences.putString("Country : ",this.user.getCountry());
-        editorPreferences.putString("Description : ",this.user.getDescription());
-        editorPreferences.putString("Phone Number : ",this.user.getPhone());
+        editorPreferences.putString("firstname",this.user.getFirstName());
+        editorPreferences.putString("lastname",this.user.getLastName());
+        editorPreferences.putString("country",this.user.getCountry());
+        editorPreferences.putString("description",this.user.getDescription());
+        editorPreferences.putString("phonenumber",this.user.getPhone());
         editorPreferences.apply();
 
+    }
+
+    public String getFName(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+       return SPreferences.getString("firstname","");
+    }
+
+    public String getLName(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return SPreferences.getString("lastname","");
+    }
+    public String getCountry(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return SPreferences.getString("country","");
+    }
+    public String getDescription(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return SPreferences.getString("description","");
+    }
+    public String getPhone(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        return SPreferences.getString("phonenumber","");
     }
 
 

@@ -34,6 +34,7 @@ public class FormActivity extends AppCompatActivity {
     Button btnNext;
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
+    String fname,lname,country,description,phone;
     User user;
     UserController controller;
 
@@ -45,7 +46,7 @@ public class FormActivity extends AppCompatActivity {
         setContentView(R.layout.activity_userdata);
 
         user = new User();
-        controller = new UserController();
+        controller = new UserController(this);
 
         spcountry = findViewById(R.id.spinnerCountry);
         etFName = (EditText) findViewById(R.id.etFName);
@@ -123,11 +124,13 @@ public class FormActivity extends AppCompatActivity {
         /*SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
 
-        user.setFirstName(etFName.getText().toString());
-        user.setLastname(etLName.getText().toString());
-        user.setCountry(spcountry.getSelectedItem().toString());
-        user.setDescription(etDescription.getText().toString());
-        user.setPhone(etPhone.getText().toString());
+        fname = etFName.getText().toString();
+        lname = etLName.getText().toString();
+        country = spcountry.getSelectedItem().toString();
+        description = etDescription.getText().toString();
+        phone = etPhone.getText().toString();
+
+        controller.setData(fname,lname,country,description,phone);
 
         controller.putStringData(this);
 

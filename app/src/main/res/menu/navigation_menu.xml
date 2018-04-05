@@ -4,10 +4,17 @@
     <item
           android:id="@+id/nav_sos"
           android:title="@string/nav_sos_button"
-        android:icon="@drawable/ic_whatshot_black_24px"/>
+          android:icon="@drawable/ic_whatshot_black_24px"/>
 
     <item android:id="@+id/nav_profile"
-          android:title="@string/settings_nav"
-        android:icon="@mipmap/ic_settings_black_24dp"/>
+          android:title="@string/profile_nav"
+          android:icon="@mipmap/ic_person_outline_black_24dp"/>
+
+    <item android:id="@+id/nav_language"
+          android:title="@string/language_nav"
+          android:icon="@mipmap/ic_language_black_24dp"/>
+
+    <item android:id="@+id/nav_share"
+          android:title="@string/share_nav"/>
 
 </menu>

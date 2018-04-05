@@ -5,7 +5,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ public class FormFragment extends Fragment{
     User user;
     UserController controller;
 
+
     Fragment fragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -61,8 +64,8 @@ public class FormFragment extends Fragment{
     }
 
     public void insertData(View view){
-        user = new User();
-        controller = new UserController();
+
+        controller = new UserController(getActivity().getBaseContext());
 
         spcountry = view.findViewById(R.id.spinnerCountry);
         etFName = (EditText) view.findViewById(R.id.etFName);
@@ -71,6 +74,8 @@ public class FormFragment extends Fragment{
         etDescription = (EditText) view.findViewById(R.id.etDescription);
         etPhone = (EditText) view.findViewById(R.id.etPhone);
         btnNext  = view.findViewById(R.id.btnNext);
+
+        fillData();
 
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
 
@@ -162,8 +167,12 @@ public class FormFragment extends Fragment{
 
     }
 
-    public void storeData(){
+    public void fillData(){
 
+        etFName.setText(controller.getFName());
+        etLName.setText(controller.getLName());
+        etDescription.setText(controller.getDescription());
+        etPhone.setText(controller.getPhone());
     }
 
     @Override
