@@ -3,12 +3,11 @@
     <string name="welcome_alert">WELCOME</string>
     <string name="select_language">Select Language</string>
     <string name="text_data">Insert your Personal Data</string>
-    <string name="text_sos_alert">SOS Alert</string>
-    <string name="text_click_button">Click the button</string>
-    <string name="text_send_help">to send help</string>
+    <string name="text_sos_alert">SOS ALERT</string>
+    <string name="text_click_button">CLICK THE BUTTON TO SEND HELP</string>
     <string name="first_names">First Names</string>
     <string name="last_names">Last Names</string>
-    <string name="edit_comments">Provide any comments here (alergies, type of blood, etc.)</string>
+    <string name="edit_comments">Provide any comments here (allergies, type of blood, etc.)</string>
     <string name="phone_number">Phone Number</string>
     <string name="next_btn">NEXT</string>
     <string name="next_btn1">NEXT</string>

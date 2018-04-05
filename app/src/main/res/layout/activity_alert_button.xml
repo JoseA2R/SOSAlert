@@ -28,17 +28,6 @@
         android:textColor="@color/colorTextBlack"
         android:text="@string/text_click_button" />
 
-    <TextView
-        android:id="@+id/sendhelptv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"
-        android:textColor="@color/colorTextBlack"
-        android:text="@string/text_send_help" />
-
-
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

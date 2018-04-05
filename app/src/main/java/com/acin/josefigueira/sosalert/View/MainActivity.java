@@ -13,7 +13,7 @@ import com.acin.josefigueira.sosalert.R;
 
 public class MainActivity extends AppCompatActivity {
 
-   Button _btn;
+    Button _btn;
     FragmentManager fragmentManager = getFragmentManager();
 
     @Override

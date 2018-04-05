@@ -25,13 +25,16 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
 
+    FragmentManager fragmentManager;
+
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_menu);
 
-       mToolbar = (Toolbar) findViewById(R.id.nav_action_bar);
+        mToolbar = (Toolbar) findViewById(R.id.nav_action_bar);
         setSupportActionBar(mToolbar);
+        mToolbar.setTitle("");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);
@@ -42,8 +45,8 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         navigationView.setNavigationItemSelectedListener(this);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-
+        fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
 
 
     }
@@ -51,7 +54,8 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(MenuItem item){
 
         int id = item.getItemId();
-        FragmentManager fragmentManager = getFragmentManager();
+
+        fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_sos){
             fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();

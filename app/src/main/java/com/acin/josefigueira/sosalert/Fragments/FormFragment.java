@@ -39,6 +39,7 @@ public class FormFragment extends Fragment{
     Button btnNext;
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
+    String fname,lname,country,description,phone;
     User user;
     UserController controller;
 
@@ -81,18 +82,14 @@ public class FormFragment extends Fragment{
 
         setCountriesSpinner();
 
-        spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+    /*    spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Toast.makeText(getActivity().getBaseContext(),adapterView.getItemAtPosition(i)+" selected",Toast.LENGTH_LONG).show();
             }
-
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-
             }
-        });
+        });*/
 
         btnNext.setOnClickListener(new View.OnClickListener()
         {
@@ -101,11 +98,14 @@ public class FormFragment extends Fragment{
             {
                 btnNextClicked();
                 controller.SaveData(user);
-                Toast.makeText(getActivity().getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
+
                 fragmentTransaction = getFragmentManager().beginTransaction();
                 fragment = new SOSFragment();
+                Toast.makeText(getActivity().getBaseContext(),"Profile Modified Successfully", Toast.LENGTH_LONG).show();
                 //Revisar lo del id del contenedor para ser llamado luego
-                //fragmentTransaction.replace(R.id.);
+                fragmentTransaction.replace(R.id.content_frame,fragment);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
 
                 //startActivity(new Intent(FormFragment.this,SOSActivity.class));
@@ -150,11 +150,14 @@ public class FormFragment extends Fragment{
         /*SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
 
-        user.setFirstName(etFName.getText().toString());
-        user.setLastname(etLName.getText().toString());
-        user.setCountry(spcountry.getSelectedItem().toString());
-        user.setDescription(etDescription.getText().toString());
-        user.setPhone(etPhone.getText().toString());
+
+        fname = etFName.getText().toString();
+        lname = etLName.getText().toString();
+        country = spcountry.getSelectedItem().toString();
+        description = etDescription.getText().toString();
+        phone = etPhone.getText().toString();
+
+        controller.setData(fname,lname,country,description,phone);
 
         controller.putStringData(getActivity().getApplicationContext());
 
