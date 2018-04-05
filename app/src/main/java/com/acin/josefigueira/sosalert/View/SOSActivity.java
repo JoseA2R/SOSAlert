@@ -64,7 +64,15 @@ public class SOSActivity extends AppCompatActivity {
 
         txtLongitude.setText("Longitude: " + longitude);
         txtLatitude.setText("Latitude: " +latitude);
+
+        /*
+        Pediente con esta linea de codigo, importante seguirla para que se de correctamente
+        * */
         controller_sms = new SMSController(this);
+
+
+
+
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

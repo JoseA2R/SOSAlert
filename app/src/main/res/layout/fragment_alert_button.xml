@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -12,29 +12,34 @@
         android:id="@+id/sosalerttv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
+        android:layout_marginTop="26dp"
         android:text="@string/text_sos_alert"
+        android:textColor="@color/colorTextBlack"
         android:textSize="30sp"
-        android:textStyle="bold"
-        android:textColor="@color/colorTextBlack"/>
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/clickbtntv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/sosalerttv"
+        android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="50dp"
-        android:textColor="@color/colorTextBlack"
-        android:text="@string/text_click_button" />
-
+        android:layout_marginTop="11dp"
+        android:text="@string/text_click_button"
+        android:textColor="@color/colorTextBlack" />
 
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/sosimgbtn"
-        android:background="#9e9e9e"/>
+        android:layout_alignTop="@+id/clickbtntv"
+        android:layout_marginTop="50dp"
+        android:background="#9e9e9e"
+        app:srcCompat="@drawable/sosimgbtn" />
 
-</LinearLayout>
+</RelativeLayout>

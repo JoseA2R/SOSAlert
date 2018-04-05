@@ -41,7 +41,7 @@ public class FormFragment extends Fragment{
     EditText etFName, etLName, etDescription, etPhone;
     String fname,lname,country,description,phone;
     User user;
-    UserController controller;
+    UserController controller
 
 
     Fragment fragment;
