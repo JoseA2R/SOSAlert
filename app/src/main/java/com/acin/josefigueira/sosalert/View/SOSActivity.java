@@ -169,14 +169,12 @@ public class SOSActivity extends AppCompatActivity {
     public void sendTextMessage(){
 
         String strPhone = "+351965639423";
-
         String strMessage = "Testing";
 
-
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(strPhone, null, strMessage, null, null);
-            Toast.makeText(this, "Sent.", Toast.LENGTH_SHORT).show();
-        }
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(strPhone, null, strMessage, null, null);
+        Toast.makeText(this, "Sent.", Toast.LENGTH_SHORT).show();
+    }
 
 
     /**
@@ -222,7 +220,7 @@ public class SOSActivity extends AppCompatActivity {
         builder.show();
     }
 
-    public void onRequestPermissionsesult(int requestCode,
+    public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         switch (requestCode) {
             case SMS_PERMISSION_CODE: {
@@ -242,6 +240,8 @@ public class SOSActivity extends AppCompatActivity {
             // permissions this app might request
         }
     }
+
+
 
 
 }

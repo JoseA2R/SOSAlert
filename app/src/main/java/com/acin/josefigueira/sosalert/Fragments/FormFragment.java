@@ -41,7 +41,7 @@ public class FormFragment extends Fragment{
     EditText etFName, etLName, etDescription, etPhone;
     String fname,lname,country,description,phone;
     User user;
-    UserController controller
+    UserController controller;
 
 
     Fragment fragment;
@@ -174,6 +174,7 @@ public class FormFragment extends Fragment{
 
         etFName.setText(controller.getFName());
         etLName.setText(controller.getLName());
+        //country = spcountry.indexOfChild(controller.getCountry());
         etDescription.setText(controller.getDescription());
         etPhone.setText(controller.getPhone());
     }
