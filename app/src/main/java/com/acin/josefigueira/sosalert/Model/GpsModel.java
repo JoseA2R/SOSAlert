@@ -7,4 +7,6 @@ package com.acin.josefigueira.sosalert.Model;
 public class GpsModel {
 
 
+
+
 }

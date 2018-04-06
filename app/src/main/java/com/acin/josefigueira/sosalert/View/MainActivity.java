@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
+                //fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
                 //Iniciar actividad con el FormActivity
                 startActivity(new Intent(MainActivity.this,FormActivity.class));
             }

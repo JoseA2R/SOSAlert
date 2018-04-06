@@ -81,9 +81,11 @@ public class SOSFragment extends Fragment {
             @Override
             public void onClick(View view) {
 
-                getLocation();
+                checkPermissions();
                 txtLongitude.setText("Longitude: " + longitude);
                 txtLatitude.setText("Latitude: " +latitude);
+                showRequestPermissionsInfoAlertDialog();
+
 
             }
         });
@@ -99,7 +101,7 @@ public class SOSFragment extends Fragment {
 
     }
 
-    public void getLocation() {
+    public void checkPermissions() {
 
 
         // GPSData objeto { Float latitude, Float longitude, }
@@ -120,47 +122,7 @@ public class SOSFragment extends Fragment {
             } else {
 
 
-                locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-                // getting GPS status
-                boolean isGPSEnabled = locationManager
-                        .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-                // getting network status
-                boolean isNetworkEnabled = locationManager
-                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-                if (!isGPSEnabled && !isNetworkEnabled) {
-                    // no network provider is enabled
-                } else {
-
-                    // First get location from Network Provider
-                    if (isNetworkEnabled) {
-                        if (locationManager != null) {
-                            location = locationManager
-                                    .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                            longitude = location.getLongitude();
-                            latitude = location.getLatitude();
-                            /*txtLongitude.setText("Longitude: " + longitude);
-                            txtLatitude.setText("Latitude: " + latitude);*/
-                            return;
-                        }
-                    }
-                    // if GPS Enabled get lat/long using GPS Services
-                    if (isGPSEnabled) {
-                        if (location == null) {
-                            if (locationManager != null) {
-                                location = locationManager
-                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                                longitude = location.getLongitude();
-                                latitude = location.getLatitude();
-                                /*txtLongitude.setText("Longitude: " + longitude);
-                                txtLatitude.setText("Latitude: " + latitude);*/
-                                return;
-                            }
-                        }
-                    }
-                }
+               getlocation();
 
 
           /* locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
@@ -175,6 +137,141 @@ public class SOSFragment extends Fragment {
             }
 
 
+    }
+
+    public void getlocation(){
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        // getting GPS status
+        boolean isGPSEnabled = locationManager
+                .isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+        // getting network status
+        boolean isNetworkEnabled = locationManager
+                .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+
+        if (!isGPSEnabled && !isNetworkEnabled) {
+            // no network provider is enabled
+        } else {
+
+            // First get location from Network Provider
+            if (isNetworkEnabled) {
+                if (locationManager != null) {
+                    try {
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                            /*txtLongitude.setText("Longitude: " + longitude);
+                            txtLatitude.setText("Latitude: " + latitude);*/
+                        return;
+                    }catch(SecurityException e){
+
+                    }
+                }
+            }
+            // if GPS Enabled get lat/long using GPS Services
+            if (isGPSEnabled) {
+                if (location == null) {
+                    if (locationManager != null) {
+                        try{
+                        location = locationManager
+                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                        longitude = location.getLongitude();
+                        latitude = location.getLatitude();
+                                /*txtLongitude.setText("Longitude: " + longitude);
+                                txtLatitude.setText("Latitude: " + latitude);*/
+                        return;
+                    }catch(SecurityException e){
+
+                    }
+                    }
+                }
+            }
+        }
+    }
+
+    public void sendTextMessage(){
+
+        Toast.makeText(getActivity().getApplicationContext(), "Sent.", Toast.LENGTH_LONG).show();
+        String strPhone = "+351965639423";
+        String strMessage = "Testing";
+
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(strPhone, null, strMessage, null, null);
+
+    }
+
+
+    /**
+     * Check if we have SMS permission
+     */
+    public boolean isSmsPermissionGranted() {
+        int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.READ_SMS);
+        if (result == PackageManager.PERMISSION_GRANTED){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Request runtime SMS permission
+     */
+    private void requestReadAndSendSmsPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_SMS)) {
+            // You may display a non-blocking explanation here, read more in the documentation:
+            // https://developer.android.com/training/permissions/requesting.html
+
+        }
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
+    }
+
+    public void showRequestPermissionsInfoAlertDialog() {
+        showRequestPermissionsInfoAlertDialog(true);
+    }
+
+    public void showRequestPermissionsInfoAlertDialog(final boolean makeSystemRequest) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle(R.string.permission_alert_dialog_title); // Your own title
+        builder.setMessage(R.string.permission_dialog_message); // Your own message
+
+        builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                // Display system runtime permission request?
+                if (makeSystemRequest) {
+                    requestReadAndSendSmsPermission();
+                    //sendTextMessage();
+                }
+            }
+        });
+
+        builder.setCancelable(false);
+        builder.show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case SMS_PERMISSION_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    sendTextMessage();
+
+                } else {
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+            // other 'case' lines to check for other
+            // permissions this app might request
+        }
     }
 
 
