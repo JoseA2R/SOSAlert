@@ -46,8 +46,9 @@
         android:id="@+id/txtLatitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtLongitude"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/sos_img_btn"
+        android:layout_marginEnd="6dp"
         android:text="Latitude: "
         android:textColor="@color/colorTextBlack"
         android:textSize="24dp" />
@@ -56,9 +57,8 @@
         android:id="@+id/txtLongitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/sos_img_btn"
-        android:layout_marginEnd="6dp"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/txtLatitude"
         android:text="Longitude: "
         android:textColor="@color/colorTextBlack"
         android:textSize="24dp" />
