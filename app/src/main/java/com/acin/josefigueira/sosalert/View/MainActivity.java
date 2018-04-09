@@ -1,50 +1,51 @@
 package com.acin.josefigueira.sosalert.View;
 
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
-import com.acin.josefigueira.sosalert.Fragments.FormFragment;
 import com.acin.josefigueira.sosalert.R;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by jose.figueira on 09-04-2018.
+ */
 
-    Button _btn;
-    FragmentManager fragmentManager = getFragmentManager();
+public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+
+    Spinner spinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
         super.onCreate(savedInstanceState);
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
-        setContentView(R.layout.activity_mainpage);
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        setContentView(R.layout.initial_mainpage);
 
-        _btn = findViewById(R.id.app_start_btn);
-
-       _btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
-                //Iniciar actividad con el FormActivity
-                startActivity(new Intent(MainActivity.this,FormActivity.class));
-            }
-        });
+        spinner = (Spinner) findViewById(R.id.language_spinner);
+        spinner.setOnItemSelectedListener(this);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.planets_array,android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
 
     }
 
-    public void onClick(View view) {
-
-
-
+    public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
+        //((TextView) parent.getChildAt(pos)).setTextColor(Color.WHITE);
+        startActivity(new Intent(MainActivity.this,WelcomeMainActivity.class));
     }
 
+    public void onNothingSelected(AdapterView<?> parent){
 
+    }
 
 }

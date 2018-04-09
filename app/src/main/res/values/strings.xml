@@ -20,4 +20,10 @@
     <string name="action_ok">ok</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string-array name="planets_array">
+        <item>Portuguese</item>
+        <item>English</item>
+    </string-array>
+
+
 </resources>

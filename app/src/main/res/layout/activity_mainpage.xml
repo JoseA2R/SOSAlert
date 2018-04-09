@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/firefighter_waiting_next_call"
     android:orientation="vertical"
-    tools:context="com.acin.josefigueira.sosalert.View.MainActivity">
+    tools:context="com.acin.josefigueira.sosalert.View.WelcomeMainActivity">
 
 
     <TextView
