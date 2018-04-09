@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -18,6 +19,7 @@ import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Toast;
+import java.util.*;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.Fragments.FormFragment;
@@ -39,7 +41,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     SMSController smscontroller;
     SOSFragment sosfragment;
 
-    SOSFragment fragmentSos;
+    Fragment fragmentSos = new SOSFragment();
 
     FragmentManager fragmentManager;
 
@@ -103,73 +105,15 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
     }
 
-    /**
-     * Check if we have SMS permission
-     */
-    public boolean isSmsPermissionGranted() {
-        int result = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_SMS);
-        if (result == PackageManager.PERMISSION_GRANTED){
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    /**
-     * Request runtime SMS permission
-     */
-    private void requestReadAndSendSmsPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_SMS)) {
-            // You may display a non-blocking explanation here, read more in the documentation:
-            // https://developer.android.com/training/permissions/requesting.html
-
-        }
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
-    }
-
-    public void showRequestPermissionsInfoAlertDialog() {
-        showRequestPermissionsInfoAlertDialog(true);
-    }
-
-    public void showRequestPermissionsInfoAlertDialog(final boolean makeSystemRequest) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(R.string.permission_alert_dialog_title); // Your own title
-        builder.setMessage(R.string.permission_dialog_message); // Your own message
-
-        builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                // Display system runtime permission request?
-                if (makeSystemRequest) {
-                    requestReadAndSendSmsPermission();
-                    //sendTextMessage();
-                }
-            }
-        });
-
-        builder.setCancelable(false);
-        builder.show();
-    }
 
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case SMS_PERMISSION_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    //sosfragment.sendTextMessage();
-
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
+        super.onRequestPermissionsResult(requestCode,permissions,grantResults);
+        List<android.support.v4.app.Fragment> fragments = getSupportFragmentManager().getFragments();
+        if (fragments != null){
+            //for (android.support.v4.app.Fragment fragment : fragments){
+                fragmentSos.onRequestPermissionsResult(requestCode,permissions,grantResults);
+            //}
         }
     }
 

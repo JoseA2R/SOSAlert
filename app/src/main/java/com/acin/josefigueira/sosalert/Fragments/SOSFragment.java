@@ -117,7 +117,8 @@ public class SOSFragment extends Fragment {
             // GPSData obj
             // latitude.setText(objeto.latitude)
 
-                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+
 
             } else {
 
@@ -193,11 +194,12 @@ public class SOSFragment extends Fragment {
 
     public void sendTextMessage(){
 
-        Toast.makeText(getActivity().getApplicationContext(), "Sent.", Toast.LENGTH_LONG).show();
+        //Toast.makeText(getActivity().getBaseContext(), "Sent.", Toast.LENGTH_LONG).show();
         String strPhone = "+351965639423";
         String strMessage = "Testing";
 
         SmsManager sms = SmsManager.getDefault();
+        //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
         sms.sendTextMessage(strPhone, null, strMessage, null, null);
 
     }
