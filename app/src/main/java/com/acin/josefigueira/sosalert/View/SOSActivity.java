@@ -68,7 +68,7 @@ public class SOSActivity extends AppCompatActivity {
         /*
         Pediente con esta linea de codigo, importante seguirla para que se de correctamente
         * */
-        controller_sms = new SMSController(this);
+        controller_sms = new SMSController();
 
 
 
