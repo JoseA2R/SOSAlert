@@ -86,6 +86,12 @@ public class UserController {
 
     }
 
+   /* public void setLocationData(double latitude, double longitude){
+        user.setLatitude(latitude);
+        user.setLongitude(longitude);
+
+    }*/
+
     public void putStringData(Context context){
 
         SPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -100,9 +106,38 @@ public class UserController {
 
     }
 
+    public void putLocation(Context context,float lat, float lon){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        editorPreferences = SPreferences.edit();
+
+        editorPreferences.putFloat("latitude",lat);
+        editorPreferences.putFloat("longitude",lon);
+        editorPreferences.apply();
+    }
+
+   public String getUserFName(){
+        return user.getFirstName();
+    }
+
+    public String getUserLName(){
+        return user.getLastName();
+    }
+
+    public String getUserCountry(){
+        return user.getCountry();
+    }
+
+    public String getUserDescription(){
+        return user.getDescription();
+    }
+
+    public String getUserPhone(){
+        return user.getPhone();
+    }
+
     public String getFName(){
         SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-       return SPreferences.getString("firstname","");
+        return SPreferences.getString("firstname","");
     }
 
     public String getLName(){

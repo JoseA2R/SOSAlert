@@ -40,10 +40,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     private Toolbar mToolbar;
     View view;
     SMSController smscontroller;
-    SOSFragment sosfragment;
-
-    Fragment fragmentSos = new SOSFragment();
-
+    SOSFragment fragmentSos = new SOSFragment();
     FragmentManager fragmentManager;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +63,10 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager = getFragmentManager();
+        fragmentSos.setContext(this);
         fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
+
+
 
 
 
@@ -114,6 +114,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         List<android.support.v4.app.Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null){
             //for (android.support.v4.app.Fragment fragment : fragments){
+
                 fragmentSos.onRequestPermissionsResult(requestCode,permissions,grantResults);
             //}
         }

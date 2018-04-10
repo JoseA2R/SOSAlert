@@ -85,7 +85,7 @@ public class FormActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 btnNextClicked();
-                controller.SaveData(user);
+                //controller.SaveData(user);
                 Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
                 startActivity(new Intent(FormActivity.this,MainMenuActivity.class));
 

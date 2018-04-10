@@ -21,6 +21,10 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import java.util.ArrayList;
+import com.acin.josefigueira.sosalert.Controller.UserController;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.R;
@@ -45,12 +49,20 @@ public class SOSFragment extends Fragment {
     static final int REQUEST_LOCATION = 1;
     private static final int SMS_PERMISSION_CODE = 123;
     private SMSController controller_sms = null;
+    private UserController userController;
+    SharedPreferences SPreferences;
 
-    double longitude = 0.0;
-    double latitude = 0.0;
+    private String fname,lname,country,description;
+
+    float longitude;
+    float latitude;
 
     private TextView txtLongitude;
     private TextView txtLatitude;
+
+    public void SOSFragment(Context context){
+        mContext = context;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,10 +75,13 @@ public class SOSFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.fragment_alert_button,container,false);
-
         getBtnData(view);
 
         return view;
+    }
+
+    public void setContext(Context context){
+        mContext = context;
     }
 
     public void getBtnData(View view){
@@ -77,6 +92,7 @@ public class SOSFragment extends Fragment {
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
 
 
+
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +100,8 @@ public class SOSFragment extends Fragment {
                 checkPermissions();
                 txtLongitude.setText("Longitude: " + longitude);
                 txtLatitude.setText("Latitude: " +latitude);
+                userController = new UserController(mContext);
+                userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
                 showRequestPermissionsInfoAlertDialog();
 
 
@@ -132,8 +150,8 @@ public class SOSFragment extends Fragment {
 
             if (location != null) {
 
-                longitude = location.getLongitude();
-                latitude = location.getLatitude();
+                longitude = (float) location.getLongitude();
+                latitude = (float) location.getLatitude();
 
             }
 
@@ -161,9 +179,9 @@ public class SOSFragment extends Fragment {
                     try {
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                        longitude = location.getLongitude();
-                        latitude = location.getLatitude();
-                            /*txtLongitude.setText("Longitude: " + longitude);
+                        longitude = (float) location.getLongitude();
+                        latitude = (float) location.getLatitude();
+                        /*txtLongitude.setText("Longitude: " + longitude);
                             txtLatitude.setText("Latitude: " + latitude);*/
                         return;
                     }catch(SecurityException e){
@@ -178,10 +196,10 @@ public class SOSFragment extends Fragment {
                         try{
                         location = locationManager
                                 .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        longitude = location.getLongitude();
-                        latitude = location.getLatitude();
-                                /*txtLongitude.setText("Longitude: " + longitude);
-                                txtLatitude.setText("Latitude: " + latitude);*/
+                        longitude = (float) location.getLongitude();
+                        latitude = (float) location.getLatitude();
+                        /*txtLongitude.setText("Longitude: " + longitude);
+                        txtLatitude.setText("Latitude: " + latitude);*/
                         return;
                     }catch(SecurityException e){
 
@@ -195,12 +213,23 @@ public class SOSFragment extends Fragment {
     public void sendTextMessage(){
 
         //Toast.makeText(getActivity().getBaseContext(), "Sent.", Toast.LENGTH_LONG).show();
-        String strPhone = "+351965639423";
-        String strMessage = "Testing";
 
+
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+
+        fname = SPreferences.getString("firstname","");
+        lname = SPreferences.getString("lastname","");
+        country = SPreferences.getString("country","");
+        description = SPreferences.getString("description","");
+        latitude = SPreferences.getFloat("latitude",0);
+        longitude = SPreferences.getFloat("longitude",0);
+
+        String strPhone = "+351965639423";
+        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
         SmsManager sms = SmsManager.getDefault();
+        ArrayList<String> messageParts = sms.divideMessage(strMessage);
         //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
-        sms.sendTextMessage(strPhone, null, strMessage, null, null);
+        sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
 
     }
 
