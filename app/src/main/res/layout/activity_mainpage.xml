@@ -20,22 +20,12 @@
         android:layout_marginTop="200dp"
         android:layout_marginBottom="30dp" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/select_language"
-        android:textColor="@color/white"
-        android:textStyle="bold"
-        android:textSize="16sp"
-        android:background="@color/Gray"/>
 
     <Button
         android:id="@+id/app-start-btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="160dp"
+        android:layout_marginTop="180dp"
         android:layout_marginBottom="15dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
