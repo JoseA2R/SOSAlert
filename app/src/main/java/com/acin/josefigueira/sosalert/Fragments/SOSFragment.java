@@ -1,30 +1,31 @@
 package com.acin.josefigueira.sosalert.Fragments;
 
 import android.Manifest;
-import android.app.AlertDialog;
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import java.util.ArrayList;
 import com.acin.josefigueira.sosalert.Controller.UserController;
+import android.os.CountDownTimer;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.R;
@@ -37,6 +38,7 @@ import com.acin.josefigueira.sosalert.View.MainMenuActivity;
 public class SOSFragment extends Fragment {
 
     View view;
+    View layoutView;
     Context mContext;
     MainMenuActivity mainActivity;
 
@@ -84,28 +86,49 @@ public class SOSFragment extends Fragment {
         mContext = context;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     public void getBtnData(View view){
 
         imageButton = view.findViewById(R.id.sos_img_btn);
         // button_sos = view.findViewById(R.id.btnpruebasos);
         txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
+        layoutView = view;
 
-
-
-        imageButton.setOnClickListener(new View.OnClickListener() {
+        imageButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onTouch(View view, MotionEvent event) {
+                if(event.getAction()  == MotionEvent.ACTION_DOWN){
+                    layoutView.setBackgroundResource(R.color.colorAccent);
+                    view.setBackgroundResource(R.color.colorAccent);
+                    imageButton.setImageResource(R.drawable.sos_btn_pressed);
+                }
+                else if(event.getAction()  == MotionEvent.ACTION_UP){
+                    layoutView.setBackgroundResource(R.color.colorPrimary);
+                    view.setBackgroundResource(R.color.colorPrimary);
+                    new CountDownTimer(3000,1000){
+                        public void onTick(long millisUntilFinished) {
+                            imageButton.setClickable(false);
+                            imageButton.setImageResource(R.drawable.circle);
+                            System.out.println(millisUntilFinished/1000);
+                        }
+                        public void onFinish(){
+                            imageButton.setClickable(true);
+                            imageButton.setImageResource(R.drawable.sos_btn);
+                            checkPermissions();
+                            txtLongitude.setText("Longitude: " + longitude);
+                            txtLatitude.setText("Latitude: " +latitude);
+                            userController = new UserController(mContext);
+                            userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
+                            showRequestPermissionsInfoAlertDialog();
+                        }
+                    }.start();
 
-                checkPermissions();
-                txtLongitude.setText("Longitude: " + longitude);
-                txtLatitude.setText("Latitude: " +latitude);
-                userController = new UserController(mContext);
-                userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
-                showRequestPermissionsInfoAlertDialog();
 
-
+                }
+                return true;
             }
+
         });
 
     /*    button_sos.setOnClickListener(new View.OnClickListener() {
@@ -177,8 +200,8 @@ public class SOSFragment extends Fragment {
             if (isNetworkEnabled) {
                 if (locationManager != null) {
                     try {
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+
                         longitude = (float) location.getLongitude();
                         latitude = (float) location.getLatitude();
                         /*txtLongitude.setText("Longitude: " + longitude);
@@ -224,7 +247,7 @@ public class SOSFragment extends Fragment {
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
 
-        String strPhone = "+351961741719";
+        String strPhone = "123";
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
         SmsManager sms = SmsManager.getDefault();
         ArrayList<String> messageParts = sms.divideMessage(strMessage);
@@ -263,25 +286,26 @@ public class SOSFragment extends Fragment {
     }
 
     public void showRequestPermissionsInfoAlertDialog(final boolean makeSystemRequest) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle(R.string.permission_alert_dialog_title); // Your own title
-        builder.setMessage(R.string.permission_dialog_message); // Your own message
+        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        //builder.setTitle(R.string.permission_alert_dialog_title); // Your own title
+        //builder.setMessage(R.string.permission_dialog_message); // Your own message
 
-        builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
+        //builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+
+            //public void onClick(DialogInterface dialog, int which) {
+               // dialog.dismiss();
                 // Display system runtime permission request?
-                if (makeSystemRequest) {
-                    requestReadAndSendSmsPermission();
-                    //sendTextMessage();
-                }
-            }
-        });
+        if (makeSystemRequest) {
 
-        builder.setCancelable(false);
-        builder.show();
+                requestReadAndSendSmsPermission();
+                    //sendTextMessage();
+        }
     }
+        //});
+
+       // builder.setCancelable(false);
+       // builder.show();
+    //}
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
@@ -309,5 +333,6 @@ public class SOSFragment extends Fragment {
    /* public void onClickimgbtn(){
         Toast.makeText(getActivity().getApplicationContext(), "Button Selected", Toast.LENGTH_LONG).show();
     }*/
+
 
 }

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SOSAlert</string>
+    <string name="app_name"></string>
     <string name="welcome_alert">WELCOME</string>
     <string name="select_language">Select Language</string>
     <string name="text_data">Insert your Personal Data</string>
@@ -20,7 +20,7 @@
     <string name="action_ok">ok</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
-    <string-array name="planets_array">
+    <string-array name="languages_array">
         <item>Portuguese</item>
         <item>English</item>
     </string-array>

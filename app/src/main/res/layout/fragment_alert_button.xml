@@ -12,12 +12,12 @@
         android:id="@+id/sosalerttv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/clickbtntv"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="60dp"
         android:text="@string/text_sos_alert"
-        android:textColor="@color/colorTextBlack"
+        android:textColor="@color/white"
         android:textSize="30sp"
         android:textStyle="bold" />
 
@@ -25,12 +25,11 @@
         android:id="@+id/clickbtntv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/sos_img_btn"
+        android:layout_below="@+id/sosalerttv"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="9dp"
         android:text="@string/text_click_button"
-        android:textColor="@color/colorTextBlack" />
+        android:textColor="@color/white" />
 
 
     <ImageButton
@@ -46,9 +45,8 @@
         android:id="@+id/txtLatitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/sos_img_btn"
-        android:layout_marginEnd="6dp"
+        android:layout_above="@+id/txtLongitude"
+        android:layout_alignParentStart="true"
         android:text="Latitude: "
         android:textColor="@color/colorTextBlack"
         android:textSize="24dp" />
@@ -57,8 +55,9 @@
         android:id="@+id/txtLongitude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/txtLatitude"
+        android:layout_marginBottom="85dp"
         android:text="Longitude: "
         android:textColor="@color/colorTextBlack"
         android:textSize="24dp" />

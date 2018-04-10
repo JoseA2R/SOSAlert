@@ -14,10 +14,10 @@
         android:id="@+id/sosalerttv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/clickbtntv"
+        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="6dp"
+        android:layout_marginTop="60dp"
         android:text="@string/text_sos_alert"
         android:textColor="@color/colorTextBlack"
         android:textSize="30sp"
@@ -27,10 +27,9 @@
         android:id="@+id/clickbtntv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/sos_img_btn"
+        android:layout_below="@+id/sosalerttv"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="9dp"
         android:text="@string/text_click_button"
         android:textColor="@color/colorTextBlack" />
 
@@ -41,7 +40,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
+        android:src="@drawable/sos_btn_pressed"
         android:background="#FF9800"
-        app:srcCompat="@drawable/sos_btn_pressed" />
+       />
 
 </RelativeLayout>
