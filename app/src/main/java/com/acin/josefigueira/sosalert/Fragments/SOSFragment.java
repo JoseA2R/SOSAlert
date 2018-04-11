@@ -59,6 +59,9 @@ public class SOSFragment extends Fragment {
     float longitude;
     float latitude;
 
+    String numcountdown;
+    private Button cancelBtn;
+    private TextView txtCountDown;
     private TextView txtLongitude;
     private TextView txtLatitude;
 
@@ -91,6 +94,8 @@ public class SOSFragment extends Fragment {
 
         imageButton = view.findViewById(R.id.sos_img_btn);
         // button_sos = view.findViewById(R.id.btnpruebasos);
+        txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
+
         txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
         layoutView = view;
@@ -106,14 +111,19 @@ public class SOSFragment extends Fragment {
                 else if(event.getAction()  == MotionEvent.ACTION_UP){
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
-                    new CountDownTimer(3000,1000){
+                    new CountDownTimer(4000,1000){
                         public void onTick(long millisUntilFinished) {
-                            imageButton.setClickable(false);
+                            //imageButton.setClickable(false);
+                            imageButton.setEnabled(false);
+                            txtCountDown.setText("");
+                            numcountdown = String.valueOf(millisUntilFinished/1000);
+                            txtCountDown.append(numcountdown);
                             imageButton.setImageResource(R.drawable.circle);
                             System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
-                            imageButton.setClickable(true);
+                            txtCountDown.setText("");
+                            imageButton.setEnabled(true);
                             imageButton.setImageResource(R.drawable.sos_btn);
                             checkPermissions();
                             txtLongitude.setText("Longitude: " + longitude);
