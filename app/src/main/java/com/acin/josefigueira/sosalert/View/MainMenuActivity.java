@@ -64,7 +64,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
-        fragmentSos.setContext(this);
+        //fragmentSos.setContext(this);
         this.setTitle("");
     }
 
