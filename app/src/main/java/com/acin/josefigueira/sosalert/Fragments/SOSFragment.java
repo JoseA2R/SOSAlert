@@ -65,8 +65,8 @@ public class SOSFragment extends Fragment {
     private TextView txtLongitude;
     private TextView txtLatitude;
 
-    public void SOSFragment(Context context){
-        mContext = context;
+    public void SOSFragment(){
+
     }
 
     @Override
@@ -80,8 +80,8 @@ public class SOSFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.fragment_alert_button,container,false);
+        //imageButton.performClick();
         getBtnData(view);
-
         return view;
     }
 
@@ -99,6 +99,7 @@ public class SOSFragment extends Fragment {
         txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
         layoutView = view;
+        mContext = getActivity();
 
         imageButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -140,6 +141,12 @@ public class SOSFragment extends Fragment {
             }
 
         });
+
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
 
     /*    button_sos.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -192,7 +199,7 @@ public class SOSFragment extends Fragment {
     }
 
     public void getlocation(){
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
 
         // getting GPS status
         boolean isGPSEnabled = locationManager
