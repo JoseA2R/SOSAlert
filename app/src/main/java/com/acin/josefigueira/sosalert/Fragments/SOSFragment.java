@@ -148,7 +148,7 @@ public class SOSFragment extends Fragment {
                             checkAndroidVersion();
                             userController = new UserController(mContext);
                             userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
-                            showRequestPermissionsInfoAlertDialog();
+                            //showRequestPermissionsInfoAlertDialog();
                         }
                     }.start();
                     txtLongitude.setText("Longitude: " + longitude);
@@ -497,7 +497,7 @@ public class SOSFragment extends Fragment {
                             }
                         }).show();
             } else {
-                requestPermissions(
+                this.requestPermissions(
                         new String[]{Manifest.permission
                                 .SEND_SMS, Manifest.permission
                                 .ACCESS_FINE_LOCATION},
@@ -505,8 +505,8 @@ public class SOSFragment extends Fragment {
             }
         } else {
             // write your logic code if permission already granted
-            fetchLocation();
-            sendTextMessage();
+            //fetchLocation();
+            //sendTextMessage();
         }
     }
 
