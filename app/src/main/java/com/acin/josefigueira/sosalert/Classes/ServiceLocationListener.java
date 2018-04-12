@@ -12,8 +12,7 @@ import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 
 public class ServiceLocationListener implements LocationListener {
 
-    private Location currentBestLocation = null;
-
+    public Location currentBestLocation;
     SOSFragment sosFragment = new SOSFragment();
 
     @Override
@@ -23,7 +22,7 @@ public class ServiceLocationListener implements LocationListener {
                 currentBestLocation = newLocation;
 
                 if(currentBestLocation.hasAccuracy() && currentBestLocation.getAccuracy() <= 100) {
-
+                    sosFragment.location = currentBestLocation;
                     sosFragment.finish();
                 }
             }

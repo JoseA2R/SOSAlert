@@ -34,6 +34,7 @@ public class WelcomeMainActivity extends AppCompatActivity {
 
                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
                 //Iniciar actividad con el FormActivity
+
                 startActivity(new Intent(WelcomeMainActivity.this,FormActivity.class));
             }
         });

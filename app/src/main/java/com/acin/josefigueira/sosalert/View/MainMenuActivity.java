@@ -107,13 +107,16 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
-        List<android.support.v4.app.Fragment> fragments = getSupportFragmentManager().getFragments();
+        Toast.makeText(this, "Enter Parent Context", Toast.LENGTH_LONG).show();
+        /*List<android.support.v4.app.Fragment> fragments = getSupportFragmentManager().getFragments();
         if (fragments != null){
             //for (android.support.v4.app.Fragment fragment : fragments){
-
+                fragmentSos.setContext(this);
                 fragmentSos.onRequestPermissionsResult(requestCode,permissions,grantResults);
-            //}
-        }
+            //}*/
+
+
+        //}
     }
 
 }
