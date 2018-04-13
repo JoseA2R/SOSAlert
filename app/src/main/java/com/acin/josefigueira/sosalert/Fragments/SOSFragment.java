@@ -59,7 +59,7 @@ public class SOSFragment extends Fragment {
     Context smsContext;
     MainMenuActivity mainActivity;
 
-    Button ;
+    Button button_sos;
     ImageButton imageButton;
     TextView textView;
     public Location location;
@@ -76,7 +76,6 @@ public class SOSFragment extends Fragment {
     public float latitude;
 
     String numcountdown;
-
     private Button cancelBtn;
     private TextView txtCountDown;
     private TextView txtLongitude;
