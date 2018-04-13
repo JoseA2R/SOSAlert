@@ -71,6 +71,18 @@
         android:textColor="@color/colorTextBlack"
         android:textSize="24dp" />
 
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#FF9800"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:id="@+id/cancel_btn"
+        android:text="@string/cancel"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="20dp" />
 
 </RelativeLayout>

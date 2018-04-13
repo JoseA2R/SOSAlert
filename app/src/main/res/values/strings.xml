@@ -12,7 +12,7 @@
     <string name="next_btn">NEXT</string>
     <string name="next_btn1">NEXT</string>
     <string name="nav_sos_button">SOS Button</string>
-    <string name="profile_nav">profile</string>
+    <string name="profile_nav">Profile</string>
     <string name="language_nav">Language</string>
     <string name="share_nav">Share on Facebook</string>
     <string name="permission_alert_dialog_title">SMS Permission</string>
@@ -20,6 +20,7 @@
     <string name="action_ok">ok</string>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
     <string-array name="languages_array">
         <item>Portuguese</item>
         <item>English</item>

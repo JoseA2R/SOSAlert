@@ -2,6 +2,8 @@ package com.acin.josefigueira.sosalert.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.graphics.Color;
+import android.support.annotation.RequiresApi;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -11,18 +13,17 @@ import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.RequiresApi;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -57,7 +58,10 @@ public class SOSFragment extends Fragment {
     View layoutView;
     Context mContext;
     Context smsContext;
+    LinearLayout layout;
+    LinearLayout.LayoutParams layoutParams;
     MainMenuActivity mainActivity;
+
 
     Button button_sos;
     ImageButton imageButton;
@@ -108,10 +112,12 @@ public class SOSFragment extends Fragment {
     @SuppressLint("ClickableViewAccessibility")
     public void getBtnData(View view){
 
-        imageButton = view.findViewById(R.id.sos_img_btn);
-        // button_sos = view.findViewById(R.id.btnpruebasos);
-        txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
+        //view = (LinearLayout) view.findViewById(R.id.linear_layout_tags);
 
+        imageButton = view.findViewById(R.id.sos_img_btn);
+        button_sos = view.findViewById(R.id.cancel_btn);
+        button_sos.setVisibility(View.INVISIBLE);
+        txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
         txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
         layoutView = view;
@@ -131,17 +137,32 @@ public class SOSFragment extends Fragment {
                 else if(event.getAction()  == MotionEvent.ACTION_UP){
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
+
                     new CountDownTimer(4000,1000){
                         public void onTick(long millisUntilFinished) {
                             //imageButton.setClickable(false);
+                            button_sos.setVisibility(View.VISIBLE);
+                            button_sos.setOnClickListener(new View.OnClickListener(){
+                                @Override
+                                public void onClick(View v)
+                                {
+                                    button_sos.setVisibility(View.INVISIBLE);
+                                    txtCountDown.setText("");
+                                    imageButton.setEnabled(true);
+                                    imageButton.setImageResource(R.drawable.sos_btn);
+                                    cancel();
+                                }
+                            });
                             imageButton.setEnabled(false);
                             txtCountDown.setText("");
                             numcountdown = String.valueOf(millisUntilFinished/1000);
                             txtCountDown.append(numcountdown);
+                            txtCountDown.setShadowLayer(1.5f, 5, 5, Color.BLACK);
                             imageButton.setImageResource(R.drawable.circle);
                             //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
+                            button_sos.setVisibility(View.INVISIBLE);
                             txtCountDown.setText("");
                             imageButton.setEnabled(true);
                             imageButton.setImageResource(R.drawable.sos_btn);
@@ -167,7 +188,6 @@ public class SOSFragment extends Fragment {
                         }
                     }.start();
 
-
                 }
                 return true;
 
@@ -175,6 +195,7 @@ public class SOSFragment extends Fragment {
             }
 
         });
+
 
 
     }

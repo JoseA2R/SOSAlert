@@ -97,7 +97,7 @@ public class FormFragment extends Fragment{
             public void onClick(View v)
             {
                 btnNextClicked();
-                controller.SaveData(user);
+                /*controller.SaveData(user);
                 //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
@@ -106,7 +106,7 @@ public class FormFragment extends Fragment{
                 //Revisar lo del id del contenedor para ser llamado luego
                 fragmentTransaction.replace(R.id.content_frame,fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+                fragmentTransaction.commit();*/
 
                 //startActivity(new Intent(FormFragment.this,SOSActivity.class));
 
@@ -150,7 +150,7 @@ public class FormFragment extends Fragment{
         /*SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
 
-
+        register();
         fname = etFName.getText().toString();
         lname = etLName.getText().toString();
         country = spcountry.getSelectedItem().toString();
@@ -167,6 +167,38 @@ public class FormFragment extends Fragment{
         editorPreferences.putString("Description : ",user.getDescription());
         editorPreferences.putString("Phone Number : ",user.getPhone());
         editorPreferences.apply();*/
+
+    }
+
+    public void register(){
+        initialize();
+        if (!validate()){
+            Toast.makeText(getActivity(),"Error Data",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            onDataInputSuccess();
+        }
+    }
+
+    public void onDataInputSuccess(){
+
+    }
+
+    public boolean validate(){
+        boolean valid = true;
+        if(fname.isEmpty()||fname.length()>30){
+            etFName.setError("Please Enter a valid name");
+            valid = false;
+        }
+        return valid;
+    }
+
+    public void initialize(){
+
+        fname = etFName.getText().toString().trim();
+        lname = etLName.getText().toString().trim();
+        description = etDescription.getText().toString().trim();
+        phone = etPhone.getText().toString().trim();
 
     }
 

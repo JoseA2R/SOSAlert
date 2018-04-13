@@ -24,6 +24,15 @@ public class WelcomeMainActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE",MODE_PRIVATE)
+                .getBoolean("isfirstrun",true);
+
+        if (isFirstRun) {
+            getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit()
+                    .putBoolean("isfirstrun",false).apply();
+        }else{
+            startActivity(new Intent(WelcomeMainActivity.this,MainMenuActivity.class));
+        }
         setContentView(R.layout.activity_mainpage);
 
         _btn = findViewById(R.id.app_start_btn);

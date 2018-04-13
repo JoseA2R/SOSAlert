@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -45,6 +46,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
     protected void onCreate(Bundle savedInstanceState) {
 
+
         super.onCreate(savedInstanceState);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.main_menu);
@@ -66,6 +68,12 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
         //fragmentSos.setContext(this);
         this.setTitle("");
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 
     public boolean onNavigationItemSelected(MenuItem item){
