@@ -1,17 +1,20 @@
-package com.acin.josefigueira.sosalert.listener;
+package com.acin.josefigueira.sosalert.Service;
+
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
 /**
- * Created by jose.figueira on 12-04-2018.
+ * Created by jose.figueira on 13-04-2018.
  */
 
-public class GpsTracker extends Service {
+public class gpsService extends Service {
+
     @Nullable
     @Override
-    public IBinder onBind(Intent intent) {
+    public IBinder onBind(Intent intent){
         return null;
     }
+
 }

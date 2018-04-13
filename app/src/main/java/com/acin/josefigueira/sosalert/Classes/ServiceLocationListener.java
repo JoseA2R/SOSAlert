@@ -3,6 +3,7 @@ package com.acin.josefigueira.sosalert.Classes;
 import android.location.Location;
 import android.location.LocationListener;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 
@@ -14,19 +15,17 @@ public class ServiceLocationListener implements LocationListener {
 
     public Location currentBestLocation;
     SOSFragment sosFragment = new SOSFragment();
+    public Location getLoc;
 
     @Override
     public void onLocationChanged(Location newLocation) {
-        synchronized ( this ) {
-            if(sosFragment.isBetterLocation(newLocation, currentBestLocation)) {
-                currentBestLocation = newLocation;
 
-                if(currentBestLocation.hasAccuracy() && currentBestLocation.getAccuracy() <= 100) {
-                    sosFragment.location = currentBestLocation;
-                    sosFragment.finish();
-                }
-            }
-        }
+            //if(sosFragment.isBetterLocation(newLocation, currentBestLocation)) {
+                currentBestLocation = newLocation;
+                getLoc = currentBestLocation;
+                sosFragment.location = currentBestLocation;
+           // }
+        //}
     }
 
     @Override

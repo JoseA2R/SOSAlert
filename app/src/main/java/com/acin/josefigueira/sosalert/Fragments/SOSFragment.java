@@ -4,15 +4,10 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,6 +16,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +28,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import java.util.ArrayList;
 
+import com.acin.josefigueira.sosalert.Classes.MyLocation;
 import com.acin.josefigueira.sosalert.Classes.ServiceLocationListener;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
@@ -62,7 +59,7 @@ public class SOSFragment extends Fragment {
     Context smsContext;
     MainMenuActivity mainActivity;
 
-    Button button_sos;
+    Button ;
     ImageButton imageButton;
     TextView textView;
     public Location location;
@@ -79,6 +76,7 @@ public class SOSFragment extends Fragment {
     public float latitude;
 
     String numcountdown;
+
     private Button cancelBtn;
     private TextView txtCountDown;
     private TextView txtLongitude;
@@ -119,6 +117,9 @@ public class SOSFragment extends Fragment {
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
         layoutView = view;
         mContext = getActivity();
+        userController = new UserController(mContext);
+
+
 
         imageButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -139,20 +140,34 @@ public class SOSFragment extends Fragment {
                             numcountdown = String.valueOf(millisUntilFinished/1000);
                             txtCountDown.append(numcountdown);
                             imageButton.setImageResource(R.drawable.circle);
-                            System.out.println(millisUntilFinished/1000);
+                            //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
                             txtCountDown.setText("");
                             imageButton.setEnabled(true);
                             imageButton.setImageResource(R.drawable.sos_btn);
                             checkAndroidVersion();
-                            userController = new UserController(mContext);
-                            userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
+                            MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                                @Override
+                                public void gotLocation(Location location) {
+
+                                    //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
+                                    latitude = (float) location.getLatitude();
+                                    longitude = (float) location.getLongitude();
+                                    txtLongitude.setText("Longitude: " + longitude);
+                                    txtLatitude.setText("Latitude: " +latitude);
+                                    userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
+                                    sendTextMessage();
+                                }
+                            };
+                            MyLocation myLocation = new MyLocation();
+                            myLocation.getLocation(mContext, locationResult);
+
+
                             //showRequestPermissionsInfoAlertDialog();
                         }
                     }.start();
-                    txtLongitude.setText("Longitude: " + longitude);
-                    txtLatitude.setText("Latitude: " +latitude);
+
 
                 }
                 return true;
@@ -165,220 +180,6 @@ public class SOSFragment extends Fragment {
 
     }
 
-
-    /*    button_sos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                //mainActivity.showRequestPermissionsInfoAlertDialog();
-            }
-        });*/
-
-    public void checkPermissions() {
-
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
-
-        } else {
-
-            fetchLocation();
-            //getlocation();
-            /* locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
-            location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);*/
-        }
-        if (location != null) {
-            longitude = (float) location.getLongitude();
-            latitude = (float) location.getLatitude();
-        }
-    }
-
-
-    public void fetchLocation() {
-
-        try {
-
-        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-
-            // getting GPS status
-            boolean isGPSEnabled = locationManager
-                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
-
-            // getting network status
-            boolean isNetworkEnabled = locationManager
-                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
-
-            LocationProvider gpsProvider = locationManager.getProvider(LocationManager.GPS_PROVIDER);
-            LocationProvider networkProvider = locationManager.getProvider(LocationManager.NETWORK_PROVIDER);
-
-            //Figure out if we have a location somewhere that we can use as a current best location
-            if( gpsProvider != null ) {
-                Location lastKnownGPSLocation = locationManager.getLastKnownLocation(gpsProvider.getName());
-                if( isBetterLocation(lastKnownGPSLocation, currentBestLocation) )
-                    currentBestLocation = lastKnownGPSLocation;
-            }else if( networkProvider != null ) {
-                Location lastKnownNetworkLocation = locationManager.getLastKnownLocation(networkProvider.getName());
-                if( isBetterLocation(lastKnownNetworkLocation, currentBestLocation) )
-                    currentBestLocation = lastKnownNetworkLocation;
-            }
-
-
-            gpsLocationListener = new ServiceLocationListener();
-            networkLocationListener = new ServiceLocationListener();
-
-
-            if(gpsProvider != null) {
-                locationManager.requestLocationUpdates(gpsProvider.getName(), 0l, 0.0f, gpsLocationListener);
-            }else if(networkProvider != null) {
-                locationManager.requestLocationUpdates(networkProvider.getName(), 0l, 0.0f, networkLocationListener);
-            }
-
-
-            if(gpsProvider != null || networkProvider != null) {
-                handler.postDelayed(timerRunnable, 2 * 60 * 1000);
-            } else {
-                handler.post(timerRunnable);
-            }
-        } catch (SecurityException se) {
-            finish();
-        }
-    }
-
-    /*public void getlocation(){
-
-        locationManager = (LocationManager) mContext.getSystemService(Context.LOCATION_SERVICE);
-
-        LocationListener locationListener = new LocationListener() {
-            public void onLocationChanged(Location location) {
-               // synchronized ( this ) {
-                    if(isBetterLocation(newLocation, currentBestLocation)) {
-                        currentBestLocation = newLocation;
-
-                        if(currentBestLocation.hasAccuracy() && currentBestLocation.getAccuracy() <= 100) {
-                            finish();
-                        }
-                    }
-              //  }
-            }
-
-            public void onStatusChanged(String provider, int status, Bundle extras) {
-
-            }
-
-            public void onProviderEnabled(String provider) {
-                if (locationManager != null) {
-                    try {
-                        location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-                        //isBetterLocation(newLocation, currentLocation);
-
-                        longitude = (float) location.getLongitude();
-                        latitude = (float) location.getLatitude();
-                        /*txtLongitude.setText("Longitude: " + longitude);
-                            txtLatitude.setText("Latitude: " + latitude);
-                        return;
-
-                    }catch(SecurityException e){
-
-                    }
-                }
-            }
-
-            public void onProviderDisabled(String provider) {
-                if (locationManager != null) {
-                    try{
-                        location = locationManager
-                                .getLastKnownLocation(LocationManager.GPS_PROVIDER);
-                        longitude = (float) location.getLongitude();
-                        latitude = (float) location.getLatitude();
-                        /*txtLongitude.setText("Longitude: " + longitude);
-                        txtLatitude.setText("Latitude: " + latitude);
-                        return;
-                    }catch(SecurityException e){
-
-                    }
-                }
-            }
-        };
-    }*/
-
-    public synchronized void finish() {
-        ServiceLocationListener sll = new ServiceLocationListener();
-
-        longitude = (float) location.getLatitude();
-        latitude = (float)  location.getLongitude();
-        handler.removeCallbacks(timerRunnable);
-        handler.post(timerRunnable);
-    }
-    /** Determines whether one Location reading is better than the current Location fix
-     * @param location  The new Location that you want to evaluate
-     * @param currentBestLocation  The current Location fix, to which you want to compare the new one
-     */
-    public boolean isBetterLocation(Location location, Location currentBestLocation) {
-        if (currentBestLocation == null) {
-
-            return true;
-        }
-        // Check whether the new location fix is newer or older
-        long timeDelta = location.getTime() - currentBestLocation.getTime();
-        boolean isSignificantlyNewer = timeDelta > TWO_MINUTES;
-        boolean isSignificantlyOlder = timeDelta < -TWO_MINUTES;
-        boolean isNewer = timeDelta > 0;
-
-        // If it's been more than two minutes since the current location, use the new location
-        // because the user has likely moved
-        if (isSignificantlyNewer) {
-            return true;
-            // If the new location is more than two minutes older, it must be worse
-        } else if (isSignificantlyOlder) {
-            return false;
-        }
-
-        // Check whether the new location fix is more or less accurate
-        int accuracyDelta = (int) (location.getAccuracy() - currentBestLocation.getAccuracy());
-        boolean isLessAccurate = accuracyDelta > 0;
-        boolean isMoreAccurate = accuracyDelta < 0;
-        boolean isSignificantlyLessAccurate = accuracyDelta > 200;
-
-        // Check if the old and new location are from the same provider
-        boolean isFromSameProvider = isSameProvider(location.getProvider(),
-                currentBestLocation.getProvider());
-
-        // Determine location quality using a combination of timeliness and accuracy
-        if (isMoreAccurate) {
-            return true;
-        } else if (isNewer && !isLessAccurate) {
-            return true;
-        } else if (isNewer && !isSignificantlyLessAccurate && isFromSameProvider) {
-            return true;
-        }
-        return false;
-    }
-
-    /** Checks whether two providers are the same */
-    private boolean isSameProvider(String provider1, String provider2) {
-        if (provider1 == null) {
-            return provider2 == null;
-        }
-        return provider1.equals(provider2);
-    }
-
-    private Runnable timerRunnable = new Runnable() {
-
-        @Override
-        public void run() {
-            //Intent intent = new Intent(LocationService.this.getPackageName() + ".action.LOCATION_FOUND");
-
-            if(currentBestLocation != null) {
-                //intent.putExtra(LocationManager.KEY_LOCATION_CHANGED, currentBestLocation);
-                locationManager.removeUpdates(gpsLocationListener);
-                locationManager.removeUpdates(networkLocationListener);
-
-            }
-        }
-    };
-
     public void setContext(Context context){
 
         smsContext = context;
@@ -390,7 +191,7 @@ public class SOSFragment extends Fragment {
         //Toast.makeText(getActivity().getBaseContext(), "Sent.", Toast.LENGTH_LONG).show();
 
 
-        SPreferences = PreferenceManager.getDefaultSharedPreferences(smsContext);
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
         fname = SPreferences.getString("firstname","");
         lname = SPreferences.getString("lastname","");
@@ -471,6 +272,7 @@ public class SOSFragment extends Fragment {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.M)
+
     private void checkPermission() {
         if (ContextCompat.checkSelfPermission(getActivity(),
                 Manifest.permission.SEND_SMS) + ContextCompat
@@ -505,31 +307,12 @@ public class SOSFragment extends Fragment {
             }
         } else {
             // write your logic code if permission already granted
-            //fetchLocation();
-            //sendTextMessage();
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-       /* switch (requestCode) {
-            case SMS_PERMISSION_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    sendTextMessage();
-
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }*/
 
         switch (requestCode) {
             case PERMISSIONS_MULTIPLE_REQUEST:
@@ -539,12 +322,12 @@ public class SOSFragment extends Fragment {
 
                     if(gpsPermission && sendSMS)
                     {
-                        fetchLocation();
-                        sendTextMessage();
+                        //fetchLocation();
+                        //sendTextMessage();
                         // write your logic here
                     } else {
                         Snackbar.make(getActivity().findViewById(android.R.id.content),
-                                "Please Grant Permissions to upload profile photo",
+                                "Please Grant Permissions to use GPS and send Messages",
                                 Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
                                 new View.OnClickListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -552,7 +335,8 @@ public class SOSFragment extends Fragment {
                                     public void onClick(View v) {
                                         requestPermissions(
                                                 new String[]{Manifest.permission
-                                                        .READ_EXTERNAL_STORAGE, Manifest.permission.CAMERA},
+                                                        .SEND_SMS, Manifest.permission
+                                                        .ACCESS_FINE_LOCATION},
                                                 PERMISSIONS_MULTIPLE_REQUEST);
                                     }
                                 }).show();
@@ -561,13 +345,7 @@ public class SOSFragment extends Fragment {
                 break;
         }
     }
-
-
    /* public void onClickimgbtn(){
         Toast.makeText(getActivity().getApplicationContext(), "Button Selected", Toast.LENGTH_LONG).show();
     }*/
-
-
-
-
 }

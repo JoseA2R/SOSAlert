@@ -48,8 +48,6 @@
             android:name=".View.MainMenuActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent" />
 
-        <service android:name=".listener.GpsTracker" android:enabled="true"/>
-
     </application>
 
 
