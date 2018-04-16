@@ -41,6 +41,7 @@ public class FormFragment extends Fragment{
     EditText etFName, etLName, etDescription, etPhone;
     String fname,lname,country,description,phone;
     User user;
+    int selectedCountry;
     UserController controller;
 
 
@@ -76,11 +77,11 @@ public class FormFragment extends Fragment{
         etPhone = (EditText) view.findViewById(R.id.etPhone);
         btnNext  = view.findViewById(R.id.btnNext);
 
+        setCountriesSpinner();
         fillData();
-
         parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
 
-        setCountriesSpinner();
+
 
     /*    spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -220,7 +221,8 @@ public class FormFragment extends Fragment{
 
         etFName.setText(controller.getFName());
         etLName.setText(controller.getLName());
-        //country = spcountry.indexOfChild(controller.getCountry());
+        country = controller.getCountry();
+        spcountry.setSelection(adapter.getPosition(country));
         etDescription.setText(controller.getDescription());
         etPhone.setText(controller.getPhone());
     }

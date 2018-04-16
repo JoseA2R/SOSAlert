@@ -69,7 +69,6 @@ public class FormActivity extends AppCompatActivity {
         spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-
                 Toast.makeText(getBaseContext(),adapterView.getItemAtPosition(i)+" selected",Toast.LENGTH_LONG).show();
             }
 
@@ -145,10 +144,6 @@ public class FormActivity extends AppCompatActivity {
         editorPreferences.putString("Description : ",user.getDescription());
         editorPreferences.putString("Phone Number : ",user.getPhone());
         editorPreferences.apply();*/
-
-    }
-
-    public void storeData(){
 
     }
 

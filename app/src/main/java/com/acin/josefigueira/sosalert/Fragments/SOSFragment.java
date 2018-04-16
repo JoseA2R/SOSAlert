@@ -2,7 +2,11 @@ package com.acin.josefigueira.sosalert.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.bluetooth.BluetoothAssignedNumbers;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.support.annotation.RequiresApi;
 import android.app.Fragment;
 import android.content.Context;
@@ -171,12 +175,25 @@ public class SOSFragment extends Fragment {
                                 public void gotLocation(Location location) {
 
                                     //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
-                                    latitude = (float) location.getLatitude();
-                                    longitude = (float) location.getLongitude();
                                     //txtLongitude.setText("Longitude: " + longitude);
                                     //txtLatitude.setText("Latitude: " +latitude);
-                                    userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
-                                    sendTextMessage();
+                                    if (location == null){
+                                        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                                        final String messageErr = "Sorry, we couldn't get the location.\nPlease try again ";
+                                        builder.setMessage(messageErr).setPositiveButton("@string/action_ok",new DialogInterface.OnClickListener(){
+
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                               dialogInterface.dismiss();
+                                            }
+                                        });
+                                        builder.create().show();
+                                    }else {
+                                        latitude = (float) location.getLatitude();
+                                        longitude = (float) location.getLongitude();
+                                        userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
+                                        sendTextMessage();
+                                    }
                                 }
                             };
                             MyLocation myLocation = new MyLocation();
@@ -198,6 +215,14 @@ public class SOSFragment extends Fragment {
 
 
     }
+
+    /*private class CustomTask extends AsyncTask<void,void,void> {
+
+        @Override
+        protected void doInBackground(void... voids) {
+
+        }
+    }*/
 
     public void setContext(Context context){
 
