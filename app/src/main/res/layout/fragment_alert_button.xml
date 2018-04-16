@@ -50,27 +50,6 @@
         android:textColor="@color/white"
         android:textSize="150sp" />
 
-    <TextView
-        android:id="@+id/txtLatitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/txtLongitude"
-        android:layout_alignParentStart="true"
-        android:text="Latitude: "
-        android:textColor="@color/colorTextBlack"
-        android:textSize="24dp" />
-
-    <TextView
-        android:id="@+id/txtLongitude"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="85dp"
-        android:text="Longitude: "
-        android:textColor="@color/colorTextBlack"
-        android:textSize="24dp" />
-
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -219,7 +219,7 @@ public class SOSFragment extends Fragment {
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
 
-        String strPhone = "123";
+        String strPhone = "+351965639423";
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
         SmsManager sms = SmsManager.getDefault();
         ArrayList<String> messageParts = sms.divideMessage(strMessage);

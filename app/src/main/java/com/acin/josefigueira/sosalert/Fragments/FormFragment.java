@@ -185,13 +185,13 @@ public class FormFragment extends Fragment{
 
     }
 
-    /*public boolean validate(){
+    public boolean validate(){
         boolean valid = true;
-        if((fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Z ]+"))){
+        if(fname.isEmpty() || fname.length()>40){
             etFName.setError("Please Enter a valid name");
             valid = false;
         }
-        if((lname.isEmpty() || lname.length()>40)  && (!fname.matches("[a-zA-Z ]+"))) {
+        if(lname.isEmpty() || lname.length()>40) {
             etLName.setError("Please Enter a valid name");
             valid = false;
         }
@@ -204,7 +204,7 @@ public class FormFragment extends Fragment{
         }
 
         return valid;
-    }*/
+    }
 
     public void initialize(){
 
