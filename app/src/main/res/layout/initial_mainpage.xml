@@ -42,6 +42,7 @@
         android:layout_alignStart="@+id/main_design"
         android:layout_below="@+id/main_design2"
         android:layout_marginTop="20dp"
+        android:textColor="#FFFFFF"
         />
 
 
