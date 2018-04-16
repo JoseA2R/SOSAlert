@@ -100,13 +100,7 @@ public class FormFragment extends Fragment{
                 controller.SaveData(user);
                 //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
 
-                fragmentTransaction = getFragmentManager().beginTransaction();
-                fragment = new SOSFragment();
-                Toast.makeText(getActivity().getBaseContext(),"Profile Modified Successfully", Toast.LENGTH_LONG).show();
-                //Revisar lo del id del contenedor para ser llamado luego
-                fragmentTransaction.replace(R.id.content_frame,fragment);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
+
                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
                 //startActivity(new Intent(FormFragment.this,SOSActivity.class));
 
@@ -151,15 +145,11 @@ public class FormFragment extends Fragment{
         SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
 
         register();
-        fname = etFName.getText().toString();
+        /*fname = etFName.getText().toString();
         lname = etLName.getText().toString();
         country = spcountry.getSelectedItem().toString();
         description = etDescription.getText().toString();
-        phone = etPhone.getText().toString();
-
-        controller.setData(fname,lname,country,description,phone);
-
-        controller.putStringData(getActivity().getApplicationContext());
+        phone = etPhone.getText().toString();*/
 
         /*editorPreferences.putString("First Name: ",user.getFirstName());
         editorPreferences.putString("Last Name: ",user.getLastName());
@@ -172,33 +162,57 @@ public class FormFragment extends Fragment{
 
     public void register(){
         initialize();
-        if (!validate()){
+        /*if (!validate()){
             Toast.makeText(getActivity(),"Error Data",Toast.LENGTH_SHORT).show();
         }
-        else{
+        else{*/
             onDataInputSuccess();
-        }
+        //}
     }
 
     public void onDataInputSuccess(){
 
+        fragmentTransaction = getFragmentManager().beginTransaction();
+        fragment = new SOSFragment();
+        Toast.makeText(getActivity().getBaseContext(),"Profile Modified Successfully", Toast.LENGTH_LONG).show();
+        controller.setData(fname,lname,country,description,phone);
+        controller.putStringData(getActivity().getApplicationContext());
+        //Revisar lo del id del contenedor para ser llamado luego
+        fragmentTransaction.replace(R.id.content_frame,fragment);
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+
+
     }
 
-    public boolean validate(){
+    /*public boolean validate(){
         boolean valid = true;
-        if(fname.isEmpty()||fname.length()>30){
+        if((fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Z ]+"))){
             etFName.setError("Please Enter a valid name");
             valid = false;
         }
+        if((lname.isEmpty() || lname.length()>40)  && (!fname.matches("[a-zA-Z ]+"))) {
+            etLName.setError("Please Enter a valid name");
+            valid = false;
+        }
+        if(fname.isEmpty() || fname.length()>350) {
+            etDescription.setError("Please Enter a valid Description");
+            valid = false;
+        }
+        if(fname.isEmpty() || fname.length()>15){
+            etPhone.setError("Please enter a valid Phone Number");
+        }
+
         return valid;
-    }
+    }*/
 
     public void initialize(){
 
-        fname = etFName.getText().toString().trim();
-        lname = etLName.getText().toString().trim();
-        description = etDescription.getText().toString().trim();
-        phone = etPhone.getText().toString().trim();
+        fname = etFName.getText().toString();
+        lname = etLName.getText().toString();
+        country = spcountry.getSelectedItem().toString();
+        description = etDescription.getText().toString();
+        phone = etPhone.getText().toString();
 
     }
 

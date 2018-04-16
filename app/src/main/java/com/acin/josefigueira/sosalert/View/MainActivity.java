@@ -19,6 +19,7 @@ import com.acin.josefigueira.sosalert.R;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
     Spinner spinner;
+    String item;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +29,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE",MODE_PRIVATE)
+                .getBoolean("isfirstrun",true);
+
+        if (isFirstRun) {
+            getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit()
+                    .putBoolean("isfirstrun",false).apply();
+        }else{
+            startActivity(new Intent(MainActivity.this,MainMenuActivity.class));
+        }
         setContentView(R.layout.initial_mainpage);
 
         spinner = (Spinner) findViewById(R.id.language_spinner);
@@ -40,7 +50,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
         //((TextView) parent.getChildAt(pos)).setTextColor(Color.WHITE);
-        startActivity(new Intent(MainActivity.this,WelcomeMainActivity.class));
+        item = spinner.getSelectedItem().toString();
+        if (item.equals("English")) {
+            startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
+        }
     }
 
     public void onNothingSelected(AdapterView<?> parent){

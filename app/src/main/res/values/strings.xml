@@ -8,7 +8,7 @@
     <string name="first_names">First Names</string>
     <string name="last_names">Last Names</string>
     <string name="edit_comments">Provide any comments here (allergies, type of blood, etc.)</string>
-    <string name="phone_number">Phone Number</string>
+    <string name="phone_number">Emergency Phone Number</string>
     <string name="next_btn">NEXT</string>
     <string name="next_btn1">NEXT</string>
     <string name="nav_sos_button">SOS Button</string>
@@ -22,6 +22,7 @@
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
     <string-array name="languages_array">
+        <item>-Select-</item>
         <item>Portuguese</item>
         <item>English</item>
     </string-array>
