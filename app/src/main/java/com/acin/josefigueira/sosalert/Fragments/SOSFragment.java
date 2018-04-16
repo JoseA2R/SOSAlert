@@ -89,6 +89,8 @@ public class SOSFragment extends Fragment {
     private TextView txtLongitude;
     private TextView txtLatitude;
 
+    Snackbar permissionsSnackbar;
+
     public void SOSFragment(){
 
     }
@@ -173,27 +175,13 @@ public class SOSFragment extends Fragment {
                             MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                 @Override
                                 public void gotLocation(Location location) {
-
                                     //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
                                     //txtLongitude.setText("Longitude: " + longitude);
                                     //txtLatitude.setText("Latitude: " +latitude);
-                                    if (location == null){
-                                        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                                        final String messageErr = "Sorry, we couldn't get the location.\nPlease try again ";
-                                        builder.setMessage(messageErr).setPositiveButton("@string/action_ok",new DialogInterface.OnClickListener(){
-
-                                            @Override
-                                            public void onClick(DialogInterface dialogInterface, int i) {
-                                               dialogInterface.dismiss();
-                                            }
-                                        });
-                                        builder.create().show();
-                                    }else {
-                                        latitude = (float) location.getLatitude();
-                                        longitude = (float) location.getLongitude();
-                                        userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
-                                        sendTextMessage();
-                                    }
+                                    latitude = (float) location.getLatitude();
+                                    longitude = (float) location.getLongitude();
+                                    userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
+                                    sendTextMessage();
                                 }
                             };
                             MyLocation myLocation = new MyLocation();
@@ -370,9 +358,10 @@ public class SOSFragment extends Fragment {
                         //sendTextMessage();
                         // write your logic here
                     } else {
-                        Snackbar.make(getActivity().findViewById(android.R.id.content),
+                        permissionsSnackbar = Snackbar.make(getActivity().findViewById(android.R.id.content),
                                 "Please Grant Permissions to use GPS and send Messages",
-                                Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
+                                Snackbar.LENGTH_INDEFINITE);
+                        permissionsSnackbar.setAction("ENABLE",
                                 new View.OnClickListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.M)
                                     @Override
@@ -389,6 +378,13 @@ public class SOSFragment extends Fragment {
                 break;
         }
     }
+
+    public void onDestroy() {
+
+        super.onDestroy();
+        permissionsSnackbar.dismiss();
+    }
+
    /* public void onClickimgbtn(){
         Toast.makeText(getActivity().getApplicationContext(), "Button Selected", Toast.LENGTH_LONG).show();
     }*/
