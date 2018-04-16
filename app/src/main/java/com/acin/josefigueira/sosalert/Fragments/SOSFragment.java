@@ -5,8 +5,10 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAssignedNumbers;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.app.Fragment;
 import android.content.Context;
@@ -90,6 +92,7 @@ public class SOSFragment extends Fragment {
     private TextView txtLatitude;
 
     Snackbar permissionsSnackbar;
+    private boolean GpsStatus;
 
     public void SOSFragment(){
 
@@ -168,25 +171,30 @@ public class SOSFragment extends Fragment {
                             //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
-                            button_sos.setVisibility(View.INVISIBLE);
-                            txtCountDown.setText("");
-                            imageButton.setEnabled(true);
-                            imageButton.setImageResource(R.drawable.sos_btn);
-                            MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-                                @Override
-                                public void gotLocation(Location location) {
-                                    //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
-                                    //txtLongitude.setText("Longitude: " + longitude);
-                                    //txtLatitude.setText("Latitude: " +latitude);
-                                    latitude = (float) location.getLatitude();
-                                    longitude = (float) location.getLongitude();
-                                    userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
-                                    sendTextMessage();
-                                }
-                            };
-                            MyLocation myLocation = new MyLocation();
-                            myLocation.getLocation(mContext, locationResult);
-
+                            locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+                            GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                            if (GpsStatus == false) {
+                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                            }else {
+                                button_sos.setVisibility(View.INVISIBLE);
+                                txtCountDown.setText("");
+                                imageButton.setEnabled(true);
+                                imageButton.setImageResource(R.drawable.sos_btn);
+                                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                                    @Override
+                                    public void gotLocation(Location location) {
+                                        //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
+                                        //txtLongitude.setText("Longitude: " + longitude);
+                                        //txtLatitude.setText("Latitude: " +latitude);
+                                        latitude = (float) location.getLatitude();
+                                        longitude = (float) location.getLongitude();
+                                        userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
+                                        sendTextMessage();
+                                    }
+                                };
+                                MyLocation myLocation = new MyLocation();
+                                myLocation.getLocation(mContext, locationResult);
+                            }
 
                             //showRequestPermissionsInfoAlertDialog();
                         }
@@ -215,6 +223,11 @@ public class SOSFragment extends Fragment {
     public void setContext(Context context){
 
         smsContext = context;
+
+    }
+
+    public void checkIfEnabled(){
+
 
     }
 
@@ -378,9 +391,7 @@ public class SOSFragment extends Fragment {
                 break;
         }
     }public void onResume() {
-
         super.onResume();
-        permissionsSnackbar.getView();
     }
 
     public void onDestroy() {
