@@ -377,6 +377,10 @@ public class SOSFragment extends Fragment {
                 }
                 break;
         }
+    }public void onResume() {
+
+        super.onResume();
+        permissionsSnackbar.getView();
     }
 
     public void onDestroy() {
