@@ -97,7 +97,7 @@ public class FormFragment extends Fragment{
             public void onClick(View v)
             {
                 btnNextClicked();
-                /*controller.SaveData(user);
+                controller.SaveData(user);
                 //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
 
                 fragmentTransaction = getFragmentManager().beginTransaction();
@@ -106,8 +106,8 @@ public class FormFragment extends Fragment{
                 //Revisar lo del id del contenedor para ser llamado luego
                 fragmentTransaction.replace(R.id.content_frame,fragment);
                 fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
-
+                fragmentTransaction.commit();
+                //fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
                 //startActivity(new Intent(FormFragment.this,SOSActivity.class));
 
             }

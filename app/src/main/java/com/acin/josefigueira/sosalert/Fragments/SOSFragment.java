@@ -123,7 +123,7 @@ public class SOSFragment extends Fragment {
         layoutView = view;
         mContext = getActivity();
         userController = new UserController(mContext);
-
+        checkAndroidVersion();
 
 
         imageButton.setOnTouchListener(new View.OnTouchListener() {
@@ -166,7 +166,6 @@ public class SOSFragment extends Fragment {
                             txtCountDown.setText("");
                             imageButton.setEnabled(true);
                             imageButton.setImageResource(R.drawable.sos_btn);
-                            checkAndroidVersion();
                             MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                 @Override
                                 public void gotLocation(Location location) {
@@ -174,8 +173,8 @@ public class SOSFragment extends Fragment {
                                     //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
                                     latitude = (float) location.getLatitude();
                                     longitude = (float) location.getLongitude();
-                                    txtLongitude.setText("Longitude: " + longitude);
-                                    txtLatitude.setText("Latitude: " +latitude);
+                                    //txtLongitude.setText("Longitude: " + longitude);
+                                    //txtLatitude.setText("Latitude: " +latitude);
                                     userController.putLocation(getActivity().getApplicationContext(),latitude,longitude);
                                     sendTextMessage();
                                 }
