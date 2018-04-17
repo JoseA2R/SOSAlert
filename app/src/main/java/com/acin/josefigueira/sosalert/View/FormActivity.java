@@ -135,9 +135,8 @@ public class FormActivity extends AppCompatActivity {
         phone = etPhone.getText().toString();
 
         controller.setData(fname,lname,country,description,phone);
-
         controller.putStringData(this);
-
+        getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isfirstrun",false).apply();
         /*editorPreferences.putString("First Name: ",user.getFirstName());
         editorPreferences.putString("Last Name: ",user.getLastName());
         editorPreferences.putString("Country : ",user.getCountry());

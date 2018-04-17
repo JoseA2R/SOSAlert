@@ -256,7 +256,7 @@ public class SOSFragment extends Fragment {
             SmsManager sms = SmsManager.getDefault();
             ArrayList<String> messageParts = sms.divideMessage(strMessage);
             sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
-            //Toast.makeText(getActivity(), "The SMS was sent succesfully", Toast.LENGTH_LONG).show();
+            Toast.makeText(getActivity(), "The SMS was sent succesfully", Toast.LENGTH_LONG).show();
             if (phone != null) {
                 sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
                 //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();

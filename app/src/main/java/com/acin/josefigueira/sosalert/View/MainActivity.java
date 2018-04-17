@@ -32,10 +32,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         Boolean isFirstRun = getSharedPreferences("PREFERENCE",MODE_PRIVATE)
                 .getBoolean("isfirstrun",true);
 
-        if (isFirstRun) {
-            getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit()
-                    .putBoolean("isfirstrun",false).apply();
-        }else{
+        if (!isFirstRun) {
             startActivity(new Intent(MainActivity.this,MainMenuActivity.class));
         }
         setContentView(R.layout.initial_mainpage);
