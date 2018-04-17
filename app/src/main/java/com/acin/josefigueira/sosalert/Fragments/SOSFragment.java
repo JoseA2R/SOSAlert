@@ -39,6 +39,7 @@ import com.acin.josefigueira.sosalert.Classes.MyLocation;
 import com.acin.josefigueira.sosalert.Classes.ServiceLocationListener;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
+import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.R;
@@ -249,12 +250,19 @@ public class SOSFragment extends Fragment {
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
-        SmsManager sms = SmsManager.getDefault();
-        ArrayList<String> messageParts = sms.divideMessage(strMessage);
+
         //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
-        sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
-        if (phone != null ) {
-            sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
+        try {
+            SmsManager sms = SmsManager.getDefault();
+            ArrayList<String> messageParts = sms.divideMessage(strMessage);
+            sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
+            //Toast.makeText(getActivity(), "The SMS was sent succesfully", Toast.LENGTH_LONG).show();
+            if (phone != null) {
+                sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
+                //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
+            }
+        }catch(Exception E){
+
         }
     }
 
