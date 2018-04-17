@@ -25,6 +25,8 @@ import com.acin.josefigueira.sosalert.R;
 import com.acin.josefigueira.sosalert.View.FormActivity;
 import com.acin.josefigueira.sosalert.View.SOSActivity;
 
+import static com.acin.josefigueira.sosalert.Fragments.SOSFragment.permissionsSnackbar;
+
 /**
  * Created by jose.figueira on 03-04-2018.
  */
@@ -225,6 +227,12 @@ public class FormFragment extends Fragment{
         spcountry.setSelection(adapter.getPosition(country));
         etDescription.setText(controller.getDescription());
         etPhone.setText(controller.getPhone());
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
     }
 
     @Override

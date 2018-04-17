@@ -2,7 +2,7 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item>
         <!-- inset - moves circle to the left-->
-        <inset android:insetTop="-200dp">
+        <inset android:insetTop="-0dp">
             <shape android:shape="ring"
                 android:thicknessRatio="7"
                 android:innerRadius="0dp"

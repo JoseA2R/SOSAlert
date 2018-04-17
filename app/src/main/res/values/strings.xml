@@ -21,6 +21,7 @@
     <string name="open">Open</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
+
     <string-array name="languages_array">
         <item>-Select-</item>
         <item>Portuguese</item>

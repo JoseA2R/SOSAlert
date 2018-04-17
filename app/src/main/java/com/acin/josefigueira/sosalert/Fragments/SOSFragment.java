@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAssignedNumbers;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -92,7 +93,7 @@ public class SOSFragment extends Fragment {
     private TextView txtLongitude;
     private TextView txtLatitude;
 
-    Snackbar permissionsSnackbar;
+    public static Snackbar permissionsSnackbar;
     private boolean GpsStatus;
 
     public void SOSFragment(){
@@ -145,8 +146,10 @@ public class SOSFragment extends Fragment {
                     imageButton.setImageResource(R.drawable.sos_btn_pressed);
                 }
                 else if(event.getAction()  == MotionEvent.ACTION_UP){
+
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
+                    checkAndroidVersion();
 
                     new CountDownTimer(4000,1000){
                         public void onTick(long millisUntilFinished) {
@@ -166,17 +169,54 @@ public class SOSFragment extends Fragment {
                             imageButton.setEnabled(false);
                             txtCountDown.setText("");
                             numcountdown = String.valueOf(millisUntilFinished/1000);
-                            txtCountDown.append(numcountdown);
+                            if (Integer.parseInt(numcountdown) < 1){
+                                txtCountDown.append("0");
+                            }else {
+                                txtCountDown.append(numcountdown);
+                            }
                             txtCountDown.setShadowLayer(1.5f, 5, 5, Color.BLACK);
                             imageButton.setImageResource(R.drawable.circle);
                             //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
-                            /*locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+                            locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
                             GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                             if (GpsStatus == false) {
-                                startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            }else {*/
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setMessage(
+                                        "Your GPS module is disabled. Would you like to enable it ?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Yes",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    public void onClick(DialogInterface dialog,
+                                                                        int id) {
+                                                        // Sent user to GPS settings screen
+                                                        //final ComponentName toLaunch = new ComponentName("com.android.settings","com.android.settings.SecuritySettings");
+                                                        final Intent intent = new Intent(
+                                                                Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                                        //intent.addCategory(Intent.CATEGORY_LAUNCHER);
+                                                        //intent.setComponent(toLaunch);
+                                                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                                        startActivityForResult(intent, 0);
+                                                        dialog.dismiss();
+                                                        button_sos.setVisibility(View.INVISIBLE);
+                                                        txtCountDown.setText("");
+                                                        imageButton.setEnabled(true);
+                                                        imageButton.setImageResource(R.drawable.sos_btn);
+                                                    }
+                                                })
+                                        .setNegativeButton("No",
+                                                new DialogInterface.OnClickListener() {
+
+                                                    public void onClick(DialogInterface dialog,
+                                                                        int id) {
+                                                        dialog.cancel();
+                                                    }
+                                                });
+                                AlertDialog alert = builder.create();
+                                alert.show();
+                            }else {
                                 button_sos.setVisibility(View.INVISIBLE);
                                 txtCountDown.setText("");
                                 imageButton.setEnabled(true);
@@ -195,7 +235,7 @@ public class SOSFragment extends Fragment {
                                 };
                                 MyLocation myLocation = new MyLocation();
                                 myLocation.getLocation(mContext, locationResult);
-                            //}
+                            }
 
                             //showRequestPermissionsInfoAlertDialog();
                         }
@@ -331,18 +371,16 @@ public class SOSFragment extends Fragment {
     @RequiresApi(api = Build.VERSION_CODES.M)
 
     private void checkPermission() {
-        if (ContextCompat.checkSelfPermission(getActivity(),
-                Manifest.permission.SEND_SMS) + ContextCompat
-                .checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.SEND_SMS) +
+                ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
 
             if (ActivityCompat.shouldShowRequestPermissionRationale
                     (getActivity(), Manifest.permission.SEND_SMS) ||
                     ActivityCompat.shouldShowRequestPermissionRationale
                             (getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
-
-                Snackbar.make(getActivity().findViewById(android.R.id.content),
+                imageButton.setEnabled(false);
+                permissionsSnackbar.make(getActivity().findViewById(android.R.id.content),
                         "Please Grant Permissions to get your location and send messages",
                         Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
                         new View.OnClickListener() {
@@ -379,10 +417,12 @@ public class SOSFragment extends Fragment {
 
                     if(gpsPermission && sendSMS)
                     {
+                        imageButton.setEnabled(true);
                         //fetchLocation();
                         //sendTextMessage();
                         // write your logic here
                     } else {
+                        /*imageButton.setEnabled(false);
                         permissionsSnackbar = Snackbar.make(getActivity().findViewById(android.R.id.content),
                                 "Please Grant Permissions to use GPS and send Messages",
                                 Snackbar.LENGTH_INDEFINITE);
@@ -397,12 +437,21 @@ public class SOSFragment extends Fragment {
                                                         .ACCESS_FINE_LOCATION},
                                                 PERMISSIONS_MULTIPLE_REQUEST);
                                     }
-                                }).show();
+                                }).show();*/
                     }
                 }
                 break;
         }
-    }public void onResume() {
+
+    }
+
+    public void onPause() {
+
+        super.onPause();
+
+    }
+
+    public void onResume() {
 
         super.onResume();
 
