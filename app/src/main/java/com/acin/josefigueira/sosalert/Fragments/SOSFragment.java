@@ -80,7 +80,7 @@ public class SOSFragment extends Fragment {
     private UserController userController;
     SharedPreferences SPreferences;
 
-    private String fname,lname,country,description;
+    private String fname,lname,country,description, phone;
 
     public float longitude;
     public float latitude;
@@ -171,11 +171,11 @@ public class SOSFragment extends Fragment {
                             //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
-                            locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+                            /*locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
                             GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                             if (GpsStatus == false) {
                                 startActivity(new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS));
-                            }else {
+                            }else {*/
                                 button_sos.setVisibility(View.INVISIBLE);
                                 txtCountDown.setText("");
                                 imageButton.setEnabled(true);
@@ -194,7 +194,7 @@ public class SOSFragment extends Fragment {
                                 };
                                 MyLocation myLocation = new MyLocation();
                                 myLocation.getLocation(mContext, locationResult);
-                            }
+                            //}
 
                             //showRequestPermissionsInfoAlertDialog();
                         }
@@ -242,16 +242,20 @@ public class SOSFragment extends Fragment {
         lname = SPreferences.getString("lastname","");
         country = SPreferences.getString("country","");
         description = SPreferences.getString("description","");
+        phone = SPreferences.getString("phonenumber","");
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
 
         String strPhone = "+351965639423";
+        String strPhone2 =  phone;
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
         SmsManager sms = SmsManager.getDefault();
         ArrayList<String> messageParts = sms.divideMessage(strMessage);
         //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
         sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
-
+        if (phone != null ) {
+            sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
+        }
     }
 
 
@@ -391,13 +395,15 @@ public class SOSFragment extends Fragment {
                 break;
         }
     }public void onResume() {
+
         super.onResume();
+
     }
 
     public void onDestroy() {
 
         super.onDestroy();
-        permissionsSnackbar.dismiss();
+        //permissionsSnackbar.dismiss();
     }
 
    /* public void onClickimgbtn(){
