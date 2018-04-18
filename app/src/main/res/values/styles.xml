@@ -26,4 +26,9 @@
         <item name="android:shadowRadius">2</item>
     </style>
 
+    <style name="CustomFirefighterCircle">
+        <item name="android:background">@drawable/custom_firefighter_cut</item>
+        <item name="android:src">@drawable/firefighter_waiting_next_call</item>
+    </style>
+
 </resources>

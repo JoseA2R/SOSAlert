@@ -46,7 +46,8 @@
 
         <activity
             android:name=".View.MainMenuActivity"
-            android:theme="@style/AppTheme.ActionBar.Transparent" />
+            android:theme="@style/AppTheme.ActionBar.Transparent"
+            android:windowSoftInputMode="adjustResize"/>
 
     </application>
 

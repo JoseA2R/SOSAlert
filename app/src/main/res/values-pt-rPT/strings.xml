@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">SOSAlert</string>
+    <string name="welcome_alert">BEM VINDO</string>
+    <string name="select_language">Selecionar idioma</string>
+    <string name="text_data">Insira dados pessoais</string>
+    <string name="text_sos_alert">ALERTA SOS</string>
+    <string name="text_click_button">CLIQUE PARA PEDIR SOCORRO</string>
+    <string name="first_names">Nomes próprios</string>
+    <string name="last_names">Sobrenomes</string>
+    <string name="edit_comments">Acrescente comentários aqui (alergias, tipo sanguíneo, etc.)</string>
+    <string name="phone_number">Número de telephone de emergência</string>
+    <string name="next_btn">SEGUINTE</string>
+    <string name="next_btn1">SEGUINTE</string>
+    <string name="nav_sos_button">BOTÃO SOS</string>
+    <string name="profile_nav">Perfil</string>
+    <string name="language_nav">Idioma</string>
+    <string name="share_nav">Partilhar no Facebook</string>
+    <string name="permission_alert_dialog_title">Permissão SMS</string>
+    <string name="permission_dialog_message">A mensagem de AlertaSOS irá solicitar o envio de SMS do seu dispositivo.</string>
+    <string name="action_ok">OK</string>
+    <string name="open">Abrir</string>
+    <string name="close">Fechar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="tv_insert_your">INSERE OS SEUS</string>
+    <string name="tv_personal_data">DADOS PESSOAIS</string>
+</resources>

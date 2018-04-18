@@ -296,8 +296,8 @@ public class SOSFragment extends Fragment {
             SmsManager sms = SmsManager.getDefault();
             ArrayList<String> messageParts = sms.divideMessage(strMessage);
             sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
-            Toast.makeText(getActivity(), "The SMS was sent succesfully", Toast.LENGTH_LONG).show();
-            if (phone != null) {
+            //Toast.makeText(getActivity(), "The SMS was sent succesfully", Toast.LENGTH_LONG).show();
+            if (phone != "") {
                 sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
                 //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
             }
@@ -422,7 +422,7 @@ public class SOSFragment extends Fragment {
                         //sendTextMessage();
                         // write your logic here
                     } else {
-                        /*imageButton.setEnabled(false);
+                        imageButton.setEnabled(false);
                         permissionsSnackbar = Snackbar.make(getActivity().findViewById(android.R.id.content),
                                 "Please Grant Permissions to use GPS and send Messages",
                                 Snackbar.LENGTH_INDEFINITE);
@@ -437,7 +437,7 @@ public class SOSFragment extends Fragment {
                                                         .ACCESS_FINE_LOCATION},
                                                 PERMISSIONS_MULTIPLE_REQUEST);
                                     }
-                                }).show();*/
+                                }).show();
                     }
                 }
                 break;

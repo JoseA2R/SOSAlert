@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_scrollFlags="scroll|enterAlways"
+    android:fitsSystemWindows="true"
     android:id="@+id/mainbtnlayout">
 
     <ScrollView
@@ -13,13 +14,14 @@
         android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/firefighter_cut"
+
         android:fillViewport="true">
 
         <LinearLayout
             android:id="@+id/parent_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/firefighter_cut"
             android:orientation="vertical">
 
             <TextView
@@ -28,9 +30,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="60dp"
-                android:text="INSERT YOUR"
+                android:text="@string/tv_insert_your"
                 android:textColor="@color/white"
-                android:textSize="28dp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <TextView
@@ -38,17 +40,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="PERSONAL DATA"
+                android:text="@string/tv_personal_data"
                 android:textColor="@color/white"
-                android:textSize="28dp"
+                android:textSize="28sp"
                 android:textStyle="bold" />
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_fname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:errorEnabled="true"
-                android:layout_marginTop="140dp">
+                android:hint="@string/first_names"
+                android:layout_marginTop="130dp"
+                app:errorEnabled="true">
 
                 <EditText
                     android:id="@+id/etFName"
@@ -58,7 +61,6 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="70dp"
                     android:ems="10"
-                    android:hint="@string/first_names"
                     android:inputType="textPersonName"
                     android:maxLength="40"/>
 
@@ -68,6 +70,7 @@
                 android:id="@+id/input_layout_lname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/last_names"
                 app:errorEnabled="true">
 
                 <EditText
@@ -77,9 +80,9 @@
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
                     android:ems="10"
-                    android:hint="@string/last_names"
                     android:inputType="textPersonName"
                     android:maxLength="40"/>
+
             </android.support.design.widget.TextInputLayout>
 
             <android.support.v7.widget.AppCompatSpinner
@@ -96,6 +99,7 @@
                 android:id="@+id/input_layout_comments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:hint="@string/edit_comments"
                 app:errorEnabled="true">
 
                 <EditText
@@ -106,41 +110,30 @@
                     android:layout_marginRight="15dp"
                     android:layout_marginTop="10dp"
                     android:ems="10"
-                    android:hint="@string/edit_comments"
                     android:inputType="textMultiLine"
                     android:maxLength="350" />
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.v7.widget.LinearLayoutCompat
 
-                android:id="@+id/linear_phone"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_phone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:hint="@string/phone_number"
+                app:errorEnabled="true" >
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_phone"
-                    android:layout_width="0dp"
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="0.9"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    app:errorEnabled="true" >
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_marginTop="5dp"
+                    android:inputType="phone"
+                    android:maxLength="20"/>
 
-                    <EditText
-                        android:id="@+id/etPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone"
-                        android:maxLength="20"/>
-                </android.support.design.widget.TextInputLayout>
-
-
-
-            </android.support.v7.widget.LinearLayoutCompat>
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnNext"

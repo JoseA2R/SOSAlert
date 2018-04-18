@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -63,28 +64,22 @@ public class FormFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.activity_userdata,container,false);
-        insertData(view);
-        return view;
-    }
-
-    public void insertData(View view){
-
-        controller = new UserController(getActivity().getBaseContext());
-
-        spcountry = view.findViewById(R.id.spinnerCountry);
         etFName = (EditText) view.findViewById(R.id.etFName);
         etLName = (EditText) view.findViewById(R.id.etSName);
         spcountry = view.findViewById(R.id.spinnerCountry);
         etDescription = (EditText) view.findViewById(R.id.etDescription);
         etPhone = (EditText) view.findViewById(R.id.etPhone);
         btnNext  = view.findViewById(R.id.btnNext);
+        controller = new UserController(getActivity().getBaseContext());
+        insertData();
+        return view;
+    }
+
+    public void insertData(){
 
         setCountriesSpinner();
         fillData();
-        parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
-
-
-
+        //parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
     /*    spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -93,23 +88,22 @@ public class FormFragment extends Fragment{
             public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });*/
-
         btnNext.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 btnNextClicked();
-                controller.SaveData(user);
+                if (validate()) {
+                    controller.SaveData(user);
+                }
+
+
                 //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
-
-
                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
                 //startActivity(new Intent(FormFragment.this,SOSActivity.class));
-
             }
         });
-
     }
 
     public void setCountriesSpinner(){
@@ -120,7 +114,7 @@ public class FormFragment extends Fragment{
 
     }
 
-    public void onAddField(View v){
+    /*public void onAddField(View v){
        /* if (numberOfRows == 0) {
             LinearLayout TextLayout = (LinearLayout) findViewById(R.id.phone);
             LayoutInflater inflating = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -129,48 +123,32 @@ public class FormFragment extends Fragment{
 
             numberOfRows++;
 
-        }else {*/
+        }else {
 
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         v = inflater.inflate(R.layout.phone_field, null);
         parentLinearLayout.addView(v, parentLinearLayout.getChildCount() - 1);
 
         //}
-    }
+    }*/
 
     public void onDelete(View v) {
         parentLinearLayout.removeView((View) v.getParent());
     }
 
+
     public void btnNextClicked(){
-
-        /*SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
-
         register();
-        /*fname = etFName.getText().toString();
-        lname = etLName.getText().toString();
-        country = spcountry.getSelectedItem().toString();
-        description = etDescription.getText().toString();
-        phone = etPhone.getText().toString();*/
-
-        /*editorPreferences.putString("First Name: ",user.getFirstName());
-        editorPreferences.putString("Last Name: ",user.getLastName());
-        editorPreferences.putString("Country : ",user.getCountry());
-        editorPreferences.putString("Description : ",user.getDescription());
-        editorPreferences.putString("Phone Number : ",user.getPhone());
-        editorPreferences.apply();*/
-
     }
 
     public void register(){
         initialize();
-        /*if (!validate()){
+        if (!validate()){
             Toast.makeText(getActivity(),"Error Data",Toast.LENGTH_SHORT).show();
         }
-        else{*/
+        else{
             onDataInputSuccess();
-        //}
+        }
     }
 
     public void onDataInputSuccess(){
@@ -182,10 +160,19 @@ public class FormFragment extends Fragment{
         controller.putStringData(getActivity().getApplicationContext());
         //Revisar lo del id del contenedor para ser llamado luego
         fragmentTransaction.replace(R.id.content_frame,fragment);
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.detach(this);
         fragmentTransaction.commit();
 
 
+    }
+
+    public void initialize(){
+
+        fname = etFName.getText().toString();
+        lname = etLName.getText().toString();
+        country = spcountry.getSelectedItem().toString();
+        description = etDescription.getText().toString();
+        phone = etPhone.getText().toString();
     }
 
     public boolean validate(){
@@ -204,20 +191,12 @@ public class FormFragment extends Fragment{
         }
         if(fname.isEmpty() || fname.length()>15){
             etPhone.setError("Please enter a valid Phone Number");
+            valid = false;
         }
 
         return valid;
     }
 
-    public void initialize(){
-
-        fname = etFName.getText().toString();
-        lname = etLName.getText().toString();
-        country = spcountry.getSelectedItem().toString();
-        description = etDescription.getText().toString();
-        phone = etPhone.getText().toString();
-
-    }
 
     public void fillData(){
 
@@ -232,12 +211,15 @@ public class FormFragment extends Fragment{
     @Override
     public void onResume(){
         super.onResume();
-
     }
 
     @Override
     public void onAttach(Context context) {
+
         super.onAttach(context);
+        /*if (SOSFragment.permissionsSnackbar.isShown()) {
+            SOSFragment.permissionsSnackbar.dismiss();
+        }*/
     }
 
     @Override

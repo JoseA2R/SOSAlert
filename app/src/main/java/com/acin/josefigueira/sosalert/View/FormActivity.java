@@ -37,10 +37,9 @@ public class FormActivity extends AppCompatActivity {
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
     String fname,lname,country,description,phone;
+    MainActivity main = new MainActivity();
     User user;
     UserController controller;
-
-
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -48,7 +47,9 @@ public class FormActivity extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //main.loadLocales();
         setContentView(R.layout.activity_userdata);
+
 
         user = new User();
         controller = new UserController(this);
