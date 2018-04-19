@@ -6,6 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_scrollFlags="scroll|enterAlways"
+    android:theme="@style/AppTheme.ActionBar.Transparent"
     android:fitsSystemWindows="true"
     android:id="@+id/mainbtnlayout">
 
@@ -111,7 +112,8 @@
                     android:layout_marginTop="10dp"
                     android:ems="10"
                     android:inputType="textMultiLine"
-                    android:maxLength="350" />
+                    android:maxLength="250"
+                    android:maxLines="3"/>
             </android.support.design.widget.TextInputLayout>
 
 
@@ -131,7 +133,7 @@
                     android:layout_marginEnd="15dp"
                     android:layout_marginTop="5dp"
                     android:inputType="phone"
-                    android:maxLength="20"/>
+                    android:maxLength="17"/>
 
             </android.support.design.widget.TextInputLayout>
 

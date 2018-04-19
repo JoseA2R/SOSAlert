@@ -170,11 +170,11 @@ public class FormActivity extends AppCompatActivity {
             etLName.setError("Please Enter a valid name");
             valid = false;
         }
-        if(description.length()>350 || !description.matches("[- a-zA-Z.',:¡!¿?()+]*")) {
+        if(description.length()>350 || !description.matches("[- a-zA-Z0-9ç.',:¡!¿?()+\n]*")) {
             etDescription.setError("Please Enter a valid Description");
             valid = false;
         }
-        if(phone.isEmpty() || phone.length()>15 || !phone.matches("[0-9+]*")){
+        if(phone.length()>15 || !phone.matches("[0-9+]*")){
             etPhone.setError("Please enter a valid Phone Number");
             valid = false;
         }

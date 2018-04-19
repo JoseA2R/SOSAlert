@@ -43,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     SMSController smscontroller;
     SOSFragment fragmentSos = new SOSFragment();
     FragmentManager fragmentManager;
+    NavigationView navigationView;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -57,7 +58,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
@@ -76,16 +77,15 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         moveTaskToBack(true);
     }
 
-    public boolean onNavigationItemSelected(MenuItem item){
+    public boolean onNavigationItemSelected(MenuItem item) {
 
         int id = item.getItemId();
-
         fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_sos){
             fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
-
-        } else if (id == R.id.nav_profile){
+        }
+        else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
         }
 

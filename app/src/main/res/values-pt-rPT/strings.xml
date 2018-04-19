@@ -24,4 +24,10 @@
     <string name="cancel">Cancelar</string>
     <string name="tv_insert_your">INSERE OS SEUS</string>
     <string name="tv_personal_data">DADOS PESSOAIS</string>
+
+    <string-array name="languages_array">
+        <item>-selecione-</item>
+        <item>Português</item>
+        <item>Inglês</item>
+    </string-array>
 </resources>

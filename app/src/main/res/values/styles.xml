@@ -15,6 +15,11 @@
         <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
+    <style name="Theme.TransparencyDemo" parent="@android:style/Theme.Holo.Light">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
     <style name="AudioFileInfoOverlayText">
         <item name="android:paddingLeft">4px</item>
         <item name="android:paddingBottom">4px</item>

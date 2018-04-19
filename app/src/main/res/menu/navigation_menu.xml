@@ -10,11 +10,14 @@
           android:title="@string/profile_nav"
           android:icon="@mipmap/ic_person_outline_black_24dp"/>
 
-    <item android:id="@+id/nav_language"
-          android:title="@string/language_nav"
-          android:icon="@mipmap/ic_language_black_24dp"/>
+    <item
+        android:id="@+id/nav_language"
+        android:title="@string/language_nav"
+        android:icon="@mipmap/ic_language_black_24dp"/>
 
     <item android:id="@+id/nav_share"
-          android:title="@string/share_nav"/>
+          android:title="@string/share_nav"
+          android:icon="@mipmap/ic_share_black_24dp"/>
+
 
 </menu>

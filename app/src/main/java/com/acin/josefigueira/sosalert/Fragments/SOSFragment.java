@@ -2,12 +2,18 @@ package com.acin.josefigueira.sosalert.Fragments;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.bluetooth.BluetoothAssignedNumbers;
+import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
@@ -150,6 +156,7 @@ public class SOSFragment extends Fragment {
 
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
+                    final ToneGenerator toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
                     checkAndroidVersion();
 
                     new CountDownTimer(4000,1000){
@@ -170,6 +177,7 @@ public class SOSFragment extends Fragment {
                             imageButton.setEnabled(false);
                             txtCountDown.setText("");
                             numcountdown = String.valueOf(millisUntilFinished/1000);
+                            toneBeep.startTone(ToneGenerator.TONE_CDMA_EMERGENCY_RINGBACK,200);
                             if (Integer.parseInt(numcountdown) < 1){
                                 txtCountDown.append("0");
                             }else {
@@ -292,11 +300,63 @@ public class SOSFragment extends Fragment {
         String strPhone2 =  phone;
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
 
-        //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
         try {
+            String SENT = "SMS_SENT";
+            String DELIVERED = "SMS_DELIVERED";
+        PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, new Intent(SENT), 0);
+        PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,new Intent(DELIVERED), 0);
+
+
+// ---when the SMS has been sent---
+        mContext.registerReceiver(
+                new BroadcastReceiver()
+                {
+                    @Override
+                    public void onReceive(Context context,Intent sentPI)
+                    {
+                        switch(getResultCode())
+                        {
+                            case Activity.RESULT_OK:
+                                Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG);
+                                break;
+                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+
+                                break;
+                            case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                Toast.makeText(getActivity(),"Radio off\nMessage NOT Sent",Toast.LENGTH_LONG);
+                                break;
+                            case SmsManager.RESULT_ERROR_NULL_PDU:
+                                break;
+                            case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                Toast.makeText(getActivity(),"Radio off\nMessage NOT Sent",Toast.LENGTH_LONG);
+                                break;
+                        }
+                    }
+                }, new IntentFilter(SENT));
+        // ---when the SMS has been delivered---
+        mContext.registerReceiver(
+                new BroadcastReceiver()
+                {
+
+                    @Override
+                    public void onReceive(Context arg0,Intent arg1)
+                    {
+                        switch(getResultCode())
+                        {
+                            case Activity.RESULT_OK:
+                                Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG);
+                                break;
+                            case Activity.RESULT_CANCELED:
+                                Toast.makeText(getActivity(),"Message NOT Sent",Toast.LENGTH_LONG);
+                                break;
+                        }
+                    }
+                }, new IntentFilter(DELIVERED));
+        //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
+
             SmsManager sms = SmsManager.getDefault();
             ArrayList<String> messageParts = sms.divideMessage(strMessage);
-            sms.sendMultipartTextMessage(strPhone, null, messageParts, null, null);
+            sms.sendTextMessage(strPhone, null, strMessage, sentPI, deliveredPI);
             //Toast.makeText(getActivity(), "The SMS was sent succesfully", Toast.LENGTH_LONG).show();
             if (phone != "") {
                 sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
