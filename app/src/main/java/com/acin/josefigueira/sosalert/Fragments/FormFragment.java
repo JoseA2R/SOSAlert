@@ -64,12 +64,13 @@ public class FormFragment extends Fragment{
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.activity_userdata,container,false);
-        etFName = (EditText) view.findViewById(R.id.etFName);
-        etLName = (EditText) view.findViewById(R.id.etSName);
+        etFName = view.findViewById(R.id.etFName);
+        etLName = view.findViewById(R.id.etSName);
         spcountry = view.findViewById(R.id.spinnerCountry);
-        etDescription = (EditText) view.findViewById(R.id.etDescription);
-        etPhone = (EditText) view.findViewById(R.id.etPhone);
+        etDescription = view.findViewById(R.id.etDescription);
+        etPhone = view.findViewById(R.id.etPhone);
         btnNext  = view.findViewById(R.id.btnNext);
+        user = new User();
         controller = new UserController(getActivity().getBaseContext());
         insertData();
         return view;
@@ -94,10 +95,6 @@ public class FormFragment extends Fragment{
             public void onClick(View v)
             {
                 btnNextClicked();
-                if (validate()) {
-                    controller.SaveData(user);
-                }
-
 
                 //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
@@ -138,7 +135,9 @@ public class FormFragment extends Fragment{
 
 
     public void btnNextClicked(){
+
         register();
+
     }
 
     public void register(){
@@ -156,14 +155,13 @@ public class FormFragment extends Fragment{
         fragmentTransaction = getFragmentManager().beginTransaction();
         fragment = new SOSFragment();
         Toast.makeText(getActivity().getBaseContext(),"Profile Modified Successfully", Toast.LENGTH_LONG).show();
+        controller.SaveData(user);
         controller.setData(fname,lname,country,description,phone);
         controller.putStringData(getActivity().getApplicationContext());
         //Revisar lo del id del contenedor para ser llamado luego
         fragmentTransaction.replace(R.id.content_frame,fragment);
         fragmentTransaction.detach(this);
         fragmentTransaction.commit();
-
-
     }
 
     public void initialize(){
@@ -177,19 +175,19 @@ public class FormFragment extends Fragment{
 
     public boolean validate(){
         boolean valid = true;
-        if(fname.isEmpty() || fname.length()>40){
+        if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Z ]+$")){
             etFName.setError("Please Enter a valid name");
             valid = false;
         }
-        if(lname.isEmpty() || lname.length()>40) {
+        if(lname.isEmpty() || lname.length()>40 || !lname.matches("[a-zA-Z ]+$")){
             etLName.setError("Please Enter a valid name");
             valid = false;
         }
-        if(fname.isEmpty() || fname.length()>350) {
+        if(description.length()>350 || !description.matches("[- a-zA-Z.',:¡!¿?()+]*")) {
             etDescription.setError("Please Enter a valid Description");
             valid = false;
         }
-        if(fname.isEmpty() || fname.length()>15){
+        if(phone.isEmpty() || phone.length()>15 || !phone.matches("[0-9+]*")){
             etPhone.setError("Please enter a valid Phone Number");
             valid = false;
         }

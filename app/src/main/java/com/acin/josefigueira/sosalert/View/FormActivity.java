@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Controller.UserController;
+import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
 
@@ -86,9 +87,7 @@ public class FormActivity extends AppCompatActivity {
             {
                 btnNextClicked();
                 //controller.SaveData(user);
-                Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
-                startActivity(new Intent(FormActivity.this,MainMenuActivity.class));
-
+                //Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -124,27 +123,74 @@ public class FormActivity extends AppCompatActivity {
         numberOfRows--;
     }
 
+
     public void btnNextClicked(){
 
-        /*SharedPreferences SPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editorPreferences = SPreferences.edit();*/
+        register();
+
+    }
+
+    public void register(){
+        initialize();
+        if (!validate()){
+            Toast.makeText(this,"Error Data",Toast.LENGTH_SHORT).show();
+        }
+        else{
+            onDataInputSuccess();
+        }
+    }
+
+    public void onDataInputSuccess(){
+
+        Toast.makeText(this,"Profile Modified Successfully", Toast.LENGTH_LONG).show();
+        controller.SaveData(user);
+        controller.setData(fname,lname,country,description,phone);
+        controller.putStringData(this.getApplicationContext());
+        getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isfirstrun",false).apply();
+        startActivity(new Intent(FormActivity.this,MainMenuActivity.class));
+
+    }
+
+    public void initialize(){
 
         fname = etFName.getText().toString();
         lname = etLName.getText().toString();
         country = spcountry.getSelectedItem().toString();
         description = etDescription.getText().toString();
         phone = etPhone.getText().toString();
+    }
 
-        controller.setData(fname,lname,country,description,phone);
-        controller.putStringData(this);
-        getSharedPreferences("PREFERENCE",MODE_PRIVATE).edit().putBoolean("isfirstrun",false).apply();
-        /*editorPreferences.putString("First Name: ",user.getFirstName());
-        editorPreferences.putString("Last Name: ",user.getLastName());
-        editorPreferences.putString("Country : ",user.getCountry());
-        editorPreferences.putString("Description : ",user.getDescription());
-        editorPreferences.putString("Phone Number : ",user.getPhone());
-        editorPreferences.apply();*/
+    public boolean validate(){
+        boolean valid = true;
+        if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Z ]+$")){
+            etFName.setError("Please Enter a valid name");
+            valid = false;
+        }
+        if(lname.isEmpty() || lname.length()>40 || !lname.matches("[a-zA-Z ]+$")){
+            etLName.setError("Please Enter a valid name");
+            valid = false;
+        }
+        if(description.length()>350 || !description.matches("[- a-zA-Z.',:¡!¿?()+]*")) {
+            etDescription.setError("Please Enter a valid Description");
+            valid = false;
+        }
+        if(phone.isEmpty() || phone.length()>15 || !phone.matches("[0-9+]*")){
+            etPhone.setError("Please enter a valid Phone Number");
+            valid = false;
+        }
 
+        return valid;
+    }
+
+
+    public void fillData(){
+
+        etFName.setText(controller.getFName());
+        etLName.setText(controller.getLName());
+        country = controller.getCountry();
+        spcountry.setSelection(adapter.getPosition(country));
+        etDescription.setText(controller.getDescription());
+        etPhone.setText(controller.getPhone());
     }
 
 }
