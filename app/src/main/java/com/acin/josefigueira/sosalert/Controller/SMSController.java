@@ -3,16 +3,28 @@ package com.acin.josefigueira.sosalert.Controller;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.Model.UserModel;
+import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
 import com.acin.josefigueira.sosalert.View.SOSActivity;
+
+import java.util.ArrayList;
 
 /**
  * Created by jose.figueira on 03-04-2018.
@@ -20,101 +32,117 @@ import com.acin.josefigueira.sosalert.View.SOSActivity;
 
 public class SMSController {
 
-  /*  Context context;
-    private final static int SMS_PERMISSION_CODE = 123;
+    private User user;
+    UserModel model;
+    SharedPreferences SPreferences;
+    SharedPreferences.Editor editorPreferences;
+    Context mContext;
+    private String fname,lname,country,description,phone;
+    public float longitude;
+    public float latitude;
+
+    ArrayList<String> userData;
+
+    final ToneGenerator toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
 
     public void SMSController(Context context){
-
-        this.context = context;
-        
+        mContext = context;
     }
 
+    public void sendTextMessage(){
 
-    /**
-     * Check if we have SMS permission
+        //Toast.makeText(getActivity().getBaseContext(), "Sent.", Toast.LENGTH_LONG).show();
 
-    public boolean isSmsPermissionGranted() {
-        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_SMS);
-        if (result == PackageManager.PERMISSION_GRANTED){
-            return true;
-        } else {
-            return false;
+        UserController userController = new UserController(mContext);
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        userData = userController.getData();
+        //locData = userController.getLocation();
+
+        for (int i=0; i <= 4; i++){
+            System.out.println(userData.get(i));
         }
-    }
+        fname = userData.get(0);
+        lname = userData.get(1);
+        country = userData.get(2);
+        description = userData.get(3);
+        phone = userData.get(4);
+        latitude = SPreferences.getFloat("latitude",0);
+        longitude = SPreferences.getFloat("longitude",0);
 
-    /**
-     * Request runtime SMS permission
-
-    private void requestReadAndSendSmsPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_SMS)) {
-            // You may display a non-blocking explanation here, read more in the documentation:
-            // https://developer.android.com/training/permissions/requesting.html
-
-        }
-        ActivityCompat.requestPermissions(context, new String[]{Manifest.permission.READ_SMS}, SMS_PERMISSION_CODE);
-    }
-
-    public void showRequestPermissionsInfoAlertDialog() {
-        showRequestPermissionsInfoAlertDialog(true);
-    }
-
-    public void showRequestPermissionsInfoAlertDialog(final boolean makeSystemRequest) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(R.string.permission_alert_dialog_title); // Your own title
-        builder.setMessage(R.string.permission_dialog_message); // Your own message
-
-        builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-                // Display system runtime permission request?
-                if (makeSystemRequest) {
-                    requestReadAndSendSmsPermission();
-                    //sendTextMessage();
-                }
-            }
-        });
-
-        builder.setCancelable(false);
-        builder.show();
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case SMS_PERMISSION_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    sendTextMessage();
-
-                } else {
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-                }
-                return;
-            }
-            // other 'case' lines to check for other
-            // permissions this app might request
-        }
-    }
-
-
-   /* public void onClickimgbtn(){
-        Toast.makeText(getActivity().getApplicationContext(), "Button Selected", Toast.LENGTH_LONG).show();
-    } *
-
-     public void sendTextMessage(){
-
-        Toast.makeText(getActivity().getApplicationContext(), "Sent.", Toast.LENGTH_LONG).show();
         String strPhone = "+351965639423";
-        String strMessage = "Testing";
+        String strPhone2 =  phone;
+        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
 
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(strPhone, null, strMessage, null, null);
+        try {
+            String SENT = "SMS_SENT";
+            String DELIVERED = "SMS_DELIVERED";
+            PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, new Intent(SENT), 0);
+            PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,new Intent(DELIVERED), 0);
 
-    }*/
+
+// ---when the SMS has been sent---
+            BroadcastReceiver sendSMS = new BroadcastReceiver() {
+                @Override
+                public void onReceive(Context context,Intent sentPI)
+                {
+                    switch(getResultCode())
+                    {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(mContext,"Message Sent",Toast.LENGTH_LONG).show();
+                            toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM,300);
+                            break;
+                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                            Toast.makeText(mContext, "Generic failure",Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NO_SERVICE:
+                            Toast.makeText(mContext,"     No Service\nMessage NOT Sent",Toast.LENGTH_LONG).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_NULL_PDU:
+                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
+                            break;
+                        case SmsManager.RESULT_ERROR_RADIO_OFF:
+                            Toast.makeText(mContext,"        Radio Off\nMessage NOT Sent",Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+            };
+            // ---when the SMS has been delivered---
+            BroadcastReceiver deliverSMS = new BroadcastReceiver()
+            {
+
+                @Override
+                public void onReceive(Context arg0,Intent arg1)
+                {
+                    switch(getResultCode())
+                    {
+                        case Activity.RESULT_OK:
+                            Toast.makeText(mContext,"Message delivered",Toast.LENGTH_LONG).show();
+                            break;
+                        case Activity.RESULT_CANCELED:
+                            Toast.makeText(mContext,"Message NOT delivered",Toast.LENGTH_LONG).show();
+                            break;
+                    }
+                }
+            };
+
+            //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
+            // ---Notify when the SMS has been sent---
+            mContext.registerReceiver(sendSMS, new IntentFilter(SENT));
+
+            // ---Notify when the SMS has been delivered---
+            mContext.registerReceiver(deliverSMS, new IntentFilter(DELIVERED));
+
+            SmsManager sms = SmsManager.getDefault();
+            ArrayList<String> messageParts = sms.divideMessage(strMessage);
+            sms.sendTextMessage(strPhone, null, strMessage, sentPI, deliveredPI);
+            //Toast.makeText(getActivity(), "The SMS was sent successfully", Toast.LENGTH_LONG).show();
+            if (phone != "") {
+                sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
+                //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
+            }
+        }catch(Exception E){
+
+        }
+    }
     
 }

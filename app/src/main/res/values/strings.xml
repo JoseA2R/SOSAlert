@@ -32,6 +32,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="tv_insert_your">INSERT YOUR</string>
     <string name="tv_personal_data">PERSONAL DATA</string>
+    <string name="portuguese">Portuguese</string>
+    <string name="english">English</string>
 
 
 </resources>

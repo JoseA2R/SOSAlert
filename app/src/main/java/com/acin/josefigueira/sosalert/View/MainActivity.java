@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 
+import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.R;
 
 import java.util.Locale;
@@ -25,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     Spinner spinner;
     String item;
+    Languages languages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +49,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.languages_array,android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
+        languages = new Languages();
+        languages.Languages(this);
 
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
         //((TextView) parent.getChildAt(pos)).setTextColor(Color.WHITE);
         item = spinner.getSelectedItem().toString();
-        switch(pos){
-            case 1:
-
-            case 2:
-        }
         if (item.equals("English")) {
-            setLocales("en");
+            languages.setLocales("en");
             //recreate();
             startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
         else if (item.equals("Portuguese")){
-            setLocales("pt");
+            languages.setLocales("pt");
             //recreate();
             startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
@@ -74,24 +73,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 
-    private void setLocales(String lang){
 
-        Locale locale = new Locale(lang);
-        Locale.setDefault(locale);
-        Configuration config = new Configuration();
-        config.locale = locale;
-        getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor = getSharedPreferences("Settings",MODE_PRIVATE).edit();
-        editor.putString("lang",lang);
-        editor.apply();
-
-    }
-
-    public void loadLocales(){
-        SharedPreferences SPreferences = getSharedPreferences("Settings", MODE_PRIVATE);
-        String language = SPreferences.getString("lang","");
-        setLocales(language);
-    }
 
 
 }

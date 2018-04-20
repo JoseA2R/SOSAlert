@@ -30,4 +30,6 @@
         <item>Português</item>
         <item>Inglês</item>
     </string-array>
+    <string name="portuguese">Português</string>
+    <string name="english">Inglês</string>
 </resources>

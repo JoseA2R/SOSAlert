@@ -23,6 +23,7 @@ import android.view.View;
 import android.widget.Toast;
 import java.util.*;
 
+import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.Fragments.FormFragment;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
@@ -42,6 +43,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     View view;
     SMSController smscontroller;
     SOSFragment fragmentSos = new SOSFragment();
+    Languages languages;
     FragmentManager fragmentManager;
     NavigationView navigationView;
 
@@ -50,15 +52,19 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         super.onCreate(savedInstanceState);
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        languages = new Languages();
+        languages.Languages(this);
+        languages.loadLocales();
         setContentView(R.layout.main_menu);
 
         mToolbar = (Toolbar) findViewById(R.id.nav_action_bar);
         setSupportActionBar(mToolbar);
         mToolbar.setTitle("");
 
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setItemIconTintList(null);
 
         mDrawerLayout.addDrawerListener(mToggle);
         mToggle.syncState();
@@ -88,8 +94,16 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
         }
+        else if (id == R.id.language_pt){
+            languages.setLocales("pt");
+            startActivity(new Intent(MainMenuActivity.this,MainMenuActivity.class));
+        }
+        else if (id == R.id.language_en){
+            languages.setLocales("en");
+            startActivity(new Intent(MainMenuActivity.this,MainMenuActivity.class));
+        }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_menu);
         drawer.closeDrawer(GravityCompat.START);
         return true;
 

@@ -157,5 +157,23 @@ public class UserController {
         return SPreferences.getString("phonenumber","");
     }
 
+    public ArrayList<String> getData(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        ArrayList<String> userData = new ArrayList<>();
+        userData.add(SPreferences.getString("firstname",""));
+        userData.add(SPreferences.getString("lastname",""));
+        userData.add(SPreferences.getString("country",""));
+        userData.add(SPreferences.getString("description",""));
+        userData.add(SPreferences.getString("phonenumber",""));
+        return userData;
+    }
+
+    public ArrayList<String> getLocation(){
+        SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        ArrayList<String> locationData = new ArrayList<>();
+        locationData.add(SPreferences.getString("latitude",""));
+        locationData.add(SPreferences.getString("longitude",""));
+        return locationData;
+    }
 
 }

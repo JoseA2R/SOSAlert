@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item
-          android:id="@+id/nav_sos"
-          android:title="@string/nav_sos_button"
-          android:icon="@drawable/ic_whatshot_black_24px"/>
+    <group android:checkableBehavior="none">
+        <item
+              android:id="@+id/nav_sos"
+              android:title="@string/nav_sos_button"
+              android:icon="@drawable/ic_whatshot_black_24px"/>
 
-    <item android:id="@+id/nav_profile"
-          android:title="@string/profile_nav"
-          android:icon="@mipmap/ic_person_outline_black_24dp"/>
+        <item android:id="@+id/nav_profile"
+              android:title="@string/profile_nav"
+              android:icon="@mipmap/ic_person_outline_black_24dp"/>
 
-    <item
-        android:id="@+id/nav_language"
-        android:title="@string/language_nav"
-        android:icon="@mipmap/ic_language_black_24dp"/>
 
-    <item android:id="@+id/nav_share"
-          android:title="@string/share_nav"
-          android:icon="@mipmap/ic_share_black_24dp"/>
+        <item android:id="@+id/nav_share"
+              android:title="@string/share_nav"
+              android:icon="@mipmap/ic_share_black_24dp"/>
 
+       <!-- <item
+            android:id="@+id/nav_language"
+            android:title="@string/language_nav"
+            android:icon="@mipmap/ic_language_black_24dp"
+            />-->
+    </group>
+
+    <item android:id="@+id/language"
+          android:title="@string/language_nav"
+          android:icon="@mipmap/ic_language_black_24dp">
+        <menu>
+            <item android:id="@+id/language_pt"
+                android:title="@string/portuguese"
+                android:icon="@mipmap/pt_flag"/>
+            <item android:id="@+id/language_en"
+                android:title="@string/english"
+                android:icon="@mipmap/gb_flag"/>
+        </menu>
+    </item>
 
 </menu>
