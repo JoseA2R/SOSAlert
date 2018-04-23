@@ -104,7 +104,7 @@ public class SOSFragment extends Fragment {
     private TextView txtLongitude;
     private TextView txtLatitude;
 
-    final ToneGenerator toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
+    public ToneGenerator toneBeep;
 
     public static Snackbar permissionsSnackbar;
     private boolean GpsStatus;
@@ -163,6 +163,7 @@ public class SOSFragment extends Fragment {
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
                     checkAndroidVersion();
+                    toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
 
                     new CountDownTimer(4000,1000){
                         public void onTick(long millisUntilFinished) {
@@ -176,10 +177,12 @@ public class SOSFragment extends Fragment {
                                     txtCountDown.setText("");
                                     imageButton.setEnabled(true);
                                     imageButton.setImageResource(R.drawable.sos_btn);
+                                    //toneBeep.stopTone();
+                                    toneBeep.release();
                                     cancel();
                                 }
                             });
-                            MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                            /*MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                 @Override
                                 public void gotLocation(Location location) {
                                     //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
@@ -195,7 +198,7 @@ public class SOSFragment extends Fragment {
                                 }
                             };
                             MyLocation myLocation = new MyLocation();
-                            myLocation.getLocation(mContext, locationResult);
+                            myLocation.getLocation(mContext, locationResult);*/
                             imageButton.setEnabled(false);
                             txtCountDown.setText("");
                             numcountdown = String.valueOf(millisUntilFinished/1000);
@@ -210,14 +213,16 @@ public class SOSFragment extends Fragment {
                             //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
+                            //toneBeep.stopTone();
+                            toneBeep.release();
                             locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
                             GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
                             if (GpsStatus == false) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(
-                                        "Your GPS module is disabled.\nWould you like to enable it?")
+                                        R.string.gps_disabled)
                                         .setCancelable(false)
-                                        .setPositiveButton("Yes",
+                                        .setPositiveButton(R.string.yes_btn,
                                                 new DialogInterface.OnClickListener() {
 
                                                     public void onClick(DialogInterface dialog,
@@ -237,11 +242,15 @@ public class SOSFragment extends Fragment {
                                                         imageButton.setImageResource(R.drawable.sos_btn);
                                                     }
                                                 })
-                                        .setNegativeButton("No",
+                                        .setNegativeButton(R.string.no_btn,
                                                 new DialogInterface.OnClickListener() {
 
                                                     public void onClick(DialogInterface dialog,
                                                                         int id) {
+                                                        button_sos.setVisibility(View.INVISIBLE);
+                                                        txtCountDown.setText("");
+                                                        imageButton.setEnabled(true);
+                                                        imageButton.setImageResource(R.drawable.sos_btn);
                                                         dialog.cancel();
                                                     }
                                                 });
@@ -252,7 +261,8 @@ public class SOSFragment extends Fragment {
                                 txtCountDown.setText("");
                                 imageButton.setEnabled(true);
                                 imageButton.setImageResource(R.drawable.sos_btn);
-                                /*MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                                MyLocation myLocation = new MyLocation();
+                                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                     @Override
                                     public void gotLocation(Location location) {
                                         //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
@@ -262,18 +272,17 @@ public class SOSFragment extends Fragment {
                                             latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
                                             userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
+                                            smsController = new SMSController();
+                                            smsController.SMSController(mContext);
+                                            smsController.sendTextMessage();
                                         } catch(NullPointerException ex ){
+                                        }
+                                //OJO CON EL CONTROLADOR DE MENSAJES
+                                //sendTextMessage();
+                                }
+                                };
+                                myLocation.getLocation(mContext, locationResult);
 
-                                        }*/
-                                        //OJO CON EL CONTROLADOR DE MENSAJES
-                                        smsController = new SMSController();
-                                        smsController.SMSController(mContext);
-                                        smsController.sendTextMessage();
-                                        //sendTextMessage();
-                                    //}
-                                //};
-                                //MyLocation myLocation = new MyLocation();
-                                //myLocation.getLocation(mContext, locationResult);
                             }
 
                             //showRequestPermissionsInfoAlertDialog();
@@ -293,10 +302,8 @@ public class SOSFragment extends Fragment {
     }
 
     /*private class CustomTask extends AsyncTask<void,void,void> {
-
         @Override
         protected void doInBackground(void... voids) {
-
         }
     }*/
 
@@ -312,14 +319,10 @@ public class SOSFragment extends Fragment {
     }
 
     /*public void sendTextMessage(){
-
         //Toast.makeText(getActivity().getBaseContext(), "Sent.", Toast.LENGTH_LONG).show();
-
-
         SPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
         userData = userController.getData();
         //locData = userController.getLocation();
-
         for (int i=0; i <= 4; i++){
             System.out.println(userData.get(i));
         }
@@ -330,18 +333,14 @@ public class SOSFragment extends Fragment {
         phone = userData.get(4);
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
-
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
-
         try {
             String SENT = "SMS_SENT";
             String DELIVERED = "SMS_DELIVERED";
             PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, new Intent(SENT), 0);
             PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,new Intent(DELIVERED), 0);
-
-
 // ---when the SMS has been sent---
         BroadcastReceiver sendSMS = new BroadcastReceiver() {
             @Override
@@ -371,7 +370,6 @@ public class SOSFragment extends Fragment {
         // ---when the SMS has been delivered---
         BroadcastReceiver deliverSMS = new BroadcastReceiver()
             {
-
                 @Override
                 public void onReceive(Context arg0,Intent arg1)
                 {
@@ -386,14 +384,11 @@ public class SOSFragment extends Fragment {
                     }
                 }
             };
-
         //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
             // ---Notify when the SMS has been sent---
             getActivity().registerReceiver(sendSMS, new IntentFilter(SENT));
-
             // ---Notify when the SMS has been delivered---
             getActivity().registerReceiver(deliverSMS, new IntentFilter(DELIVERED));
-
             SmsManager sms = SmsManager.getDefault();
             ArrayList<String> messageParts = sms.divideMessage(strMessage);
             sms.sendTextMessage(strPhone, null, strMessage, sentPI, deliveredPI);
@@ -403,7 +398,6 @@ public class SOSFragment extends Fragment {
                 //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
             }
         }catch(Exception E){
-
         }
     }*/
 
@@ -443,19 +437,19 @@ public class SOSFragment extends Fragment {
 
         //builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
 
-            //public void onClick(DialogInterface dialog, int which) {
-               // dialog.dismiss();
-                // Display system runtime permission request?
+        //public void onClick(DialogInterface dialog, int which) {
+        // dialog.dismiss();
+        // Display system runtime permission request?
         if (makeSystemRequest) {
 
-                requestReadAndSendSmsPermission();
-                    //sendTextMessage();
+            requestReadAndSendSmsPermission();
+            //sendTextMessage();
         }
     }
-        //});
+    //});
 
-       // builder.setCancelable(false);
-       // builder.show();
+    // builder.setCancelable(false);
+    // builder.show();
     //}
 
 
@@ -482,8 +476,8 @@ public class SOSFragment extends Fragment {
                             (getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)) {
                 imageButton.setEnabled(false);
                 permissionsSnackbar.make(getActivity().findViewById(R.id.main_menu),
-                        "Please Grant Permissions to get your location and send messages",
-                        Snackbar.LENGTH_INDEFINITE).setAction("ENABLE",
+                        R.string.grant_permissions,
+                        Snackbar.LENGTH_INDEFINITE).setAction(R.string.enable_btn,
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -525,9 +519,9 @@ public class SOSFragment extends Fragment {
                     } else {
                         imageButton.setEnabled(false);
                         permissionsSnackbar = Snackbar.make(getActivity().findViewById(R.id.main_menu),
-                                "Please Grant Permissions to use GPS and send Messages",
+                                R.string.grant_permissions,
                                 Snackbar.LENGTH_INDEFINITE);
-                        permissionsSnackbar.setAction("ENABLE",
+                        permissionsSnackbar.setAction(R.string.enable_btn,
                                 new View.OnClickListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.M)
                                     @Override

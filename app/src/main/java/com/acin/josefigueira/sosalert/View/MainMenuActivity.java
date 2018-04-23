@@ -96,11 +96,11 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         }
         else if (id == R.id.language_pt){
             languages.setLocales("pt");
-            startActivity(new Intent(MainMenuActivity.this,MainMenuActivity.class));
+            recreate();
         }
         else if (id == R.id.language_en){
             languages.setLocales("en");
-            startActivity(new Intent(MainMenuActivity.this,MainMenuActivity.class));
+            recreate();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_menu);

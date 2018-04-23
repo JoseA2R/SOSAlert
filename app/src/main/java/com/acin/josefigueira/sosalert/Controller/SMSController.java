@@ -25,6 +25,9 @@ import com.acin.josefigueira.sosalert.R;
 import com.acin.josefigueira.sosalert.View.SOSActivity;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import static android.app.PendingIntent.getBroadcast;
 
 /**
  * Created by jose.figueira on 03-04-2018.
@@ -74,70 +77,75 @@ public class SMSController {
         String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
 
         try {
+            SmsManager sms = SmsManager.getDefault();
+            ArrayList<String> messageParts = sms.divideMessage(strMessage);
+            int partsCount = messageParts.size();
             String SENT = "SMS_SENT";
             String DELIVERED = "SMS_DELIVERED";
-            PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, new Intent(SENT), 0);
-            PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,new Intent(DELIVERED), 0);
-
+            ArrayList<PendingIntent> sentPendings = new ArrayList<PendingIntent>(partsCount);
+            ArrayList<PendingIntent> deliveredPendings = new ArrayList<PendingIntent>(partsCount);
 
 // ---when the SMS has been sent---
-            BroadcastReceiver sendSMS = new BroadcastReceiver() {
-                @Override
-                public void onReceive(Context context,Intent sentPI)
-                {
-                    switch(getResultCode())
-                    {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(mContext,"Message Sent",Toast.LENGTH_LONG).show();
-                            toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM,300);
-                            break;
-                        case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            Toast.makeText(mContext, "Generic failure",Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            Toast.makeText(mContext,"     No Service\nMessage NOT Sent",Toast.LENGTH_LONG).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_NULL_PDU:
-                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
-                            break;
-                        case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            Toast.makeText(mContext,"        Radio Off\nMessage NOT Sent",Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
-            };
-            // ---when the SMS has been delivered---
-            BroadcastReceiver deliverSMS = new BroadcastReceiver()
-            {
+            for (int i = 0; i < partsCount; i++) {
 
-                @Override
-                public void onReceive(Context arg0,Intent arg1)
-                {
-                    switch(getResultCode())
-                    {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(mContext,"Message delivered",Toast.LENGTH_LONG).show();
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            Toast.makeText(mContext,"Message NOT delivered",Toast.LENGTH_LONG).show();
-                            break;
+                PendingIntent sentPI = getBroadcast(mContext, 0, new Intent(SENT), 0);
+                mContext.registerReceiver(new BroadcastReceiver() {
+                    @Override
+                    public void onReceive(Context context, Intent sentPI) {
+                        switch (getResultCode()) {
+                            case Activity.RESULT_OK:
+                                Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show();
+                                toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 300);
+                                break;
+                            case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+                                Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
+                                break;
+                            case SmsManager.RESULT_ERROR_NO_SERVICE:
+                                Toast.makeText(mContext, "     No Service\nMessage NOT Sent", Toast.LENGTH_LONG).show();
+                                break;
+                            case SmsManager.RESULT_ERROR_NULL_PDU:
+                                Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
+                                break;
+                            case SmsManager.RESULT_ERROR_RADIO_OFF:
+                                Toast.makeText(mContext, "        Radio Off\nMessage NOT Sent", Toast.LENGTH_LONG).show();
+                                break;
+                        }
                     }
-                }
-            };
+                }, new IntentFilter("SENT"));
+
+                sentPendings.add(sentPI);
+                // ---when the SMS has been delivered---
+                PendingIntent deliveredPI = getBroadcast(mContext, 0,new Intent(DELIVERED), 0);
+                mContext.registerReceiver(new BroadcastReceiver() {
+
+                    @Override
+                    public void onReceive(Context arg0, Intent arg1) {
+                        switch (getResultCode()) {
+                            case Activity.RESULT_OK:
+                                Toast.makeText(mContext, "Message delivered", Toast.LENGTH_LONG).show();
+                                break;
+                            case Activity.RESULT_CANCELED:
+                                Toast.makeText(mContext, "Message NOT delivered", Toast.LENGTH_LONG).show();
+                                break;
+                        }
+                    }
+                }, new IntentFilter(DELIVERED));
+
+                deliveredPendings.add(deliveredPI);
+            }
 
             //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
             // ---Notify when the SMS has been sent---
-            mContext.registerReceiver(sendSMS, new IntentFilter(SENT));
+            //mContext.registerReceiver(sendSMS, new IntentFilter(SENT));
 
             // ---Notify when the SMS has been delivered---
-            mContext.registerReceiver(deliverSMS, new IntentFilter(DELIVERED));
+            //mContext.registerReceiver(deliverSMS, new IntentFilter(DELIVERED));
 
-            SmsManager sms = SmsManager.getDefault();
-            ArrayList<String> messageParts = sms.divideMessage(strMessage);
-            sms.sendTextMessage(strPhone, null, strMessage, sentPI, deliveredPI);
+            //ArrayList<String> messageParts = sms.divideMessage(strMessage);
+            sms.sendMultipartTextMessage(strPhone, null, messageParts, sentPendings, deliveredPendings);
             //Toast.makeText(getActivity(), "The SMS was sent successfully", Toast.LENGTH_LONG).show();
-            if (phone != "") {
-                sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
+            if (!phone.equals("")) {
+                sms.sendMultipartTextMessage(strPhone2, null, messageParts, sentPendings, deliveredPendings);
                 //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
             }
         }catch(Exception E){

@@ -162,20 +162,21 @@ public class FormActivity extends AppCompatActivity {
 
     public boolean validate(){
         boolean valid = true;
-        if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Z ]+$")){
-            etFName.setError("Please Enter a valid name");
+        if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Zç\\p{L} ]+$")){
+            System.out.println("\\w+");
+            etFName.setError(getString(R.string.valid_fname));
             valid = false;
         }
-        if(lname.isEmpty() || lname.length()>40 || !lname.matches("[a-zA-Z ]+$")){
-            etLName.setError("Please Enter a valid name");
+        if(lname.isEmpty() || lname.length()>40 || !lname.matches("[a-zA-Zç\\p{L} ]+$")){
+            etLName.setError(getString(R.string.valid_lname));
             valid = false;
         }
-        if(description.length()>350 || !description.matches("[- a-zA-Z0-9ç.',:¡!¿?()+\n]*")) {
-            etDescription.setError("Please Enter a valid Description");
+        if(description.length()>350 || !description.matches("[- a-zA-Z0-9ç.',:¡!¿?()+\n\\p{L}]*")) {
+            etDescription.setError(getString(R.string.valid_description));
             valid = false;
         }
         if(phone.length()>15 || !phone.matches("[0-9+]*")){
-            etPhone.setError("Please enter a valid Phone Number");
+            etPhone.setError(getString(R.string.valid_phonenumber));
             valid = false;
         }
 

@@ -1,6 +1,7 @@
 package com.acin.josefigueira.sosalert.View;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -9,6 +10,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
@@ -57,12 +59,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
         //((TextView) parent.getChildAt(pos)).setTextColor(Color.WHITE);
         item = spinner.getSelectedItem().toString();
-        if (item.equals("English")) {
+        if (item.contains("English") || item.contains("Inglês")) {
             languages.setLocales("en");
             //recreate();
             startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
-        else if (item.equals("Portuguese")){
+        else if (item.contains("Portuguese") || item.contains("Português")){
             languages.setLocales("pt");
             //recreate();
             startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));

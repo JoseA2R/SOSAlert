@@ -32,4 +32,13 @@
     </string-array>
     <string name="portuguese">Português</string>
     <string name="english">Inglês</string>
+    <string name="valid_fname">Insira um nome próprio válido</string>
+    <string name="valid_lname">Insira um sobrenome válido</string>
+    <string name="valid_description">Insira uma descriçao válida</string>
+    <string name="valid_phonenumber">Insira um número de telefone válido</string>
+    <string name="gps_disabled">O GPS está desativado.\nDeseja ativa-lo?</string>
+    <string name="yes_btn">Sim</string>
+    <string name="no_btn">Não</string>
+    <string name="grant_permissions">Por favor dê permissão para utilizar o GPS e enviar mensagens.</string>
+    <string name="enable_btn">PERMITIR</string>
 </resources>

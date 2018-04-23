@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.acin.josefigueira.sosalert">
 
     <uses-permission android:name="android.permission.SEND_SMS"/>
@@ -18,11 +19,11 @@
 
 
     <application
-        android:allowBackup="true"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <activity android:name=".View.MainActivity">
@@ -47,7 +48,8 @@
         <activity
             android:name=".View.MainMenuActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize"
+            android:configChanges="orientation|screenSize" />
 
     </application>
 

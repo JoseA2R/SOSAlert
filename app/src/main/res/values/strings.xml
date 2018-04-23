@@ -34,6 +34,15 @@
     <string name="tv_personal_data">PERSONAL DATA</string>
     <string name="portuguese">Portuguese</string>
     <string name="english">English</string>
+    <string name="valid_fname">Please Enter a valid first name</string>
+    <string name="valid_lname">Please Enter a valid last name</string>
+    <string name="valid_description">Please Enter a valid Description</string>
+    <string name="valid_phonenumber">Please enter a valid Phone Number</string>
+    <string name="gps_disabled">GPS module is disabled.\nWould you like to enable it?</string>
+    <string name="yes_btn">Yes</string>
+    <string name="no_btn">No</string>
+    <string name="grant_permissions">Please Grant Permissions to use GPS and send Messages</string>
+    <string name="enable_btn">ENABLE</string>
 
 
 </resources>
