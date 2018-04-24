@@ -46,6 +46,7 @@ import java.util.ArrayList;
 import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Classes.MyLocation;
 import com.acin.josefigueira.sosalert.Classes.ServiceLocationListener;
+import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
 import android.widget.Toast;
@@ -89,6 +90,7 @@ public class SOSFragment extends Fragment {
 
     private SMSController smsController;
     private UserController userController;
+    private GPSController gpsController;
     SharedPreferences SPreferences;
     ArrayList<String> userData;
     ArrayList<String> locData;
@@ -101,7 +103,6 @@ public class SOSFragment extends Fragment {
     String numcountdown;
     private Button cancelBtn;
     private TextView txtCountDown;
-    public TextView txtSendMessage;
     private TextView txtLongitude;
     private TextView txtLatitude;
 
@@ -145,10 +146,10 @@ public class SOSFragment extends Fragment {
         txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
         txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
-        txtSendMessage = (TextView) view.findViewById(R.id.sending_sms_tv);
         layoutView = view;
         mContext = getActivity();
         userController = new UserController(mContext);
+        gpsController = new GPSController(mContext);
         checkAndroidVersion();
 
 
@@ -164,7 +165,7 @@ public class SOSFragment extends Fragment {
 
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
-                    checkAndroidVersion();
+                    //checkAndroidVersion();
                     toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
 
                     new CountDownTimer(4000,1000){
@@ -259,8 +260,6 @@ public class SOSFragment extends Fragment {
                                 AlertDialog alert = builder.create();
                                 alert.show();
                             }else {
-                                txtSendMessage.setVisibility(View.VISIBLE);
-                                txtSendMessage.setText("Sending Message");
                                 txtCountDown.setText("");
                                 button_sos.setVisibility(View.INVISIBLE);
                                 imageButton.setEnabled(true);
@@ -279,12 +278,13 @@ public class SOSFragment extends Fragment {
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
                                             smsController.sendTextMessage();
-                                            txtSendMessage.setVisibility(View.INVISIBLE);
+                                            smsController.unregisterSentReceiver();
+                                            smsController.unregisterDeliveredReceiver();
                                         } catch(NullPointerException ex ){
                                         }
-                                //OJO CON EL CONTROLADOR DE MENSAJES
-                                //sendTextMessage();
-                                }
+                                        //OJO CON EL CONTROLADOR DE MENSAJES
+                                        //sendTextMessage();
+                                    }
                                 };
                                 myLocation.getLocation(mContext, locationResult);
                             }
@@ -501,6 +501,28 @@ public class SOSFragment extends Fragment {
             }
         } else {
             // write your logic code if permission already granted
+            locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+            GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            if (GpsStatus == false) {
+                gpsController.showSettingsAlert();
+            }else{
+                MyLocation myLocation = new MyLocation();
+                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                    @Override
+                    public void gotLocation(Location location) {
+                        //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
+                        //txtLongitude.setText("Longitude: " + longitude);
+                        //txtLatitude.setText("Latitude: " +latitude);
+                        try {
+                            latitude = (float) location.getLatitude();
+                            longitude = (float) location.getLongitude();
+                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
+                        } catch(NullPointerException ex ){
+                        }
+                    }
+                };
+                myLocation.getLocation(mContext, locationResult);
+            }
         }
     }
 
@@ -552,6 +574,7 @@ public class SOSFragment extends Fragment {
     public void onPause() {
 
         super.onPause();
+
 
     }
 

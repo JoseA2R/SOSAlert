@@ -43,6 +43,7 @@
     <string name="no_btn">No</string>
     <string name="grant_permissions">Please Grant Permissions to use GPS and send Messages</string>
     <string name="enable_btn">ENABLE</string>
+    <string name="sending_message_txt">Sending Message</string>
 
 
 </resources>

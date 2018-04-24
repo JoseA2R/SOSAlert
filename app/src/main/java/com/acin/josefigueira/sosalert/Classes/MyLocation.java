@@ -6,6 +6,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 
+import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
+import com.acin.josefigueira.sosalert.View.MainActivity;
+import com.acin.josefigueira.sosalert.View.MainMenuActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.Timer;
@@ -22,6 +25,8 @@ public class MyLocation {
     LocationResult locationResult;
     boolean gps_enabled = false;
     boolean network_enabled = false;
+    //SOSFragment sosFragment = new SOSFragment(getActivity());
+    MainMenuActivity mainMenu = new MainMenuActivity();
 
     public boolean getLocation(Context context, LocationResult result) {
         //I use LocationResult callback class to pass location value from MyLocation to user code.
@@ -49,7 +54,7 @@ public class MyLocation {
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
 
         timer1 = new Timer();
-        timer1.schedule(new GetLastLocation(), 10000);
+        timer1.schedule(new GetLastLocation(), 5000);
         return true;
     }
 
@@ -75,6 +80,7 @@ public class MyLocation {
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
+
             locationManager.removeUpdates(locationListener);
 
             Location networkLocation = null, gpsLocation = null;
@@ -101,6 +107,7 @@ public class MyLocation {
                 return;
             }
             locationResult.gotLocation(null);
+
         }
     }
 

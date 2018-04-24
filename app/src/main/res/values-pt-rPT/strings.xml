@@ -41,4 +41,5 @@
     <string name="no_btn">Não</string>
     <string name="grant_permissions">Por favor dê permissão para utilizar o GPS e enviar mensagens.</string>
     <string name="enable_btn">PERMITIR</string>
+    <string name="sending_message_txt">Enviando Mensagem</string>
 </resources>

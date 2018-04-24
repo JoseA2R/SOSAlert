@@ -40,7 +40,7 @@ public class GPSController{
 
     public GPSController(Context context) {
         this.context = context;
-        getLocation();
+        //getLocation();
     }
 
 
@@ -204,8 +204,6 @@ public class GPSController{
         // Showing Alert Message
         alertDialog.show();
     }
- //http://maps.google.com/?q=<lat>,<lng>
-//http://maps.google.com/?q=32.6754678,-17.0637247
 }
 
 
