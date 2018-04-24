@@ -17,8 +17,10 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.telephony.SmsManager;
+import android.view.View;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.Model.UserModel;
 import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
@@ -36,6 +38,7 @@ import static android.app.PendingIntent.getBroadcast;
 public class SMSController {
 
     private User user;
+    SOSFragment sosFragment;
     UserModel model;
     SharedPreferences SPreferences;
     SharedPreferences.Editor editorPreferences;
@@ -46,7 +49,7 @@ public class SMSController {
 
     ArrayList<String> userData;
 
-    final ToneGenerator toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
+    private ToneGenerator toneBeep;
 
     public void SMSController(Context context){
         mContext = context;
@@ -58,7 +61,9 @@ public class SMSController {
 
         UserController userController = new UserController(mContext);
         SPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
         userData = userController.getData();
+
         //locData = userController.getLocation();
 
         for (int i=0; i <= 4; i++){
@@ -94,20 +99,20 @@ public class SMSController {
                     public void onReceive(Context context, Intent sentPI) {
                         switch (getResultCode()) {
                             case Activity.RESULT_OK:
-                                Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "Message Sent", Toast.LENGTH_SHORT).show();
                                 toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 300);
                                 break;
                             case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                                 Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
                                 break;
                             case SmsManager.RESULT_ERROR_NO_SERVICE:
-                                Toast.makeText(mContext, "     No Service\nMessage NOT Sent", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "     No Service\nMessage NOT Sent", Toast.LENGTH_SHORT).show();
                                 break;
                             case SmsManager.RESULT_ERROR_NULL_PDU:
                                 Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
                                 break;
                             case SmsManager.RESULT_ERROR_RADIO_OFF:
-                                Toast.makeText(mContext, "        Radio Off\nMessage NOT Sent", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "        Radio Off\nMessage NOT Sent", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -122,10 +127,10 @@ public class SMSController {
                     public void onReceive(Context arg0, Intent arg1) {
                         switch (getResultCode()) {
                             case Activity.RESULT_OK:
-                                Toast.makeText(mContext, "Message delivered", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "Message delivered", Toast.LENGTH_SHORT).show();
                                 break;
                             case Activity.RESULT_CANCELED:
-                                Toast.makeText(mContext, "Message NOT delivered", Toast.LENGTH_LONG).show();
+                                Toast.makeText(mContext, "Message NOT delivered", Toast.LENGTH_SHORT).show();
                                 break;
                         }
                     }
@@ -151,6 +156,10 @@ public class SMSController {
         }catch(Exception E){
 
         }
+    }
+
+    public void isMessageSent(Boolean message){
+
     }
     
 }

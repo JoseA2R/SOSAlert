@@ -101,6 +101,7 @@ public class SOSFragment extends Fragment {
     String numcountdown;
     private Button cancelBtn;
     private TextView txtCountDown;
+    public TextView txtSendMessage;
     private TextView txtLongitude;
     private TextView txtLatitude;
 
@@ -144,6 +145,7 @@ public class SOSFragment extends Fragment {
         txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
         txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
         txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
+        txtSendMessage = (TextView) view.findViewById(R.id.sending_sms_tv);
         layoutView = view;
         mContext = getActivity();
         userController = new UserController(mContext);
@@ -177,7 +179,7 @@ public class SOSFragment extends Fragment {
                                     txtCountDown.setText("");
                                     imageButton.setEnabled(true);
                                     imageButton.setImageResource(R.drawable.sos_btn);
-                                    //toneBeep.stopTone();
+                                    //toneBeep.stopTone();tranquis
                                     toneBeep.release();
                                     cancel();
                                 }
@@ -257,8 +259,10 @@ public class SOSFragment extends Fragment {
                                 AlertDialog alert = builder.create();
                                 alert.show();
                             }else {
-                                button_sos.setVisibility(View.INVISIBLE);
+                                txtSendMessage.setVisibility(View.VISIBLE);
+                                txtSendMessage.setText("Sending Message");
                                 txtCountDown.setText("");
+                                button_sos.setVisibility(View.INVISIBLE);
                                 imageButton.setEnabled(true);
                                 imageButton.setImageResource(R.drawable.sos_btn);
                                 MyLocation myLocation = new MyLocation();
@@ -275,6 +279,7 @@ public class SOSFragment extends Fragment {
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
                                             smsController.sendTextMessage();
+                                            txtSendMessage.setVisibility(View.INVISIBLE);
                                         } catch(NullPointerException ex ){
                                         }
                                 //OJO CON EL CONTROLADOR DE MENSAJES
@@ -282,13 +287,12 @@ public class SOSFragment extends Fragment {
                                 }
                                 };
                                 myLocation.getLocation(mContext, locationResult);
-
                             }
 
                             //showRequestPermissionsInfoAlertDialog();
                         }
-                    }.start();
 
+                    }.start();
                 }
                 return true;
 

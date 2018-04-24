@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.R;
@@ -53,11 +55,11 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         spinner.setAdapter(adapter);
         languages = new Languages();
         languages.Languages(this);
-
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
         //((TextView) parent.getChildAt(pos)).setTextColor(Color.WHITE);
+        //((TextView)parent.getChildAt(pos)).setTextColor(Color.parseColor("#FFFFFF"));
         item = spinner.getSelectedItem().toString();
         if (item.contains("English") || item.contains("Inglês")) {
             languages.setLocales("en");

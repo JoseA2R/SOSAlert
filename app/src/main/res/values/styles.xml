@@ -36,4 +36,8 @@
         <item name="android:src">@drawable/firefighter_waiting_next_call</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:windowBackground">@drawable/bg_splash</item>
+    </style>
+
 </resources>

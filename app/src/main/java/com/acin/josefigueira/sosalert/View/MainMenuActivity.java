@@ -10,6 +10,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -35,15 +36,11 @@ import com.acin.josefigueira.sosalert.R;
 
 public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    private static final int SMS_PERMISSION_CODE = 123;
-
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
-    View view;
-    SMSController smscontroller;
-    SOSFragment fragmentSos = new SOSFragment();
     Languages languages;
+    Snackbar snackbar;
     FragmentManager fragmentManager;
     NavigationView navigationView;
 
@@ -106,7 +103,6 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.main_menu);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-
     }
 
     public void setSupportActionBar(Toolbar mToolbar) {
@@ -125,20 +121,9 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
     }
 
-
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
         Toast.makeText(this, "Enter Parent Context", Toast.LENGTH_LONG).show();
-        /*List<android.support.v4.app.Fragment> fragments = getSupportFragmentManager().getFragments();
-        if (fragments != null){
-            //for (android.support.v4.app.Fragment fragment : fragments){
-                fragmentSos.setContext(this);
-                fragmentSos.onRequestPermissionsResult(requestCode,permissions,grantResults);
-            //}*/
-
-
-        //}
     }
-
 }
