@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/firefighter_waiting_next_call"
+    android:background="@mipmap/firefighter_waiting_next_call"
     android:orientation="vertical"
     tools:context="com.acin.josefigueira.sosalert.View.WelcomeMainActivity">
 

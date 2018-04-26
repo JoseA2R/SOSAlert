@@ -26,7 +26,7 @@
     <string name="tv_personal_data">DADOS PESSOAIS</string>
 
     <string-array name="languages_array">
-        <item>-selecione-</item>
+        <item>Idioma</item>
         <item>Português</item>
         <item>Inglês</item>
     </string-array>

@@ -13,11 +13,8 @@
     </item>
 
     <item android:drawable="@drawable/ic_logo_sos"
-        android:gravity="center">
-
+        android:gravity="center"
+        android:bottom="60dp">
     </item>
 
 </layer-list>
-
-
-

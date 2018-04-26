@@ -14,6 +14,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -30,6 +31,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
     Spinner spinner;
     String item;
+    Button _btn;
     Languages languages;
 
     @Override
@@ -48,13 +50,27 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         }
         setContentView(R.layout.initial_mainpage);
 
+        _btn = findViewById(R.id.select_language_btn);
         spinner = (Spinner) findViewById(R.id.language_spinner);
         spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.languages_array,android.R.layout.simple_spinner_item);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.languages_array,R.layout.spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         languages = new Languages();
         languages.Languages(this);
+
+
+
+        _btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
+                //Iniciar actividad con el FormActivity
+
+                startActivity(new Intent(MainActivity.this,FormActivity.class));
+            }
+        });
     }
 
     public void onItemSelected(AdapterView<?> parent, View view, int pos, long id){
@@ -64,12 +80,12 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         if (item.contains("English") || item.contains("Inglês")) {
             languages.setLocales("en");
             //recreate();
-            startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
+            //startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
         else if (item.contains("Portuguese") || item.contains("Português")){
             languages.setLocales("pt");
             //recreate();
-            startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
+            //startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
     }
 
