@@ -162,12 +162,12 @@ public class FormActivity extends AppCompatActivity {
 
     public boolean validate(){
         boolean valid = true;
-        if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Zç\\p{L} ]+$")){
+        if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Zç\\p{L} ]+$") || fname.trim() == ""){
             System.out.println("\\w+");
             etFName.setError(getString(R.string.valid_fname));
             valid = false;
         }
-        if(lname.isEmpty() || lname.length()>40 || !lname.matches("[a-zA-Zç\\p{L} ]+$")){
+        if(lname.isEmpty() || lname.length()>40 || !lname.matches("[a-zA-Zç\\p{L} ]+$") || lname.trim() == ""){
             etLName.setError(getString(R.string.valid_lname));
             valid = false;
         }

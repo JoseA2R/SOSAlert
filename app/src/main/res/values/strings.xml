@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SOSAlert</string>
+    <string name="app_name">SOS Button</string>
     <string name="welcome_alert">WELCOME</string>
     <string name="select_language">Select Language</string>
     <string name="text_data">Insert your Personal Data</string>
@@ -7,7 +7,7 @@
     <string name="text_click_button">CLICK THE BUTTON TO SEND HELP</string>
     <string name="first_names">First Names</string>
     <string name="last_names">Last Names</string>
-    <string name="edit_comments">Provide any comments here (allergies, type of blood, etc.)</string>
+    <string name="edit_comments">Comments (alergies, type of blood...)</string>
     <string name="phone_number">Emergency Phone Number</string>
     <string name="next_btn">NEXT</string>
     <string name="next_btn1">NEXT</string>

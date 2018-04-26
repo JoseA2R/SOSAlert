@@ -13,6 +13,7 @@ import com.acin.josefigueira.sosalert.R;
 
 public class SplashActivity extends AppCompatActivity {
     private boolean splashLoaded = false;
+    private Intent goToMainActivity;
 
     @Override
     public void onCreate(Bundle savedInstance){
@@ -29,7 +30,7 @@ public class SplashActivity extends AppCompatActivity {
             },secondsDelayed * 1000);
             splashLoaded = true;
         }else{
-            Intent goToMainActivity = new Intent(SplashActivity.this, MainActivity.class);
+            goToMainActivity = new Intent(SplashActivity.this, MainActivity.class);
             goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(goToMainActivity);
             finish();

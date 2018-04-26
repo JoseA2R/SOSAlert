@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SOSAlert</string>
+    <string name="app_name">SOS Button</string>
     <string name="welcome_alert">BEM VINDO</string>
     <string name="select_language">Selecionar idioma</string>
     <string name="text_data">Insira dados pessoais</string>
@@ -8,7 +8,7 @@
     <string name="text_click_button">CLIQUE PARA PEDIR SOCORRO</string>
     <string name="first_names">Nomes próprios</string>
     <string name="last_names">Sobrenomes</string>
-    <string name="edit_comments">Acrescente comentários aqui (alergias, tipo sanguíneo, etc.)</string>
+    <string name="edit_comments">Observação (alergias, tipo sanguíneo...)</string>
     <string name="phone_number">Número de telephone de emergência</string>
     <string name="next_btn">SEGUINTE</string>
     <string name="next_btn1">SEGUINTE</string>
@@ -22,7 +22,7 @@
     <string name="open">Abrir</string>
     <string name="close">Fechar</string>
     <string name="cancel">Cancelar</string>
-    <string name="tv_insert_your">INSERE OS SEUS</string>
+    <string name="tv_insert_your">INSIRA OS SEUS</string>
     <string name="tv_personal_data">DADOS PESSOAIS</string>
 
     <string-array name="languages_array">

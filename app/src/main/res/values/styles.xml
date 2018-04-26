@@ -32,12 +32,12 @@
     </style>
 
     <style name="CustomFirefighterCircle">
-        <item name="android:background">@drawable/custom_firefighter_cut</item>
+        <item name="android:background">@drawable/logo_sos_app</item>
         <item name="android:src">@drawable/firefighter_waiting_next_call</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:windowBackground">@drawable/bg_splash</item>
+        <item name="android:background">@drawable/logo_sos_app</item>
     </style>
 
 </resources>
