@@ -24,13 +24,13 @@ public class SplashActivity extends AppCompatActivity {
             int secondsDelayed = 1;
             new Handler().postDelayed(new Runnable(){
                 public void run(){
-                    startActivity(new Intent(SplashActivity.this,MainActivity.class));
+                    startActivity(new Intent(SplashActivity.this,MainMenuActivity.class));
                     finish();
                 }
             },secondsDelayed * 1000);
             splashLoaded = true;
         }else{
-            goToMainActivity = new Intent(SplashActivity.this, MainActivity.class);
+            goToMainActivity = new Intent(SplashActivity.this, MainMenuActivity.class);
             goToMainActivity.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
             startActivity(goToMainActivity);
             finish();

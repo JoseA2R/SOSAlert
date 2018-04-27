@@ -59,7 +59,19 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         mToolbar.setTitle("");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close)/*{
+            @Override
+            public void onDrawerOpened(View drawerView){
+                super.onDrawerOpened(drawerView);
+                getSupportActionBar().setTitle("Menu");
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView){
+                getSupportActionBar().setTitle("");
+                super.onDrawerClosed(drawerView);
+            }
+        }*/;
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
 

@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .getBoolean("isfirstrun",true);
 
         if (!isFirstRun) {
-            startActivity(new Intent(MainActivity.this,MainMenuActivity.class));
+            startActivity(new Intent(MainActivity.this,SplashActivity.class));
         }
         setContentView(R.layout.initial_mainpage);
 

@@ -17,10 +17,11 @@
             android:layout_height="match_parent"
             android:fillViewport="true">
 
-        <include
-            layout="@layout/navigation_action"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            <include
+                layout="@layout/navigation_action"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Menu" />
 
         </ScrollView>
 
@@ -32,9 +33,17 @@
         android:layout_height="match_parent"
         android:background="#e0e0e0"
         app:menu="@menu/navigation_menu"
-        android:text="Menu"
         android:layout_gravity="start">
 
+        <!--<ExpandableListView
+            android:id="@+id/nav_list"
+            android:background="@color/white"
+            android:dividerHeight="0.5dp"
+            android:indicatorLeft="?android:expandableListPreferredChildIndicatorLeft"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/> -->
+
     </android.support.design.widget.NavigationView>
+
 
 </android.support.v4.widget.DrawerLayout>
