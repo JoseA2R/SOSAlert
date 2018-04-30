@@ -8,6 +8,7 @@
     app:layout_scrollFlags="scroll|enterAlways"
     android:theme="@style/AppTheme.ActionBar.Transparent"
     android:fitsSystemWindows="true"
+    android:background="@drawable/background_example"
     android:id="@+id/mainbtnlayout">
 
     <ScrollView
@@ -21,7 +22,6 @@
             android:id="@+id/parent_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/background_example"
             android:orientation="vertical">
 
             <TextView
@@ -29,7 +29,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginTop="150dp"
+                android:layout_marginTop="90dp"
                 android:text="@string/tv_insert_your"
                 android:textColor="@color/white"
                 android:textSize="28sp"
