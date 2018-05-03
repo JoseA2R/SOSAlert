@@ -67,8 +67,8 @@ public class UserController {
         String country;
         for( Locale loc : locale ){
             country = loc.getDisplayCountry();
-            if( country.length() > 2 && !countries.contains(country)){
-                countries.add( country );
+            if( country.trim().length() > 0  && !countries.contains(country)){
+                countries.add(country);
             }
         }
         Collections.sort(countries, String.CASE_INSENSITIVE_ORDER);

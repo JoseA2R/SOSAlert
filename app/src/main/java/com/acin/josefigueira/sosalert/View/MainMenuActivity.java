@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.support.design.widget.NavigationView;
@@ -56,7 +57,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         mToolbar = (Toolbar) findViewById(R.id.nav_action_bar);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle("");
+        mToolbar.setTitle("Menu");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close)/*{

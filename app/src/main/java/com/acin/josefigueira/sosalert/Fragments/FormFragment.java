@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
@@ -71,9 +72,21 @@ public class FormFragment extends Fragment{
         etPhone = view.findViewById(R.id.etPhone);
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controller = new UserController(getActivity().getBaseContext());
         insertData();
         return view;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig)
+    {
+        super.onConfigurationChanged(newConfig);
+        if ((newConfig.keyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO)&&(newConfig.keyboardHidden != Configuration.HARDKEYBOARDHIDDEN_NO))
+            Toast.makeText(getActivity(), "soft keyboard visible", Toast.LENGTH_SHORT).show();
+        else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
+            Toast.makeText(getActivity(), "soft keyboard hidden", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void insertData(){

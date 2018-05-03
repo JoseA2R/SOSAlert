@@ -21,8 +21,8 @@ public class WelcomeMainActivity extends AppCompatActivity {
 
 
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getSupportActionBar().hide();
+        //getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        //getSupportActionBar().hide();
         setContentView(R.layout.activity_mainpage);
 
         _btn = findViewById(R.id.app_start_btn);
