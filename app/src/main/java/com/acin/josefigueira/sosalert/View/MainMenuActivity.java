@@ -1,32 +1,19 @@
 package com.acin.josefigueira.sosalert.View;
 
-import android.Manifest;
-import android.app.AlertDialog;
 import android.app.FragmentManager;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.app.Fragment;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.SmsManager;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
-import java.util.*;
 
 import com.acin.josefigueira.sosalert.Classes.Languages;
-import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.Fragments.FormFragment;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.R;
@@ -55,9 +42,9 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         languages.loadLocales();
         setContentView(R.layout.main_menu);
 
-        mToolbar = (Toolbar) findViewById(R.id.nav_action_bar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        mToolbar.setTitle("Menu");
+        mToolbar.setTitle("");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close)/*{

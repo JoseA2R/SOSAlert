@@ -85,7 +85,7 @@ public class SOSFragment extends Fragment {
 
     Button button_sos;
     ImageButton imageButton;
-    TextView textView;
+    TextView sendingsms;
     public Location location;
     LocationManager locationManager;
     LocationListener listener;
@@ -105,8 +105,6 @@ public class SOSFragment extends Fragment {
     String numcountdown;
     private Button cancelBtn;
     private TextView txtCountDown;
-    private TextView txtLongitude;
-    private TextView txtLatitude;
 
     public ToneGenerator toneBeep;
 
@@ -146,8 +144,7 @@ public class SOSFragment extends Fragment {
         button_sos = view.findViewById(R.id.cancel_btn);
         button_sos.setVisibility(View.INVISIBLE);
         txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
-        txtLongitude = (TextView) view.findViewById(R.id.txtLongitude);
-        txtLatitude = (TextView) view.findViewById(R.id.txtLatitude);
+        sendingsms = view.findViewById(R.id.tv_sending_message);
         layoutView = view;
         mContext = getActivity();
         userController = new UserController(mContext);
@@ -266,6 +263,7 @@ public class SOSFragment extends Fragment {
                                 button_sos.setVisibility(View.INVISIBLE);
                                 imageButton.setEnabled(true);
                                 imageButton.setImageResource(R.drawable.sos_btn);
+                                //sendingsms.append("Sending Message");
                                 MyLocation myLocation = new MyLocation();
                                 MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                     @Override
@@ -282,6 +280,7 @@ public class SOSFragment extends Fragment {
                                             smsController.sendTextMessage();
                                             smsController.unregisterSentReceiver();
                                             smsController.unregisterDeliveredReceiver();
+                                            //sendingsms.setText("");
                                         } catch(NullPointerException ex ){
                                         }
                                         //OJO CON EL CONTROLADOR DE MENSAJES

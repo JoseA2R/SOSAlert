@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Handler;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -28,7 +30,7 @@ import com.acin.josefigueira.sosalert.R;
  * Created by jose.figueira on 26-03-2018.
  */
 
-public class FormActivity extends AppCompatActivity {
+public class FormActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
 
     Spinner spcountry;
@@ -37,7 +39,8 @@ public class FormActivity extends AppCompatActivity {
     Button btnNext;
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
-    String fname,lname,country,description,phone;
+    Toolbar mToolbar;
+    String fname,lname,country,description,phone,item;
     MainActivity main = new MainActivity();
     User user;
     UserController controller;
@@ -51,7 +54,6 @@ public class FormActivity extends AppCompatActivity {
         //main.loadLocales();
         setContentView(R.layout.activity_userdata);
 
-
         user = new User();
         controller = new UserController(this);
 
@@ -63,8 +65,15 @@ public class FormActivity extends AppCompatActivity {
         etPhone = (EditText) findViewById(R.id.etPhone);
         btnNext  = findViewById(R.id.btnNext);
 
+        /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle("Personal Data");
+        collapsingToolbarLayout.setTitleEnabled(true);*/
         parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
 
+        /*spcountry.setOnItemSelectedListener(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spcountry.setAdapter(adapter);*/
 
         setCountriesSpinner();
 
@@ -93,6 +102,7 @@ public class FormActivity extends AppCompatActivity {
 
 
     }
+
 
     public void setCountriesSpinner(){
 
@@ -194,5 +204,14 @@ public class FormActivity extends AppCompatActivity {
         etPhone.setText(controller.getPhone());
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+        item = spcountry.getSelectedItem().toString();
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
 

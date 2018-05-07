@@ -43,7 +43,7 @@
     <string name="enable_btn">ENABLE</string>
     <string name="sending_message_txt">Sending Message</string>
 
-    <string-array name="countries" formatted="false">
+    <string-array name="countries">
         <item>Afghanistan</item>
         <item>Albania</item>
         <item>Algeria</item>

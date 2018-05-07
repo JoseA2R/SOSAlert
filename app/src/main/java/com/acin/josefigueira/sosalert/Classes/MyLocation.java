@@ -49,9 +49,9 @@ public class MyLocation {
             return false;
 
         if (gps_enabled)
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
         if (network_enabled)
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
 
         timer1 = new Timer();
         timer1.schedule(new GetLastLocation(), 5000);

@@ -4,14 +4,9 @@
     package="com.acin.josefigueira.sosalert">
 
     <uses-permission android:name="android.permission.SEND_SMS"/>
-
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
-
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
@@ -51,7 +46,7 @@
         <activity
             android:name=".View.MainMenuActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="adjustResize"
             android:configChanges="orientation|screenSize" />
 
     </application>

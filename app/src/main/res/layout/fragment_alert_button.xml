@@ -65,7 +65,7 @@
         android:layout_marginBottom="20dp" />
 
     <TextView
-        android:id="@+id/sending_sms_tv"
+        android:id="@+id/tv_sending_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/cancel_btn"

@@ -1,5 +1,6 @@
 package com.acin.josefigueira.sosalert.Fragments;
 
+import android.support.v7.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +22,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.support.v7.widget.Toolbar;
 
+import com.acin.josefigueira.sosalert.Classes.KeyboardUtil;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
 import com.acin.josefigueira.sosalert.View.FormActivity;
-import com.acin.josefigueira.sosalert.View.SOSActivity;
 
 import static com.acin.josefigueira.sosalert.Fragments.SOSFragment.permissionsSnackbar;
 
@@ -33,7 +36,7 @@ import static com.acin.josefigueira.sosalert.Fragments.SOSFragment.permissionsSn
  * Created by jose.figueira on 03-04-2018.
  */
 
-public class FormFragment extends Fragment{
+public class FormFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     private View view;
 
@@ -47,7 +50,7 @@ public class FormFragment extends Fragment{
     User user;
     int selectedCountry;
     UserController controller;
-
+    KeyboardUtil keyboardUtil;
 
     Fragment fragment;
     FragmentManager fragmentManager;
@@ -72,17 +75,46 @@ public class FormFragment extends Fragment{
         etPhone = view.findViewById(R.id.etPhone);
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
+
+       /* Toolbar toolbar = (Toolbar)view.findViewById(R.id.fragmentToolbar);
+        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
+            ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
+
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controller = new UserController(getActivity().getBaseContext());
         insertData();
         return view;
     }
 
+    /*@Override
+    public void onResume() {
+        super.onResume();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
+    }
+    @Override
+    public void onStop() {
+        super.onStop();
+        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+    }*/
+
+    public int getStatusBarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+            result = getResources().getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig)
     {
         super.onConfigurationChanged(newConfig);
-        if ((newConfig.keyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO)&&(newConfig.keyboardHidden != Configuration.HARDKEYBOARDHIDDEN_NO))
+        keyboardUtil = new KeyboardUtil(getActivity(),
+                ((ViewGroup) view.findViewById(android.R.id.content)).getChildAt(0));
+
+        if ((newConfig.keyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO))
             Toast.makeText(getActivity(), "soft keyboard visible", Toast.LENGTH_SHORT).show();
         else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
             Toast.makeText(getActivity(), "soft keyboard hidden", Toast.LENGTH_SHORT).show();
@@ -93,32 +125,23 @@ public class FormFragment extends Fragment{
 
         setCountriesSpinner();
         fillData();
-        //parentLinearLayout = (LinearLayout) view.findViewById(R.id.parent_linear_layout);
-    /*    spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });*/
         btnNext.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 btnNextClicked();
-
-                //Toast.makeText(getActivity().getBaseContext(),controller.viewData(), Toast.LENGTH_LONG).show();
-                //fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
-                //startActivity(new Intent(FormFragment.this,SOSActivity.class));
             }
         });
     }
 
     public void setCountriesSpinner(){
 
-        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item, controller.getLocales());
+        /*spcountry.setOnItemSelectedListener(this);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spcountry.setAdapter(adapter);*/
+        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.spinner_item_black, controller.getLocales());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);
 
@@ -221,11 +244,6 @@ public class FormFragment extends Fragment{
     }
 
     @Override
-    public void onResume(){
-        super.onResume();
-    }
-
-    @Override
     public void onAttach(Context context) {
 
         super.onAttach(context);
@@ -239,4 +257,13 @@ public class FormFragment extends Fragment{
         super.onDestroy();
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> adapterView) {
+
+    }
 }
