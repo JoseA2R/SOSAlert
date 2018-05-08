@@ -278,8 +278,8 @@ public class SOSFragment extends Fragment {
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
                                             smsController.sendTextMessage();
-                                            smsController.unregisterSentReceiver();
-                                            smsController.unregisterDeliveredReceiver();
+                                            //smsController.unregisterSentReceiver();
+                                            //smsController.unregisterDeliveredReceiver();
                                             //sendingsms.setText("");
                                         } catch(NullPointerException ex ){
                                         }
@@ -296,8 +296,6 @@ public class SOSFragment extends Fragment {
                     }.start();
                 }
                 return true;
-
-
             }
 
         });

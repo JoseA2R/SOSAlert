@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/Gray</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="textColorError">@color/Error</item>
+        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
 
     </style>
 
@@ -16,7 +17,7 @@
         <item name="colorPrimary">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.TransparencyDemo" parent="@android:style/Theme.Holo.Light">
+    <style name="Theme.transparent" parent="@android:style/Theme.Holo.Light">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
     </style>

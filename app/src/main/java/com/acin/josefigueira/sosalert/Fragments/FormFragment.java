@@ -1,5 +1,11 @@
 package com.acin.josefigueira.sosalert.Fragments;
 
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.Color;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -11,6 +17,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +74,9 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
+
+        /*ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams( 0, 0 );
+        layoutParams.setMargins(0,25,0,0);*/
         view = inflater.inflate(R.layout.activity_userdata,container,false);
         etFName = view.findViewById(R.id.etFName);
         etLName = view.findViewById(R.id.etSName);
@@ -76,9 +86,16 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
 
-       /* Toolbar toolbar = (Toolbar)view.findViewById(R.id.fragmentToolbar);
-        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
+        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+
+        appBarLayout.setPadding(0,(int)px,0,0);
+
+        /*if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
@@ -98,14 +115,6 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         ((AppCompatActivity)getActivity()).getSupportActionBar().show();
     }*/
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig)

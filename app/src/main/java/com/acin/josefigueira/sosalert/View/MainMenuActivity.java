@@ -11,6 +11,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Classes.Languages;
@@ -44,10 +45,12 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mToolbar.setTitle("");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
-        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close)/*{
+
+        mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);/*{
             @Override
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
@@ -59,7 +62,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
                 getSupportActionBar().setTitle("");
                 super.onDrawerClosed(drawerView);
             }
-        }*/;
+        };*/
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setItemIconTintList(null);
 
@@ -67,7 +70,6 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         mToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         fragmentManager = getFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new SOSFragment()).commit();
         //fragmentSos.setContext(this);

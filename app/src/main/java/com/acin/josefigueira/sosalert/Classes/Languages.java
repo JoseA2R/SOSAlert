@@ -22,12 +22,12 @@ public class Languages {
 
     public void setLocales(String lang){
 
+        SharedPreferences.Editor editor = mContext.getSharedPreferences("Settings",MODE_PRIVATE).edit();
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
         mContext.getResources().updateConfiguration(config, mContext.getResources().getDisplayMetrics());
-        SharedPreferences.Editor editor = mContext.getSharedPreferences("Settings",MODE_PRIVATE).edit();
         editor.putString("lang",lang);
         editor.apply();
 
