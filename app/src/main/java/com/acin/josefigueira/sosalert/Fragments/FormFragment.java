@@ -1,11 +1,13 @@
 package com.acin.josefigueira.sosalert.Fragments;
 
+import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -18,10 +20,12 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -86,13 +90,12 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
 
-        Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
-        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
+        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
         appBarLayout.setPadding(0,(int)px,0,0);
 
         /*if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
@@ -100,6 +103,15 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controller = new UserController(getActivity().getBaseContext());
+        etFName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    hideKeyboard(v);
+                }
+            }
+        });
+
         insertData();
         return view;
     }
@@ -174,17 +186,16 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         //}
     }*/
 
-    public void onDelete(View v) {
-        parentLinearLayout.removeView((View) v.getParent());
+    public void hideKeyboard(View view) {
+        InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 
     public void btnNextClicked(){
 
         register();
 
     }
-
     public void register(){
         initialize();
         if (!validate()){

@@ -42,6 +42,7 @@
     <string name="grant_permissions">Please Grant Permissions to use GPS and send Messages</string>
     <string name="enable_btn">ENABLE</string>
     <string name="sending_message_txt">Sending Message</string>
+    <string name="tv_where_are_you">Where are You? (Testing)</string>
 
     <string-array name="countries">
         <item>Afghanistan</item>

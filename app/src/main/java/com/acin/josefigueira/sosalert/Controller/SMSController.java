@@ -1,6 +1,7 @@
 package com.acin.josefigueira.sosalert.Controller;
 
 import android.app.Activity;
+
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.Classes.SmsReceiver;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.Model.UserModel;
 import com.acin.josefigueira.sosalert.POJO.User;
@@ -32,7 +34,7 @@ public class SMSController {
     UserModel model;
     SharedPreferences SPreferences;
     SharedPreferences.Editor editorPreferences;
-    Context mContext;
+    public Context mContext;
     private String fname,lname,country,description,phone;
     private float longitude;
     private float latitude;
@@ -67,17 +69,19 @@ public class SMSController {
         phone = userData.get(4);
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
+        String place = userController.getPlace();
 
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
-        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
+        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + place;
 
         try {
             SmsManager sms = SmsManager.getDefault();
             ArrayList<String> messageParts = sms.divideMessage(strMessage);
             int partsCount = messageParts.size();
-            String SENT = "SMS_SENT";
-            String DELIVERED = "SMS_DELIVERED";
+            String SENT = "SENT";
+            String DELIVERED = "DELIVERED";
+
             ArrayList<PendingIntent> sentPendings = new ArrayList<PendingIntent>(partsCount);
             ArrayList<PendingIntent> deliveredPendings = new ArrayList<PendingIntent>(partsCount);
 
@@ -87,26 +91,26 @@ public class SMSController {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             Toast.makeText(mContext, "Message Sent", Toast.LENGTH_SHORT).show();
-                            //unregisterSentReceiver();
-                            //toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 300);
+                            toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 300);
+                            unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                             Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
-                            //unregisterSentReceiver();
+                            unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_NO_SERVICE:
                             Toast.makeText(mContext, "     No Service\n" +
                                     "Message NOT Sent", Toast.LENGTH_SHORT).show();
-                            //unregisterSentReceiver();
+                            unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_NULL_PDU:
                             Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
-                            //unregisterSentReceiver();
+                            unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_RADIO_OFF:
                             Toast.makeText(mContext, "        Radio Off\n" +
                                     "Message NOT Sent", Toast.LENGTH_SHORT).show();
-                            //unregisterSentReceiver();
+                            unregisterSentReceiver();
                             break;
                     }
                 }
@@ -118,25 +122,27 @@ public class SMSController {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             Toast.makeText(mContext, "Message delivered", Toast.LENGTH_SHORT).show();
-                            //unregisterDeliveredReceiver();
+                            unregisterDeliveredReceiver();
                             break;
                         case Activity.RESULT_CANCELED:
                             Toast.makeText(mContext, "Message NOT delivered", Toast.LENGTH_SHORT).show();
-                            //unregisterDeliveredReceiver();
+                            unregisterDeliveredReceiver();
                             break;
                     }
                 }
             };
 
+
+
+            mContext.registerReceiver(SentReceiver, new IntentFilter(SENT));
+            mContext.registerReceiver(DeliveredReceiver, new IntentFilter(DELIVERED));
 // ---when the SMS has been sent---
             for (int i = 0; i < partsCount; i++) {
                 // ---when the SMS has been sent---
-                PendingIntent sentPI = getBroadcast(mContext, 0, new Intent("SENT"), 0);
-                mContext.registerReceiver(SentReceiver, new IntentFilter(SENT));
+                PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, new Intent("SENT"), 0);
                 sentPendings.add(sentPI);
                 // ---when the SMS has been delivered---
-                PendingIntent deliveredPI = getBroadcast(mContext, 0,new Intent("DELIVERED"), 0);
-                mContext.registerReceiver(DeliveredReceiver, new IntentFilter(DELIVERED));
+                PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,new Intent("DELIVERED"), 0);
                 deliveredPendings.add(deliveredPI);
             }
 
@@ -149,12 +155,15 @@ public class SMSController {
 
             //ArrayList<String> messageParts = sms.divideMessage(strMessage);
             sms.sendMultipartTextMessage(strPhone, null, messageParts, sentPendings, deliveredPendings);
+
+
             //Toast.makeText(getActivity(), "The SMS was sent successfully", Toast.LENGTH_LONG).show();
             if (!phone.equals("")) {
                 sms.sendMultipartTextMessage(strPhone2, null, messageParts, sentPendings, deliveredPendings);
                 //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
             }
         }catch(Exception E){
+            E.printStackTrace();
         }
     }
 

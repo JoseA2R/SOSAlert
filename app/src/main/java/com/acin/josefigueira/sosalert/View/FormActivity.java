@@ -3,6 +3,7 @@ package com.acin.josefigueira.sosalert.View;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -65,6 +66,13 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         etPhone = (EditText) findViewById(R.id.etPhone);
         btnNext  = findViewById(R.id.btnNext);
 
+        setCountriesSpinner();
+
+        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+        collapsingToolbarLayout.setCollapsedTitleGravity(10);
+
         /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Personal Data");
         collapsingToolbarLayout.setTitleEnabled(true);*/
@@ -75,7 +83,7 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);*/
 
-        setCountriesSpinner();
+
 
         spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

@@ -7,7 +7,6 @@
         <item name="colorPrimaryDark">@color/Gray</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="textColorError">@color/Error</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
 
     </style>
 
@@ -39,7 +38,8 @@
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="android:background">@drawable/logo_sos_app</item>
+        <item name="android:windowBackground">@drawable/logo_sos_app</item>
+
     </style>
 
 </resources>

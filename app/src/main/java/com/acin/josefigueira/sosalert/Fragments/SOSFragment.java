@@ -85,7 +85,7 @@ public class SOSFragment extends Fragment {
 
     Button button_sos;
     ImageButton imageButton;
-    TextView sendingsms;
+    TextView sendingsms, FindingYou;
     public Location location;
     LocationManager locationManager;
     LocationListener listener;
@@ -110,6 +110,7 @@ public class SOSFragment extends Fragment {
 
     public static Snackbar permissionsSnackbar;
     private boolean GpsStatus;
+
 
     public void SOSFragment(){
 
@@ -145,6 +146,7 @@ public class SOSFragment extends Fragment {
         button_sos.setVisibility(View.INVISIBLE);
         txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
         sendingsms = view.findViewById(R.id.tv_sending_message);
+        FindingYou = view.findViewById(R.id.tv_are_you);
         layoutView = view;
         mContext = getActivity();
         userController = new UserController(mContext);
@@ -274,6 +276,7 @@ public class SOSFragment extends Fragment {
                                         try {
                                             latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
+                                            userController.setPlace(FindingYou.getText().toString());
                                             userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
@@ -282,6 +285,8 @@ public class SOSFragment extends Fragment {
                                             //smsController.unregisterDeliveredReceiver();
                                             //sendingsms.setText("");
                                         } catch(NullPointerException ex ){
+                                            ex.printStackTrace();
+                                            //Toast.makeText(mContext,"Latitude: " + latitude,Toast.LENGTH_LONG).show();
                                         }
                                         //OJO CON EL CONTROLADOR DE MENSAJES
                                         //sendTextMessage();
@@ -289,10 +294,8 @@ public class SOSFragment extends Fragment {
                                 };
                                 myLocation.getLocation(mContext, locationResult);
                             }
-
                             //showRequestPermissionsInfoAlertDialog();
                         }
-
                     }.start();
                 }
                 return true;
@@ -300,110 +303,16 @@ public class SOSFragment extends Fragment {
 
         });
 
-
+        FindingYou.setText("");
 
     }
 
-    /*private class CustomTask extends AsyncTask<void,void,void> {
-        @Override
-        protected void doInBackground(void... voids) {
-        }
-    }*/
 
     public void setContext(Context context){
 
         smsContext = context;
 
     }
-
-    public void checkIfEnabled(){
-
-
-    }
-
-    /*public void sendTextMessage(){
-        //Toast.makeText(getActivity().getBaseContext(), "Sent.", Toast.LENGTH_LONG).show();
-        SPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        userData = userController.getData();
-        //locData = userController.getLocation();
-        for (int i=0; i <= 4; i++){
-            System.out.println(userData.get(i));
-        }
-        fname = userData.get(0);
-        lname = userData.get(1);
-        country = userData.get(2);
-        description = userData.get(3);
-        phone = userData.get(4);
-        latitude = SPreferences.getFloat("latitude",0);
-        longitude = SPreferences.getFloat("longitude",0);
-        String strPhone = "+351965639423";
-        String strPhone2 =  phone;
-        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude;
-        try {
-            String SENT = "SMS_SENT";
-            String DELIVERED = "SMS_DELIVERED";
-            PendingIntent sentPI = PendingIntent.getBroadcast(mContext, 0, new Intent(SENT), 0);
-            PendingIntent deliveredPI = PendingIntent.getBroadcast(mContext, 0,new Intent(DELIVERED), 0);
-// ---when the SMS has been sent---
-        BroadcastReceiver sendSMS = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context,Intent sentPI)
-            {
-                switch(getResultCode())
-                {
-                case Activity.RESULT_OK:
-                    Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
-                    toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM,300);
-                    break;
-                case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                        Toast.makeText(getActivity(), "Generic failure",Toast.LENGTH_SHORT).show();
-                        break;
-                case SmsManager.RESULT_ERROR_NO_SERVICE:
-                        Toast.makeText(getActivity(),"     No Service\nMessage NOT Sent",Toast.LENGTH_LONG).show();
-                        break;
-                case SmsManager.RESULT_ERROR_NULL_PDU:
-                        Toast.makeText(getActivity(), "Null PDU", Toast.LENGTH_SHORT).show();
-                        break;
-                case SmsManager.RESULT_ERROR_RADIO_OFF:
-                        Toast.makeText(getActivity(),"        Radio Off\nMessage NOT Sent",Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-        };
-        // ---when the SMS has been delivered---
-        BroadcastReceiver deliverSMS = new BroadcastReceiver()
-            {
-                @Override
-                public void onReceive(Context arg0,Intent arg1)
-                {
-                    switch(getResultCode())
-                    {
-                        case Activity.RESULT_OK:
-                            Toast.makeText(getActivity(),"Message delivered",Toast.LENGTH_LONG).show();
-                            break;
-                        case Activity.RESULT_CANCELED:
-                            Toast.makeText(getActivity(),"Message NOT delivered",Toast.LENGTH_LONG).show();
-                            break;
-                    }
-                }
-            };
-        //Toast.makeText(getActivity(),"Message Sent",Toast.LENGTH_LONG).show();
-            // ---Notify when the SMS has been sent---
-            getActivity().registerReceiver(sendSMS, new IntentFilter(SENT));
-            // ---Notify when the SMS has been delivered---
-            getActivity().registerReceiver(deliverSMS, new IntentFilter(DELIVERED));
-            SmsManager sms = SmsManager.getDefault();
-            ArrayList<String> messageParts = sms.divideMessage(strMessage);
-            sms.sendTextMessage(strPhone, null, strMessage, sentPI, deliveredPI);
-            //Toast.makeText(getActivity(), "The SMS was sent successfully", Toast.LENGTH_LONG).show();
-            if (phone != "") {
-                sms.sendMultipartTextMessage(strPhone2, null, messageParts, null, null);
-                //Toast.makeText(getActivity(), "SMS failed, please try again later!", Toast.LENGTH_LONG).show();
-            }
-        }catch(Exception E){
-        }
-    }*/
-
 
     /**
      * Check if we have SMS permission
@@ -416,7 +325,6 @@ public class SOSFragment extends Fragment {
             return false;
         }
     }
-
     /**
      * Request runtime SMS permission
      */
@@ -434,26 +342,11 @@ public class SOSFragment extends Fragment {
     }
 
     public void showRequestPermissionsInfoAlertDialog(final boolean makeSystemRequest) {
-        //AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        //builder.setTitle(R.string.permission_alert_dialog_title); // Your own title
-        //builder.setMessage(R.string.permission_dialog_message); // Your own message
-
-        //builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
-
-        //public void onClick(DialogInterface dialog, int which) {
-        // dialog.dismiss();
-        // Display system runtime permission request?
         if (makeSystemRequest) {
-
             requestReadAndSendSmsPermission();
             //sendTextMessage();
         }
     }
-    //});
-
-    // builder.setCancelable(false);
-    // builder.show();
-    //}
 
 
     private void checkAndroidVersion() {

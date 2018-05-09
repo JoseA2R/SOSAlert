@@ -26,7 +26,7 @@ public class Languages {
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
-        config.locale = locale;
+        config.setLocale(locale);
         mContext.getResources().updateConfiguration(config, mContext.getResources().getDisplayMetrics());
         editor.putString("lang",lang);
         editor.apply();

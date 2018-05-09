@@ -86,6 +86,15 @@ public class UserController {
 
     }
 
+    public void setPlace(String place){
+        user.setPlace(place);
+    }
+
+    public String getPlace(){
+
+        return user.getPlace();
+    }
+
    /* public void setLocationData(double latitude, double longitude){
         user.setLatitude(latitude);
         user.setLongitude(longitude);

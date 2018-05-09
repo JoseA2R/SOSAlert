@@ -32,6 +32,9 @@ public class User {
     @SerializedName("longitude")
     @Expose
     private float longitude;
+    @SerializedName("place")
+    @Expose
+    private static String place;
 
     public String getFirstName() {return first_name; }
 
@@ -52,6 +55,10 @@ public class User {
     public String getPhone(){return phone; }
 
     public void setPhone(String phone){ this.phone = phone; }
+
+    public String getPlace(){ return place; }
+
+    public void setPlace(String place){ this.place = place; }
 
     public float getLatitude(){return latitude; }
 
