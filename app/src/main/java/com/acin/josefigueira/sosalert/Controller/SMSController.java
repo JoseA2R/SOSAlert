@@ -38,6 +38,7 @@ public class SMSController {
     private String fname,lname,country,description,phone;
     private float longitude;
     private float latitude;
+    private float precision;
 
     BroadcastReceiver DeliveredReceiver;
     BroadcastReceiver SentReceiver;
@@ -69,11 +70,12 @@ public class SMSController {
         phone = userData.get(4);
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
+        precision = SPreferences.getFloat("accuracy",0);
         String place = userController.getPlace();
 
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
-        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + place;
+        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + place + "\n" + precision;
 
         try {
             SmsManager sms = SmsManager.getDefault();

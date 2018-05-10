@@ -20,12 +20,11 @@ import java.util.TimerTask;
 
 public class MyLocation {
 
-    Timer timer1;
-    LocationManager locationManager;
-    LocationResult locationResult;
-    boolean gps_enabled = false;
-    boolean network_enabled = false;
-    //SOSFragment sosFragment = new SOSFragment(getActivity());
+    private Timer timer1;
+    private LocationManager locationManager;
+    private LocationResult locationResult;
+    private boolean gps_enabled = false;
+    private boolean network_enabled = false;
     MainMenuActivity mainMenu = new MainMenuActivity();
 
     public boolean getLocation(Context context, LocationResult result) {
@@ -33,28 +32,32 @@ public class MyLocation {
         locationResult = result;
         if (locationManager == null)
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-
         //exceptions will be thrown if provider is not permitted.
         try {
             gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         } catch (SecurityException ex) {
+            ex.printStackTrace();
         }
         try {
             network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
         } catch (SecurityException ex) {
+            ex.printStackTrace();
         }
 
         //don't start listeners if no provider is enabled
         if (!gps_enabled && !network_enabled)
             return false;
 
-        if (gps_enabled)
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 10, locationListener);
-        if (network_enabled)
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 10, locationListener);
-
+        try {
+            if (gps_enabled)
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            if (network_enabled)
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        }catch(SecurityException ex){
+            ex.printStackTrace();
+        }
         timer1 = new Timer();
-        timer1.schedule(new GetLastLocation(), 5000);
+        timer1.schedule(new GetLastLocation(), 20000);
         return true;
     }
 
@@ -63,7 +66,6 @@ public class MyLocation {
             timer1.cancel();
             locationResult.gotLocation(location);
             locationManager.removeUpdates(this);
-            //locationManager.removeUpdates(locationListener);
         }
 
         public void onProviderDisabled(String provider) {
@@ -74,13 +76,14 @@ public class MyLocation {
 
         public void onStatusChanged(String provider, int status, Bundle extras) {
         }
-    };
 
+    };
 
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
 
+            locationManager.removeUpdates(locationListener);
             locationManager.removeUpdates(locationListener);
 
             Location networkLocation = null, gpsLocation = null;
@@ -88,7 +91,6 @@ public class MyLocation {
                 gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (network_enabled)
                 networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
             //if there are both values use the latest one
             if (gpsLocation != null && networkLocation != null) {
                 if (gpsLocation.getTime() > networkLocation.getTime())

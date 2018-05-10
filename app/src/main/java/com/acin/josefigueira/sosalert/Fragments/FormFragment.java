@@ -57,6 +57,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
     Button btnNext;
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
+
     String fname,lname,country,description,phone;
     User user;
     int selectedCountry;

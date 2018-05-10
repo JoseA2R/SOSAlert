@@ -1,21 +1,12 @@
 package com.acin.josefigueira.sosalert.Fragments;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
-import android.bluetooth.BluetoothAssignedNumbers;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
-import android.os.AsyncTask;
 import android.provider.Settings;
 import android.support.annotation.RequiresApi;
 import android.app.Fragment;
@@ -30,32 +21,26 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.telephony.SmsManager;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
 import java.util.ArrayList;
 
-import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Classes.MyLocation;
 import com.acin.josefigueira.sosalert.Classes.ServiceLocationListener;
 import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
-import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.R;
-import com.acin.josefigueira.sosalert.View.MainActivity;
 import com.acin.josefigueira.sosalert.View.MainMenuActivity;
 
 /**
@@ -101,6 +86,7 @@ public class SOSFragment extends Fragment {
 
     public float longitude;
     public float latitude;
+    public float precision;
 
     String numcountdown;
     private Button cancelBtn;
@@ -136,7 +122,6 @@ public class SOSFragment extends Fragment {
         mContext = context;
     }*/
 
-    @SuppressLint("ClickableViewAccessibility")
     public void getBtnData(View view){
 
         //view = (LinearLayout) view.findViewById(R.id.linear_layout_tags);
@@ -152,8 +137,7 @@ public class SOSFragment extends Fragment {
         userController = new UserController(mContext);
         gpsController = new GPSController(mContext);
         checkAndroidVersion();
-
-
+        view.performClick();
         imageButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -168,7 +152,6 @@ public class SOSFragment extends Fragment {
                     view.setBackgroundResource(R.color.colorPrimary);
                     //checkAndroidVersion();
                     toneBeep = new ToneGenerator(AudioManager.STREAM_MUSIC, ToneGenerator.MAX_VOLUME);
-
                     new CountDownTimer(4000,1000){
                         public void onTick(long millisUntilFinished) {
                             //imageButton.setClickable(false);
@@ -186,23 +169,6 @@ public class SOSFragment extends Fragment {
                                     cancel();
                                 }
                             });
-                            /*MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-                                @Override
-                                public void gotLocation(Location location) {
-                                    //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
-                                    //txtLongitude.setText("Longitude: " + longitude);
-                                    //txtLatitude.setText("Latitude: " +latitude);
-                                    try {
-                                        latitude = (float) location.getLatitude();
-                                        longitude = (float) location.getLongitude();
-                                        userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
-                                    } catch (NullPointerException ex) {
-
-                                    }
-                                }
-                            };
-                            MyLocation myLocation = new MyLocation();
-                            myLocation.getLocation(mContext, locationResult);*/
                             imageButton.setEnabled(false);
                             txtCountDown.setText("");
                             numcountdown = String.valueOf(millisUntilFinished/1000);
@@ -277,9 +243,12 @@ public class SOSFragment extends Fragment {
                                             latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
                                             userController.setPlace(FindingYou.getText().toString());
-                                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
+                                            precision = (float) location.getAccuracy();
+                                            System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
+                                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude,precision);
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
+
                                             smsController.sendTextMessage();
                                             //smsController.unregisterSentReceiver();
                                             //smsController.unregisterDeliveredReceiver();
@@ -377,11 +346,15 @@ public class SOSFragment extends Fragment {
                         new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                requestPermissions(
+                                try {
+                                    requestPermissions(
                                         new String[]{Manifest.permission
                                                 .SEND_SMS, Manifest.permission
                                                 .ACCESS_FINE_LOCATION},
                                         PERMISSIONS_MULTIPLE_REQUEST);
+                                }catch (IllegalStateException e){
+                                    e.printStackTrace();
+                                }
                             }
                         }).show();
             } else {
@@ -395,21 +368,21 @@ public class SOSFragment extends Fragment {
             // write your logic code if permission already granted
             locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
             GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            if (GpsStatus == false) {
+            if (!GpsStatus) {
                 gpsController.showSettingsAlert();
             }else{
                 MyLocation myLocation = new MyLocation();
                 MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                     @Override
                     public void gotLocation(Location location) {
-                        //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
-                        //txtLongitude.setText("Longitude: " + longitude);
-                        //txtLatitude.setText("Latitude: " +latitude);
                         try {
                             latitude = (float) location.getLatitude();
                             longitude = (float) location.getLongitude();
-                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude);
-                        } catch(NullPointerException ex ){
+                            precision = (float) location.getAccuracy();
+                            System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
+                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude,precision);
+                        } catch(IllegalStateException|NullPointerException ex ) {
+                            ex.printStackTrace();
                         }
                     }
                 };
@@ -436,24 +409,28 @@ public class SOSFragment extends Fragment {
                         // write your logic here
                     } else {
                         imageButton.setEnabled(false);
-                        permissionsSnackbar = Snackbar.make(getActivity().findViewById(R.id.main_menu),
-                                R.string.grant_permissions,
-                                Snackbar.LENGTH_INDEFINITE);
-                        permissionsSnackbar.setAction(R.string.enable_btn,
+                            permissionsSnackbar = Snackbar.make(getActivity().findViewById(R.id.main_menu),
+                                    R.string.grant_permissions,
+                                    Snackbar.LENGTH_INDEFINITE);
+                            permissionsSnackbar.setAction(R.string.enable_btn,
                                 new View.OnClickListener() {
                                     @RequiresApi(api = Build.VERSION_CODES.M)
                                     @Override
                                     public void onClick(View v) {
+                                        try {
                                         requestPermissions(
-                                                new String[]{Manifest.permission
-                                                        .SEND_SMS, Manifest.permission
-                                                        .ACCESS_FINE_LOCATION},
-                                                PERMISSIONS_MULTIPLE_REQUEST);
+                                            new String[]{Manifest.permission
+                                                    .SEND_SMS, Manifest.permission
+                                                    .ACCESS_FINE_LOCATION},
+                                            PERMISSIONS_MULTIPLE_REQUEST);
+                                        } catch(IllegalStateException|NullPointerException e){
+                                            e.printStackTrace();
+                                        }
                                     }
                                 }).show();
                     }
                 }
-                break;
+            break;
         }
 
     }

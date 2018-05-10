@@ -9,6 +9,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -51,6 +52,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
 
         mToggle = new ActionBarDrawerToggle(this, mDrawerLayout,R.string.open,R.string.close);/*{
+
             @Override
             public void onDrawerOpened(View drawerView){
                 super.onDrawerOpened(drawerView);
@@ -67,6 +69,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         navigationView.setItemIconTintList(null);
 
         mDrawerLayout.addDrawerListener(mToggle);
+        mDrawerLayout.setDrawerTitle(Gravity.CENTER,"Menu");
         mToggle.syncState();
         navigationView.setNavigationItemSelectedListener(this);
 
