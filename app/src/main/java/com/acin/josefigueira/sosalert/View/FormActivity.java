@@ -3,12 +3,15 @@ package com.acin.josefigueira.sosalert.View;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Handler;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -65,13 +68,13 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         etDescription = (EditText) findViewById(R.id.etDescription);
         etPhone = (EditText) findViewById(R.id.etPhone);
         btnNext  = findViewById(R.id.btnNext);
-
-        setCountriesSpinner();
-
+        
+        Resources r = getResources();
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
-        collapsingToolbarLayout.setCollapsedTitleGravity(10);
+
 
         /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Personal Data");

@@ -20,8 +20,8 @@
             android:layout_width="match_parent"
             android:layout_height="260dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
-            app:contentScrim="?attr/colorAccent"
-            app:statusBarScrim="?attr/colorAccent"
+            app:contentScrim="?android:attr/colorAccent"
+            app:statusBarScrim="?android:attr/colorAccent"
             app:titleEnabled="true"
             app:expandedTitleGravity="center_horizontal">
 
@@ -37,7 +37,7 @@
             <android.support.v7.widget.Toolbar
                 android:id="@+id/fragmentToolbar"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="?android:attr/actionBarSize"
                 android:layout_weight="1"
                 android:layout_marginStart="26dp"
                 app:titleTextColor="@color/white"
