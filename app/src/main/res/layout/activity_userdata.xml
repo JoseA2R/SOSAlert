@@ -23,6 +23,8 @@
             app:contentScrim="?android:attr/colorAccent"
             app:statusBarScrim="?android:attr/colorAccent"
             app:titleEnabled="true"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Collapsed"
+            app:expandedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Expanded"
             app:expandedTitleGravity="center_horizontal">
 
             <ImageView
@@ -54,18 +56,17 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
-
         android:background="@color/white" >
 
         <LinearLayout
             android:id="@+id/parent_linear_layout"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical"
             android:clickable="true"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:layout_marginTop="30dp" >
+            android:layout_marginTop="10dp" >
 
             <android.support.design.widget.TextInputLayout
                 android:id="@+id/input_layout_fname"
@@ -137,32 +138,31 @@
             </android.support.design.widget.TextInputLayout>
 
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_phone"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etPhone"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:hint="@string/phone_number"
+                    android:inputType="phone" />
 
-                    <EditText
-                        android:id="@+id/etPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginStart="15dp"
-                        android:layout_marginEnd="15dp"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone" />
-
-                </android.support.design.widget.TextInputLayout>
+            </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/btnNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_gravity="bottom"
                 android:background="@color/colorAccent"
                 android:text="@string/next_btn"
                 android:textColor="@color/white" />

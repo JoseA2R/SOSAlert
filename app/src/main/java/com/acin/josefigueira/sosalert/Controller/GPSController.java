@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -13,6 +14,8 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by jose.figueira on 03-04-2018.
@@ -48,7 +51,7 @@ public class GPSController{
 
 
         try {
-            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+            locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
 
             // getting GPS status
             boolean isGPSEnabled = locationManager
@@ -89,19 +92,14 @@ public class GPSController{
                 if (isGPSEnabled) {
                     if (location == null) {
                         try {
-                            locationManager.requestLocationUpdates(
-                                    LocationManager.GPS_PROVIDER,
-                                    MIN_TIME_BW_UPDATES,
-                                    MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
+                            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIME_BW_UPDATES, MIN_DISTANCE_CHANGE_FOR_UPDATES, (LocationListener) this);
                             Log.d("GPS Enabled", "GPS Enabled");
-                            if (locationManager != null) {
-                                location = locationManager
-                                        .getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                            //if (locationManager != null) {location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                                 if (location != null) {
                                     latitude = location.getLatitude();
                                     longitude = location.getLongitude();
                                 }
-                            }
+                            //}
                         } catch (SecurityException s) {
 
                         }

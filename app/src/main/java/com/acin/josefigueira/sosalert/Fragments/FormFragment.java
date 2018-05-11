@@ -95,7 +95,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
         AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
         appBarLayout.setPadding(0,(int)px,0,0);
 

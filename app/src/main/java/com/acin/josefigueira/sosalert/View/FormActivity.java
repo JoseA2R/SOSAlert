@@ -68,13 +68,14 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         etDescription = (EditText) findViewById(R.id.etDescription);
         etPhone = (EditText) findViewById(R.id.etPhone);
         btnNext  = findViewById(R.id.btnNext);
-        
+
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
+        setCountriesSpinner();
 
         /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Personal Data");
@@ -129,13 +130,12 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             LayoutInflater inflating = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             final View rowPhoneView = inflating.inflate(R.layout.phone_number_text,null);
             parentLinearLayout.addView(rowPhoneView,parentLinearLayout.getChildCount() -1);
-
         }else {*/
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.phone_field, null);
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 1);
         numberOfRows++;
-       // }
+        // }
     }
 
     public void onDelete(View v) {
@@ -225,4 +225,3 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
 
     }
 }
-

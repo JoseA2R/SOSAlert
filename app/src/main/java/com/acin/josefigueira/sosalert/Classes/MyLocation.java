@@ -1,18 +1,23 @@
 package com.acin.josefigueira.sosalert.Classes;
 
 import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
+import com.acin.josefigueira.sosalert.Model.LocationHandler;
 import com.acin.josefigueira.sosalert.View.MainActivity;
 import com.acin.josefigueira.sosalert.View.MainMenuActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import static android.content.Context.LOCATION_SERVICE;
 
 /**
  * Created by jose.figueira on 13-04-2018.
@@ -25,7 +30,15 @@ public class MyLocation {
     private LocationResult locationResult;
     private boolean gps_enabled = false;
     private boolean network_enabled = false;
+    private Criteria criteria;
+    private Location gpsLocation, networkLocation;
     MainMenuActivity mainMenu = new MainMenuActivity();
+
+    public MyLocation(LocationHandler locationHandler) {
+        this.locationHandler = locationHandler;
+
+    }
+    LocationHandler locationHandler;
 
     public boolean getLocation(Context context, LocationResult result) {
         //I use LocationResult callback class to pass location value from MyLocation to user code.
@@ -50,51 +63,104 @@ public class MyLocation {
 
         try {
             if (gps_enabled)
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+                criteria = new Criteria();
+                criteria.setAccuracy(Criteria.ACCURACY_FINE);
+                criteria.setPowerRequirement(Criteria.POWER_HIGH);
+                criteria.setAltitudeRequired(false);
+                criteria.setSpeedRequired(false);
+                criteria.setCostAllowed(true);
+                criteria.setBearingRequired(false);
+                criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+                criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+                LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+                try {
+                    locationManager.requestLocationUpdates(0, 0, criteria, locationListener, null);
+                }catch(NullPointerException e){
+                    e.printStackTrace();
+                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 900, 0, locationListener);
+                }
+
             if (network_enabled)
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 900, 0, locationListener);
         }catch(SecurityException ex){
             ex.printStackTrace();
         }
         timer1 = new Timer();
-        timer1.schedule(new GetLastLocation(), 20000);
+        timer1.schedule(new GetLastLocation(), 10000);
         return true;
     }
 
-    LocationListener locationListener = new LocationListener() {
+    private LocationListener locationListener = new LocationListener() {
+        @Override
         public void onLocationChanged(Location location) {
-            timer1.cancel();
-            locationResult.gotLocation(location);
-            locationManager.removeUpdates(this);
+            if (gps_enabled) {
+                gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                locationHandler.addLocation(gpsLocation);
+                Log.d("LOCATION", " got coordinate");
+            }
+            if (network_enabled) {
+                networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                locationHandler.addLocation(networkLocation);
+            }
+            //if there are both values use the latest one
+            if (gpsLocation != null && networkLocation != null) {
+                if (gpsLocation.getTime() > networkLocation.getTime()) {
+                    locationResult.gotLocation(gpsLocation);
+                    locationHandler.addLocation(gpsLocation);
+                    Log.d("LOCATION", " got coordinate");
+                }else {
+                    locationResult.gotLocation(networkLocation);
+                    locationHandler.addLocation(networkLocation);
+                }
+                return;
+            }
         }
 
-        public void onProviderDisabled(String provider) {
+        @Override
+        public void onStatusChanged(String s, int i, Bundle bundle) {
+
         }
 
-        public void onProviderEnabled(String provider) {
+        @Override
+        public void onProviderEnabled(String s) {
+
         }
 
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
+        @Override
+        public void onProviderDisabled(String s) {
 
+        }
     };
+
+    public void setLocationResult(LocationResult res)
+    {
+        locationResult = res;
+    }
+    public LocationListener getListener()
+    {
+        return locationListener;
+    }
 
     class GetLastLocation extends TimerTask {
         @Override
         public void run() {
 
-            locationManager.removeUpdates(locationListener);
-            locationManager.removeUpdates(locationListener);
+            //locationManager.removeUpdates(locationListener);
+            //locationManager.removeUpdates(locationListener);
 
             Location networkLocation = null, gpsLocation = null;
-            if (gps_enabled)
+            if (gps_enabled) {
                 gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+                locationHandler.addLocation(gpsLocation);
+            }
             if (network_enabled)
                 networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+                locationHandler.addLocation(networkLocation);
             //if there are both values use the latest one
             if (gpsLocation != null && networkLocation != null) {
                 if (gpsLocation.getTime() > networkLocation.getTime())
                     locationResult.gotLocation(gpsLocation);
+
                 else
                     locationResult.gotLocation(networkLocation);
                 return;

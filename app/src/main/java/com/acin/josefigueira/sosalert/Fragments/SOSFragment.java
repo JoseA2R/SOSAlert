@@ -1,6 +1,8 @@
 package com.acin.josefigueira.sosalert.Fragments;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +23,7 @@ import android.os.Handler;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -40,6 +43,7 @@ import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
+import com.acin.josefigueira.sosalert.Model.LocationHandler;
 import com.acin.josefigueira.sosalert.R;
 import com.acin.josefigueira.sosalert.View.MainMenuActivity;
 
@@ -82,6 +86,7 @@ public class SOSFragment extends Fragment {
     ArrayList<String> userData;
     ArrayList<String> locData;
 
+    LocationHandler locationHandler;
     private String fname,lname,country,description,phone;
 
     public float longitude;
@@ -114,18 +119,6 @@ public class SOSFragment extends Fragment {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.fragment_alert_button,container,false);
         //imageButton.performClick();
-        getBtnData(view);
-        return view;
-    }
-
-    /*public void setContext(Context context){
-        mContext = context;
-    }*/
-
-    public void getBtnData(View view){
-
-        //view = (LinearLayout) view.findViewById(R.id.linear_layout_tags);
-
         imageButton = view.findViewById(R.id.sos_img_btn);
         button_sos = view.findViewById(R.id.cancel_btn);
         button_sos.setVisibility(View.INVISIBLE);
@@ -136,6 +129,20 @@ public class SOSFragment extends Fragment {
         mContext = getActivity();
         userController = new UserController(mContext);
         gpsController = new GPSController(mContext);
+        getBtnData(view);
+        return view;
+    }
+
+    /*public void setContext(Context context){
+        mContext = context;
+    }*/
+
+    @SuppressLint("ClickableViewAccessibility")
+    public void getBtnData(View view){
+
+        //view = (LinearLayout) view.findViewById(R.id.linear_layout_tags);
+
+
         checkAndroidVersion();
         view.performClick();
         imageButton.setOnTouchListener(new View.OnTouchListener() {
@@ -232,15 +239,35 @@ public class SOSFragment extends Fragment {
                                 imageButton.setEnabled(true);
                                 imageButton.setImageResource(R.drawable.sos_btn);
                                 //sendingsms.append("Sending Message");
-                                MyLocation myLocation = new MyLocation();
+                                final LocationHandler locationHandler =  new LocationHandler();
+                                final MyLocation myLocation = new MyLocation(locationHandler);
                                 MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                     @Override
                                     public void gotLocation(Location location) {
-                                        //Log.d( "Location: ","lon: "+location.getLongitude()+" ----- lat: "+location.getLatitude());
-                                        //txtLongitude.setText("Longitude: " + longitude);
-                                        //txtLatitude.setText("Latitude: " +latitude);
-                                        try {
+                                        //locationHandler.addLocation(location);
+                                        if (locationHandler.hasMinLocations()) {
+                                            Log.d("LOCATION", " Send message");
+                                            location = locationHandler.selectMostAccurateLocation();
                                             latitude = (float) location.getLatitude();
+                                            longitude = (float) location.getLongitude();
+                                            userController.setPlace(FindingYou.getText().toString());
+                                            precision = (float) location.getAccuracy();
+                                            System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
+                                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
+                                            smsController = new SMSController();
+                                            smsController.SMSController(mContext);
+                                            locationHandler.clear();
+                                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                public void run() {
+                                                    //alterar aqui
+                                                }
+                                            });
+                                        }
+
+                                        if (locationHandler.hasMaxLocations()) {
+                                            locationManager.removeUpdates(myLocation.getListener());
+                                        }
+                                            /*latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
                                             userController.setPlace(FindingYou.getText().toString());
                                             precision = (float) location.getAccuracy();
@@ -249,14 +276,11 @@ public class SOSFragment extends Fragment {
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
 
-                                            smsController.sendTextMessage();
+                                            smsController.sendTextMessage();*/
                                             //smsController.unregisterSentReceiver();
                                             //smsController.unregisterDeliveredReceiver();
                                             //sendingsms.setText("");
-                                        } catch(NullPointerException ex ){
-                                            ex.printStackTrace();
-                                            //Toast.makeText(mContext,"Latitude: " + latitude,Toast.LENGTH_LONG).show();
-                                        }
+
                                         //OJO CON EL CONTROLADOR DE MENSAJES
                                         //sendTextMessage();
                                     }
@@ -371,19 +395,33 @@ public class SOSFragment extends Fragment {
             if (!GpsStatus) {
                 gpsController.showSettingsAlert();
             }else{
-                MyLocation myLocation = new MyLocation();
+                final LocationHandler locationHandler =  new LocationHandler();
+                final MyLocation myLocation = new MyLocation(locationHandler);
                 MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                     @Override
                     public void gotLocation(Location location) {
-                        try {
-                            latitude = (float) location.getLatitude();
-                            longitude = (float) location.getLongitude();
-                            precision = (float) location.getAccuracy();
-                            System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
-                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude,precision);
-                        } catch(IllegalStateException|NullPointerException ex ) {
-                            ex.printStackTrace();
-                        }
+                            //locationHandler.addLocation(location);
+                            if (locationHandler.hasMinLocations()) {
+                                Log.d("LOCATION", " Send message");
+                                location = locationHandler.selectMostAccurateLocation();
+                                latitude = (float) location.getLatitude();
+                                longitude = (float) location.getLongitude();
+                                userController.setPlace(FindingYou.getText().toString());
+                                precision = (float) location.getAccuracy();
+                                System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
+                                userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
+                                //locationHandler.clear();
+                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                                    public void run() {
+                                        //alterar aqui
+                                    }
+                                });
+                            }
+
+                            if (locationHandler.hasMaxLocations()) {
+                                locationManager.removeUpdates(myLocation.getListener());
+                            }
+
                     }
                 };
                 myLocation.getLocation(mContext, locationResult);
@@ -455,6 +493,36 @@ public class SOSFragment extends Fragment {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+        final LocationHandler locationHandler =  new LocationHandler();
+        final MyLocation myLocation = new MyLocation(locationHandler);
+        MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+            @Override
+            public void gotLocation(Location location) {
+                //locationHandler.addLocation(location);
+                if (locationHandler.hasMinLocations()) {
+                    Log.d("LOCATION", " Send message");
+                    location = locationHandler.selectMostAccurateLocation();
+                    latitude = (float) location.getLatitude();
+                    longitude = (float) location.getLongitude();
+                    userController.setPlace(FindingYou.getText().toString());
+                    precision = (float) location.getAccuracy();
+                    System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
+                    userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
+                    //locationHandler.clear();
+                    ((Activity) mContext).runOnUiThread(new Runnable() {
+                        public void run() {
+                            //alterar aqui
+                        }
+                    });
+                }
+
+                if (locationHandler.hasMaxLocations()) {
+                    locationManager.removeUpdates(myLocation.getListener());
+                }
+
+            }
+        };
+        myLocation.getLocation(mContext, locationResult);
     }
 
     public void onDestroy() {

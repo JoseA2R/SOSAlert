@@ -12,9 +12,20 @@
         android:layout_height="200dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="140dp"
         android:tint="@color/white"
         app:srcCompat="@drawable/ic_logo_sos" />
+
+   <!-- <pl.droidsonroids.gif.GifImageView
+        android:id="@+id/logo_gif"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="140dp"
+        android:gravity="center"
+        android:src="@drawable/soslogogif"
+        android:background="@drawable/soslogogif"
+        />-->
 
     <Spinner
         android:id="@+id/language_spinner"
@@ -22,7 +33,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/sos_btn_logo_image"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="44dp"
         android:background="@drawable/spinner_background"
         android:gravity="center"
         android:prompt="@string/select_language"
@@ -35,9 +45,6 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentStart="true"
         android:layout_gravity="center"
-        android:layout_marginBottom="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginEnd="15dp"
         android:background="#E28F4B"
         android:onClick="onClick"
         android:text="@string/next_btn1"

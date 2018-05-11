@@ -29,7 +29,7 @@
     </string-array>
 
     <string name="tv_insert_your">INSERT YOUR</string>
-    <string name="tv_personal_data">PERSONAL DATA</string>
+    <string name="tv_personal_data">INSERT YOUR PERSONAL DATA</string>
     <string name="portuguese">Portuguese</string>
     <string name="english">English</string>
     <string name="valid_fname">Please Enter a valid first name</string>

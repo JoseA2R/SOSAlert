@@ -23,7 +23,7 @@
     <string name="close">Fechar</string>
     <string name="cancel">Cancelar</string>
     <string name="tv_insert_your">INSIRA OS SEUS</string>
-    <string name="tv_personal_data">DADOS PESSOAIS</string>
+    <string name="tv_personal_data">INSIRA SEUS DADOS PESSOAIS</string>
 
     <string-array name="languages_array">
         <item>Idioma</item>
