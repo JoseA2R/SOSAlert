@@ -118,7 +118,7 @@ public class UserController {
     public void putLocation(Context context,float lat, float lon, float acc){
         SPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         editorPreferences = SPreferences.edit();
-
+        System.out.println(lat + " " + lon);
         editorPreferences.putFloat("latitude",lat);
         editorPreferences.putFloat("longitude",lon);
         editorPreferences.putFloat("accuracy",acc);

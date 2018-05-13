@@ -193,7 +193,11 @@ public class SOSFragment extends Fragment {
                             //toneBeep.stopTone();
                             toneBeep.release();
                             locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-                            GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                            try {
+                                GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+                            }catch(NullPointerException e){
+                                e.printStackTrace();
+                            }
                             if (GpsStatus == false) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                                 builder.setMessage(
@@ -256,7 +260,7 @@ public class SOSFragment extends Fragment {
                                             userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
-                                            locationHandler.clear();
+                                            smsController.sendTextMessage();
                                             ((Activity) mContext).runOnUiThread(new Runnable() {
                                                 public void run() {
                                                     //alterar aqui
@@ -266,6 +270,7 @@ public class SOSFragment extends Fragment {
 
                                         if (locationHandler.hasMaxLocations()) {
                                             locationManager.removeUpdates(myLocation.getListener());
+                                            locationHandler.clear();
                                         }
                                             /*latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
@@ -390,26 +395,37 @@ public class SOSFragment extends Fragment {
             }
         } else {
             // write your logic code if permission already granted
+
             locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
             GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
             if (!GpsStatus) {
                 gpsController.showSettingsAlert();
             }else{
-                final LocationHandler locationHandler =  new LocationHandler();
-                final MyLocation myLocation = new MyLocation(locationHandler);
-                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-                    @Override
-                    public void gotLocation(Location location) {
+
+                    final LocationHandler locationHandler = new LocationHandler();
+                    final MyLocation myLocation = new MyLocation(locationHandler);
+                    final SMSController smsController = new SMSController();
+                    MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                        @Override
+                        public void gotLocation(Location location) {
                             //locationHandler.addLocation(location);
                             if (locationHandler.hasMinLocations()) {
-                                Log.d("LOCATION", " Send message");
+                                //Log.d("LOCATION", " Send message");
                                 location = locationHandler.selectMostAccurateLocation();
                                 latitude = (float) location.getLatitude();
                                 longitude = (float) location.getLongitude();
                                 userController.setPlace(FindingYou.getText().toString());
                                 precision = (float) location.getAccuracy();
                                 System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
-                                userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
+                                try {
+                                userController.putLocation(getContext(), latitude, longitude, precision);
+                                }catch(NullPointerException e){
+                                    e.printStackTrace();
+                                }
+                                Log.d("LOCATION", " Start sending message");
+                                //smsController = new SMSController();
+                                smsController.SMSController(mContext);
+                                //smsController.sendTextMessage();
                                 //locationHandler.clear();
                                 ((Activity) mContext).runOnUiThread(new Runnable() {
                                     public void run() {
@@ -420,11 +436,13 @@ public class SOSFragment extends Fragment {
 
                             if (locationHandler.hasMaxLocations()) {
                                 locationManager.removeUpdates(myLocation.getListener());
+                                locationHandler.clear();
                             }
 
-                    }
-                };
-                myLocation.getLocation(mContext, locationResult);
+                        }
+                    };
+                    myLocation.getLocation(mContext, locationResult);
+
             }
         }
     }
@@ -491,9 +509,13 @@ public class SOSFragment extends Fragment {
         View view = getActivity().getCurrentFocus();
         if (view != null) {
             InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            try {
+                imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+            }catch(NullPointerException e){
+                e.printStackTrace();
+            }
         }
-        final LocationHandler locationHandler =  new LocationHandler();
+        /*final LocationHandler locationHandler =  new LocationHandler();
         final MyLocation myLocation = new MyLocation(locationHandler);
         MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
             @Override
@@ -522,7 +544,7 @@ public class SOSFragment extends Fragment {
 
             }
         };
-        myLocation.getLocation(mContext, locationResult);
+        myLocation.getLocation(mContext, locationResult);*/
     }
 
     public void onDestroy() {

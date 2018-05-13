@@ -109,8 +109,8 @@ public class MyLocation {
                     locationHandler.addLocation(gpsLocation);
                     Log.d("LOCATION", " got coordinate");
                 }else {
-                    locationResult.gotLocation(networkLocation);
-                    locationHandler.addLocation(networkLocation);
+                    //locationResult.gotLocation(networkLocation);
+                    //locationHandler.addLocation(networkLocation);
                 }
                 return;
             }
