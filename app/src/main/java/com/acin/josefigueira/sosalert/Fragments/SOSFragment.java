@@ -37,7 +37,7 @@ import android.widget.TextView;
 import android.content.SharedPreferences;
 import java.util.ArrayList;
 
-import com.acin.josefigueira.sosalert.Classes.MyLocation;
+import com.acin.josefigueira.sosalert.Controller.MyLocation;
 import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
@@ -65,24 +65,16 @@ public class SOSFragment extends Fragment {
     View layoutView;
     Context mContext;
     Context smsContext;
-    LinearLayout layout;
-    LinearLayout.LayoutParams layoutParams;
-    MainMenuActivity mainActivity;
-
 
     Button button_sos;
-    ImageButton imageButton;
-    TextView sendingsms, FindingYou;
-    public Location location;
+    public ImageButton imageButton;
+    public TextView sendingsms;
+    TextView FindingYou;
     LocationManager locationManager;
-    LocationListener listener;
 
     private SMSController smsController;
     private UserController userController;
     private GPSController gpsController;
-    SharedPreferences SPreferences;
-    ArrayList<String> userData;
-    ArrayList<String> locData;
 
     LocationHandler locationHandler;
     private String fname,lname,country,description,phone;
@@ -91,7 +83,7 @@ public class SOSFragment extends Fragment {
     public float latitude;
     public float precision;
 
-    String numcountdown;
+    String numcountdown,sendingMessage;
     private Button cancelBtn;
     private TextView txtCountDown;
 
@@ -250,6 +242,12 @@ public class SOSFragment extends Fragment {
                                         //locationHandler.addLocation(location);
                                         if (locationHandler.hasMinLocations()) {
                                             Log.d("LOCATION", " Send message");
+                                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                public void run() {
+                                                    /*sendingsms.setText("Sending SMS");
+                                                    imageButton.setEnabled(false);*/
+                                                }
+                                            });
                                             location = locationHandler.selectMostAccurateLocation();
                                             latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
@@ -260,11 +258,6 @@ public class SOSFragment extends Fragment {
                                             smsController = new SMSController();
                                             smsController.SMSController(mContext);
                                             smsController.sendTextMessage();
-                                            ((Activity) mContext).runOnUiThread(new Runnable() {
-                                                public void run() {
-                                                    //alterar aqui
-                                                }
-                                            });
                                         }
 
                                         if (locationHandler.hasMaxLocations()) {

@@ -1,10 +1,12 @@
 package com.acin.josefigueira.sosalert.View;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -49,6 +51,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     NavigationView navigationView;
     CallbackManager callbackManager;
     ShareDialog shareDialog;
+    static String networkStatus;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -101,6 +104,31 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
     }
 
+    public static String checkNetworkStatus(final Context context) {
+
+
+        // Get connect mangaer
+        final ConnectivityManager connMgr = (ConnectivityManager)
+                context.getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        // check for wifi
+        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+
+        // check for mobile data
+        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+
+        if( wifi.isAvailable() ) {
+            networkStatus = "wifi";
+        } else if( mobile.isAvailable() ) {
+            networkStatus = "mobileData";
+        } else {
+            networkStatus = "noNetwork";
+        }
+
+        return networkStatus;
+
+    }  // end checkNetworkStatus
+
     @Override
     public void onBackPressed() {
         moveTaskToBack(true);
@@ -119,12 +147,16 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         }
         else if (id == R.id.nav_share){
-            ShareLinkContent linkContent = new ShareLinkContent.Builder()
-                    .setQuote("Share SOS Button")
-                    .setContentUrl(Uri.parse("https://developers.facebook.com"))
-                    .build();
-            if (shareDialog.canShow(ShareLinkContent.class)){
-                shareDialog.show(linkContent);
+            if (networkStatus == "wifi" || networkStatus == "mobileData") {
+                ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                        .setQuote("Share SOS Button")
+                        .setContentUrl(Uri.parse("https://developers.facebook.com"))
+                        .build();
+                if (shareDialog.canShow(ShareLinkContent.class)) {
+                    shareDialog.show(linkContent);
+                }
+            } else {
+              Toast.makeText(this, "You Need Network data\n to share on Facebook",Toast.LENGTH_LONG).show();
             }
             //printKeyHash();
         }

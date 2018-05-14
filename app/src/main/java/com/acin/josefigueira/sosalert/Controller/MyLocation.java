@@ -1,4 +1,4 @@
-package com.acin.josefigueira.sosalert.Classes;
+package com.acin.josefigueira.sosalert.Controller;
 
 import android.content.Context;
 import android.location.Criteria;

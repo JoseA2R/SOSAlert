@@ -34,7 +34,7 @@
 
     <style name="CustomFirefighterCircle">
         <item name="android:background">@drawable/logo_sos_app</item>
-        <item name="android:src">@mipmap/firefighter_waiting_next_call</item>
+        <item name="android:src">@mipmap/firefighter_brighter</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

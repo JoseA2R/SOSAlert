@@ -95,7 +95,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
 
-        final View activityRootView = view.findViewById(R.id.coordinatorlayout);
+        /*final View activityRootView = view.findViewById(R.id.coordinatorlayout);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -110,7 +110,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
                     btnNext.setPadding(0,30,0,0);
                 }
             }
-        });
+        });*/
 
         getActivity() .getWindow().setSoftInputMode(WindowManager.LayoutParams. SOFT_INPUT_ADJUST_PAN );
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
@@ -226,7 +226,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
     }
     public void register(){
-        initialize();
+        //initialize();
         if (!validate()){
             Toast.makeText(getActivity(),"Error Data",Toast.LENGTH_SHORT).show();
         }
@@ -260,6 +260,11 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
     public boolean validate(){
         boolean valid = true;
+        fname = etFName.getText().toString();
+        lname = etLName.getText().toString();
+        country = spcountry.getSelectedItem().toString();
+        description = etDescription.getText().toString();
+        phone = etPhone.getText().toString();
         if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Zç\\p{L} ]+$") || fname.trim() == ""){
             System.out.println("\\w+");
             etFName.setError(getString(R.string.valid_fname));

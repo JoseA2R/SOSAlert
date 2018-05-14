@@ -75,7 +75,7 @@ public class SMSController {
 
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
-        String strMessage = fname + " " + lname + " from " + country + "\n" + place + "\n" + precision + "\n" + " is located at http://maps.google.com/?q="+latitude+","+longitude;
+        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + place + "\n" + precision;
 
         try {
             SmsManager sms = SmsManager.getDefault();
@@ -93,7 +93,7 @@ public class SMSController {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             Toast.makeText(mContext, "Message Sent", Toast.LENGTH_SHORT).show();
-                            toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 300);
+                            toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 500);
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
