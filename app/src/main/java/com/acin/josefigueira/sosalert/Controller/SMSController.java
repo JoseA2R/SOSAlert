@@ -75,7 +75,7 @@ public class SMSController {
 
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
-        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + place + "\n" + precision;
+        String strMessage = fname + " " + lname + " from " + country + "\n" + place + "\n" + precision + "\n" + " is located at http://maps.google.com/?q="+latitude+","+longitude;
 
         try {
             SmsManager sms = SmsManager.getDefault();

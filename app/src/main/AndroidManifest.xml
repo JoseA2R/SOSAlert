@@ -4,6 +4,7 @@
     package="com.acin.josefigueira.sosalert">
 
     <uses-permission android:name="android.permission.SEND_SMS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -13,12 +14,22 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature android:name="android.hardware.location.gps" />
 
+
     <application
         android:allowBackup="false"
         tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_sos_btn"
         android:label="@string/app_name"
         android:theme="@style/AppTheme">
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id"/>
+
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider1928720124106842"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
 
         <activity
             android:name=".View.SplashActivity"
@@ -46,7 +57,7 @@
         <activity
             android:name=".View.MainMenuActivity"
             android:theme="@style/AppTheme.ActionBar.Transparent"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="stateVisible|adjustPan"
             android:configChanges="orientation|screenSize" />
 
     </application>

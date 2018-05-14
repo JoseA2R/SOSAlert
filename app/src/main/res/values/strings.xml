@@ -43,6 +43,8 @@
     <string name="enable_btn">ENABLE</string>
     <string name="sending_message_txt">Sending Message</string>
     <string name="tv_where_are_you">Where are You? (Testing)</string>
+    <string name="facebook_app_id">1928720124106842</string>
+    <string name="facebook_login_protocol_scheme">fb1928720124106842</string>
 
     <string-array name="countries">
         <item>Afghanistan</item>

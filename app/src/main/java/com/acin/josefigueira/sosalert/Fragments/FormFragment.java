@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -19,11 +20,14 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -91,30 +95,54 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
 
+        final View activityRootView = view.findViewById(R.id.coordinatorlayout);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //r will be populated with the coordinates of your view that area still visible.
+                activityRootView.getWindowVisibleDisplayFrame(r);
+
+                int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                    btnNext.setPadding(0,0,0,30);
+                }else{
+                    btnNext.setPadding(0,30,0,0);
+                }
+            }
+        });
+
+        getActivity() .getWindow().setSoftInputMode(WindowManager.LayoutParams. SOFT_INPUT_ADJUST_PAN );
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
         collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, getResources().getDisplayMetrics());
+
+
+        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
         AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
         appBarLayout.setPadding(0,(int)px,0,0);
 
         /*if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         controller = new UserController(getActivity().getBaseContext());
-        etFName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        /*etFName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     hideKeyboard(v);
                 }
             }
-        });
+        });*/
 
         insertData();
         return view;
+    }
+
+    public static float dpToPx(Context context, float valueInDp) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 
     /*@Override

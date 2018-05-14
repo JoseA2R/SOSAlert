@@ -1,178 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+
+<android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/main_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:layout_gravity="fill_vertical"
+    android:id="@+id/coordinatorlayout" >
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/app_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:contentScrim="?android:attr/colorAccent"
+            app:statusBarScrim="?android:attr/colorAccent"
+            app:titleEnabled="true"
+            app:collapsedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Collapsed"
+            app:expandedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Expanded"
+            app:expandedTitleGravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="600dp"
+                android:background="@color/white"
+                android:scaleType="centerCrop"
+                android:src="@drawable/background_example"
+                app:layout_collapseMode="parallax" />
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/fragmentToolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?android:attr/actionBarSize"
+                android:layout_weight="1"
+                android:layout_marginStart="26dp"
+                app:titleTextColor="@color/white"
+                app:title="@string/tv_personal_data"
+                app:layout_collapseMode="pin" />
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/NestedScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/coordinatorlayout" >
+        android:background="@color/white"
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/app_bar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:clickable="true"
-            android:focusable="true"
-            android:focusableInTouchMode="true" >
-
-            <android.support.design.widget.CollapsingToolbarLayout
-                android:id="@+id/collapsing_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="260dp"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:contentScrim="?android:attr/colorAccent"
-                app:statusBarScrim="?android:attr/colorAccent"
-                app:titleEnabled="true"
-                app:collapsedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Collapsed"
-                app:expandedTitleTextAppearance="@style/TextAppearance.MyApp.Title.Expanded"
-                app:expandedTitleGravity="center_horizontal">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="600dp"
-                    android:background="@color/white"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/background_example"
-                    app:layout_collapseMode="parallax" />
-
-
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/fragmentToolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="?android:attr/actionBarSize"
-                    android:layout_weight="1"
-                    android:layout_marginStart="26dp"
-                    app:titleTextColor="@color/white"
-                    app:title="@string/tv_personal_data"
-                    app:layout_collapseMode="pin" />
-
-            </android.support.design.widget.CollapsingToolbarLayout>
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.widget.NestedScrollView
-            android:id="@+id/NestedScroll"
+        <LinearLayout
+            android:id="@+id/parent_linear_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:clipToPadding="false"
-            android:fillViewport="true"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:layout_alignParentBottom="true"
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/parent_linear_layout"
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_fname"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
-                android:layout_alignParentBottom="true"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_fname"
+                <EditText
+                    android:id="@+id/etFName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/etFName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:layout_marginTop="70dp"
-                        android:ems="10"
-                        android:hint="@string/first_names"
-                        android:inputType="textPersonName"
-                        android:maxLength="40" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_lname"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/etSName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:ems="10"
-                        android:hint="@string/last_names"
-                        android:inputType="textPersonName"
-                        android:maxLength="40" />
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.v7.widget.AppCompatSpinner
-                    android:id="@+id/spinnerCountry"
-                    android:layout_width="match_parent"
-                    android:layout_height="45dp"
+                    android:layout_height="wrap_content"
                     android:layout_marginBottom="20dp"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/spinner_white_background">
+                    android:layout_marginTop="70dp"
+                    android:ems="10"
+                    android:hint="@string/first_names"
+                    android:inputType="textPersonName"
+                    android:maxLength="40" />
+            </android.support.design.widget.TextInputLayout>
 
-                </android.support.v7.widget.AppCompatSpinner>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_lname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_comments"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/etDescription"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
-                        android:hint="@string/edit_comments"
-                        android:inputType="textMultiLine"
-                        android:maxLength="230"
-                        android:maxLines="3"
-                        android:minLines="1" />
-                </android.support.design.widget.TextInputLayout>
-
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/input_layout_phone"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <EditText
-                        android:id="@+id/etPhone"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_marginBottom="20dp"
-                        android:layout_marginEnd="15dp"
-                        android:layout_marginStart="15dp"
-                        android:hint="@string/phone_number"
-                        android:inputType="phone" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <Button
-                    android:id="@+id/btnNext"
+                <EditText
+                    android:id="@+id/etSName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center|bottom"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/last_names"
+                    android:inputType="textPersonName"
+                    android:maxLength="40" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/spinnerCountry"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/spinner_white_background">
+
+            </android.support.v7.widget.AppCompatSpinner>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_comments"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etDescription"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:hint="@string/edit_comments"
+                    android:inputType="textMultiLine"
+                    android:maxLength="230"
+                    android:maxLines="3"
+                    android:minLines="1" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/etPhone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentStart="true"
+                    android:layout_marginBottom="20dp"
                     android:layout_marginEnd="15dp"
                     android:layout_marginStart="15dp"
-                    android:background="@color/colorAccent"
-                    android:text="@string/next_btn"
-                    android:textColor="@color/white" />
+                    android:hint="@string/phone_number"
+                    android:inputType="phone" />
 
-            </LinearLayout>
-        </android.support.v4.widget.NestedScrollView>
-    </android.support.design.widget.CoordinatorLayout>
-</RelativeLayout>
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnNext"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|bottom"
+                android:layout_marginEnd="15dp"
+                android:layout_marginStart="15dp"
+                android:background="@color/colorAccent"
+                android:text="@string/next_btn"
+                android:textColor="@color/white" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>

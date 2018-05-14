@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -16,15 +17,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.POJO.User;
@@ -47,6 +51,7 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     String fname,lname,country,description,phone,item;
     MainActivity main = new MainActivity();
     User user;
+    Languages languages;
     UserController controller;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +60,9 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        //main.loadLocales();
+        languages = new Languages();
+        languages.Languages(this);
+        languages.loadLocales();
         setContentView(R.layout.activity_userdata);
 
         user = new User();
@@ -69,6 +76,23 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         etPhone = (EditText) findViewById(R.id.etPhone);
         btnNext  = findViewById(R.id.btnNext);
 
+        final View activityRootView = findViewById(R.id.coordinatorlayout);
+        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                Rect r = new Rect();
+                //r will be populated with the coordinates of your view that area still visible.
+                activityRootView.getWindowVisibleDisplayFrame(r);
+
+                int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                    btnNext.setPadding(0,0,0,30);
+                }else{
+                    btnNext.setPadding(0,30,0,0);
+                }
+            }
+        });
+
         Resources r = getResources();
         float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
         CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
@@ -80,7 +104,7 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Personal Data");
         collapsingToolbarLayout.setTitleEnabled(true);*/
-        parentLinearLayout = (LinearLayout) findViewById(R.id.parent_linear_layout);
+        //parentLinearLayout = (RelativeLayout) findViewById(R.id.parent_linear_layout);
 
         /*spcountry.setOnItemSelectedListener(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));

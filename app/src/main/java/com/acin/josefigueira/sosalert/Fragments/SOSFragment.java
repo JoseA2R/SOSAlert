@@ -28,6 +28,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -37,7 +38,6 @@ import android.content.SharedPreferences;
 import java.util.ArrayList;
 
 import com.acin.josefigueira.sosalert.Classes.MyLocation;
-import com.acin.josefigueira.sosalert.Classes.ServiceLocationListener;
 import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
@@ -59,8 +59,6 @@ public class SOSFragment extends Fragment {
     private static final int PERMISSIONS_MULTIPLE_REQUEST = 112;
 
     private Location currentBestLocation = null;
-    private ServiceLocationListener gpsLocationListener;
-    private ServiceLocationListener networkLocationListener;
     private Handler handler = new Handler();
 
     View view;
@@ -118,6 +116,7 @@ public class SOSFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment}
         view = inflater.inflate(R.layout.fragment_alert_button,container,false);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         //imageButton.performClick();
         imageButton = view.findViewById(R.id.sos_img_btn);
         button_sos = view.findViewById(R.id.cancel_btn);
@@ -272,22 +271,6 @@ public class SOSFragment extends Fragment {
                                             locationManager.removeUpdates(myLocation.getListener());
                                             locationHandler.clear();
                                         }
-                                            /*latitude = (float) location.getLatitude();
-                                            longitude = (float) location.getLongitude();
-                                            userController.setPlace(FindingYou.getText().toString());
-                                            precision = (float) location.getAccuracy();
-                                            System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
-                                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude,precision);
-                                            smsController = new SMSController();
-                                            smsController.SMSController(mContext);
-
-                                            smsController.sendTextMessage();*/
-                                            //smsController.unregisterSentReceiver();
-                                            //smsController.unregisterDeliveredReceiver();
-                                            //sendingsms.setText("");
-
-                                        //OJO CON EL CONTROLADOR DE MENSAJES
-                                        //sendTextMessage();
                                     }
                                 };
                                 myLocation.getLocation(mContext, locationResult);
