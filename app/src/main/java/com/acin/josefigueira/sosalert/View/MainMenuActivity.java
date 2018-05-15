@@ -7,7 +7,11 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.SupplicantState;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -21,6 +25,7 @@ import android.view.Gravity;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Classes.Languages;
@@ -42,6 +47,7 @@ import java.security.NoSuchAlgorithmException;
 
 public class MainMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    private static WifiManager wifiManager;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mToggle;
     private Toolbar mToolbar;
@@ -52,6 +58,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
     CallbackManager callbackManager;
     ShareDialog shareDialog;
     static String networkStatus;
+
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -104,30 +111,14 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
     }
 
-    public static String checkNetworkStatus(final Context context) {
-
-
-        // Get connect mangaer
-        final ConnectivityManager connMgr = (ConnectivityManager)
-                context.getSystemService(Context.CONNECTIVITY_SERVICE);
-
-        // check for wifi
-        final android.net.NetworkInfo wifi = connMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-
-        // check for mobile data
-        final android.net.NetworkInfo mobile = connMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-
-        if( wifi.isAvailable() ) {
-            networkStatus = "wifi";
-        } else if( mobile.isAvailable() ) {
-            networkStatus = "mobileData";
-        } else {
-            networkStatus = "noNetwork";
+    public static boolean isConnected(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo ni = cm.getActiveNetworkInfo();
+        if (ni != null) {
+            return cm.getActiveNetworkInfo().isConnected();
         }
-
-        return networkStatus;
-
-    }  // end checkNetworkStatus
+        return false;
+    }
 
     @Override
     public void onBackPressed() {
@@ -147,7 +138,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
         }
         else if (id == R.id.nav_share){
-            if (networkStatus == "wifi" || networkStatus == "mobileData") {
+            if (isConnected(this)) {
                 ShareLinkContent linkContent = new ShareLinkContent.Builder()
                         .setQuote("Share SOS Button")
                         .setContentUrl(Uri.parse("https://developers.facebook.com"))
@@ -155,8 +146,12 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
                 if (shareDialog.canShow(ShareLinkContent.class)) {
                     shareDialog.show(linkContent);
                 }
-            } else {
-              Toast.makeText(this, "You Need Network data\n to share on Facebook",Toast.LENGTH_LONG).show();
+            }else{
+              Toast toastFacebook = Toast.makeText(this, R.string.no_network_data,Toast.LENGTH_LONG);
+              TextView centerMessage = toastFacebook.getView().findViewById(android.R.id.message);
+              if (centerMessage != null)
+                  centerMessage.setGravity(Gravity.CENTER);
+              toastFacebook.show();
             }
             //printKeyHash();
         }
@@ -198,10 +193,8 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
                 md.update(signature.toByteArray());
                 Log.d("KeyHash", Base64.encodeToString(md.digest(),Base64.DEFAULT));
             }
-        } catch (PackageManager.NameNotFoundException e){
+        } catch (PackageManager.NameNotFoundException|NoSuchAlgorithmException e){
             e.printStackTrace();
-        }catch(NoSuchAlgorithmException ex){
-            ex.printStackTrace();
         }
     }
 

@@ -57,12 +57,12 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
-        getSupportActionBar().hide();
-        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         languages = new Languages();
         languages.Languages(this);
         languages.loadLocales();
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+        getSupportActionBar().hide();
+        setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_userdata);
 
         user = new User();
@@ -198,11 +198,11 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
 
     public void initialize(){
 
-        fname = etFName.getText().toString();
-        lname = etLName.getText().toString();
+        fname = etFName.getText().toString().trim();
+        lname = etLName.getText().toString().trim();
         country = spcountry.getSelectedItem().toString();
-        description = etDescription.getText().toString();
-        phone = etPhone.getText().toString();
+        description = etDescription.getText().toString().trim();
+        phone = etPhone.getText().toString().trim();
     }
 
     public boolean validate(){

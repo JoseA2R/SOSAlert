@@ -15,7 +15,6 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,10 +31,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.content.SharedPreferences;
-import java.util.ArrayList;
 
 import com.acin.josefigueira.sosalert.Controller.MyLocation;
 import com.acin.josefigueira.sosalert.Controller.GPSController;
@@ -45,7 +41,6 @@ import android.os.CountDownTimer;
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.Model.LocationHandler;
 import com.acin.josefigueira.sosalert.R;
-import com.acin.josefigueira.sosalert.View.MainMenuActivity;
 
 /**
  * Created by jose.figueira on 04-04-2018.
@@ -140,12 +135,12 @@ public class SOSFragment extends Fragment {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
                 if(event.getAction()  == MotionEvent.ACTION_DOWN){
+                    imageButton.setImageResource(R.drawable.sos_2);
                     layoutView.setBackgroundResource(R.color.colorAccent);
                     view.setBackgroundResource(R.color.colorAccent);
-                    imageButton.setImageResource(R.drawable.sos_btn_pressed);
                 }
                 else if(event.getAction()  == MotionEvent.ACTION_UP){
-
+                    imageButton.setImageResource(R.drawable.sos_1);
                     layoutView.setBackgroundResource(R.color.colorPrimary);
                     view.setBackgroundResource(R.color.colorPrimary);
                     //checkAndroidVersion();
@@ -158,10 +153,10 @@ public class SOSFragment extends Fragment {
                                 @Override
                                 public void onClick(View v)
                                 {
+                                    imageButton.setImageResource(R.drawable.sos_1);
                                     button_sos.setVisibility(View.INVISIBLE);
                                     txtCountDown.setText("");
                                     imageButton.setEnabled(true);
-                                    imageButton.setImageResource(R.drawable.sos_btn);
                                     //toneBeep.stopTone();tranquis
                                     toneBeep.release();
                                     cancel();
@@ -178,6 +173,7 @@ public class SOSFragment extends Fragment {
                             }
                             txtCountDown.setShadowLayer(1.5f, 5, 5, Color.BLACK);
                             imageButton.setImageResource(R.drawable.circle);
+                            imageButton.setPaddingRelative(0,15,0,0);
                             //System.out.println(millisUntilFinished/1000);
                         }
                         public void onFinish(){
@@ -211,7 +207,7 @@ public class SOSFragment extends Fragment {
                                                         button_sos.setVisibility(View.INVISIBLE);
                                                         txtCountDown.setText("");
                                                         imageButton.setEnabled(true);
-                                                        imageButton.setImageResource(R.drawable.sos_btn);
+                                                        imageButton.setImageResource(R.drawable.sos_1);
                                                     }
                                                 })
                                         .setNegativeButton(R.string.no_btn,
@@ -222,7 +218,7 @@ public class SOSFragment extends Fragment {
                                                         button_sos.setVisibility(View.INVISIBLE);
                                                         txtCountDown.setText("");
                                                         imageButton.setEnabled(true);
-                                                        imageButton.setImageResource(R.drawable.sos_btn);
+                                                        imageButton.setImageResource(R.drawable.sos_1);
                                                         dialog.cancel();
                                                     }
                                                 });
@@ -232,7 +228,7 @@ public class SOSFragment extends Fragment {
                                 txtCountDown.setText("");
                                 button_sos.setVisibility(View.INVISIBLE);
                                 imageButton.setEnabled(true);
-                                imageButton.setImageResource(R.drawable.sos_btn);
+                                imageButton.setImageResource(R.drawable.sos_1);
                                 //sendingsms.append("Sending Message");
                                 final LocationHandler locationHandler =  new LocationHandler();
                                 final MyLocation myLocation = new MyLocation(locationHandler);
@@ -491,6 +487,8 @@ public class SOSFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+        /*final GPSController gpsController = new GPSController(mContext);
+        gpsController.showSettingsAlert();*/
         /*final LocationHandler locationHandler =  new LocationHandler();
         final MyLocation myLocation = new MyLocation(locationHandler);
         MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {

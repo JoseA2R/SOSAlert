@@ -95,7 +95,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         btnNext  = view.findViewById(R.id.btnNext);
         user = new User();
 
-        /*final View activityRootView = view.findViewById(R.id.coordinatorlayout);
+        final View activityRootView = view.findViewById(R.id.coordinatorlayout);
         activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -105,12 +105,12 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
                 int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
                 if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                    btnNext.setPadding(0,0,0,30);
+                    btnNext.setPadding(0,0,0,10);
                 }else{
-                    btnNext.setPadding(0,30,0,0);
+                    btnNext.setPadding(0,10,0,0);
                 }
             }
-        });*/
+        });
 
         getActivity() .getWindow().setSoftInputMode(WindowManager.LayoutParams. SOFT_INPUT_ADJUST_PAN );
         CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
@@ -260,11 +260,11 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
     public boolean validate(){
         boolean valid = true;
-        fname = etFName.getText().toString();
-        lname = etLName.getText().toString();
+        fname = etFName.getText().toString().trim();
+        lname = etLName.getText().toString().trim();
         country = spcountry.getSelectedItem().toString();
-        description = etDescription.getText().toString();
-        phone = etPhone.getText().toString();
+        description = etDescription.getText().toString().trim();
+        phone = etPhone.getText().toString().trim();
         if(fname.isEmpty() || fname.length()>40 || !fname.matches("[a-zA-Zç\\p{L} ]+$") || fname.trim() == ""){
             System.out.println("\\w+");
             etFName.setError(getString(R.string.valid_fname));

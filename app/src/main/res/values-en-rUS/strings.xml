@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SOS Button</string>
     <string name="welcome_alert">WELCOME</string>
@@ -50,5 +51,4 @@
     <string name="gps_content">GPS is not active. Do you want to open settings and activate GPS Module?</string>
     <string name="settings_btn">Settings</string>
     <string name="cancel_btn">Cancel</string>
-
 </resources>

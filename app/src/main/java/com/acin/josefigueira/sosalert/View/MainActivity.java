@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     String item;
     Button _btn;
     Languages languages;
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,17 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 .getBoolean("isfirstrun",true);
 
         if (!isFirstRun) {
-            startActivity(new Intent(MainActivity.this,SplashActivity.class));
+            if(android.os.Build.VERSION.SDK_INT > 23) {
+                intent = new Intent(MainActivity.this, SplashActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }else{
+                intent = new Intent(MainActivity.this, MainMenuActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                finish();
+            }
         }
         setContentView(R.layout.initial_mainpage);
 
