@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:id="@+id/relativelayout_19" >
+
+
+    <ScrollView
+        android:id="@+id/scrollView_19"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="false" >
+
+
+        <RelativeLayout
+            android:id="@+id/parent_linear_layout_19"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_example"/>
+
+            <TextView
+                android:id="@+id/txt_insert_your_19"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center"
+                android:layout_marginTop="80dp"
+                android:text="@string/tv_personal_data"
+                android:textColor="@color/white"
+                android:textSize="22sp"
+                android:textStyle="bold" />
+
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_fname_19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="240dp">
+
+                <EditText
+                    android:id="@+id/etFName_19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="70dp"
+                    android:ems="10"
+                    android:hint="@string/first_names"
+                    android:inputType="textPersonName" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_lname_19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/input_layout_fname_19">
+
+                <EditText
+                    android:id="@+id/etSName_19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/last_names"
+                    android:inputType="textPersonName" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Spinner
+                android:id="@+id/spinnerCountry_19"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_below="@id/input_layout_lname_19"
+                android:background="@drawable/spinner_white_background">
+
+            </Spinner>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/input_layout_comments_19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/spinnerCountry_19">
+
+                <EditText
+                    android:id="@+id/etDescription_19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:ems="10"
+                    android:hint="@string/edit_comments"
+                    android:inputType="textMultiLine" />
+            </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_layout_phone_19"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/input_layout_comments_19">
+
+                    <EditText
+                        android:id="@+id/etPhone_19"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentStart="true"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginEnd="15dp"
+                        android:layout_marginBottom="150dp"
+                        android:hint="@string/phone_number"
+                        android:inputType="phone" />
+                </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/btnNext_19"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorAccent"
+                android:text="@string/next_btn"
+                android:textColor="@color/white" />
+
+        </RelativeLayout>
+
+    </ScrollView>
+</FrameLayout>

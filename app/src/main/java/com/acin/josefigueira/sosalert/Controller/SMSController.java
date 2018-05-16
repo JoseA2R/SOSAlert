@@ -12,6 +12,8 @@ import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
+import android.view.Gravity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Classes.SmsReceiver;
@@ -92,17 +94,26 @@ public class SMSController {
                 public void onReceive(Context context, Intent intent) {
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
-                            Toast.makeText(mContext, "Message Sent", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show();
                             toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 500);
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-                            Toast.makeText(mContext, "Generic failure", Toast.LENGTH_SHORT).show();
+                            Toast toastFailure = Toast.makeText(mContext, "Generic failure\n" +
+                                    "Message NOT Sent", Toast.LENGTH_LONG);
+                            TextView centerMessageFailure = toastFailure.getView().findViewById(android.R.id.message);
+                            if (centerMessageFailure != null)
+                                centerMessageFailure.setGravity(Gravity.CENTER);
+                            toastFailure.show();
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_NO_SERVICE:
-                            Toast.makeText(mContext, "     No Service\n" +
-                                    "Message NOT Sent", Toast.LENGTH_SHORT).show();
+                            Toast toastNoService = Toast.makeText(mContext, "No Service\n" +
+                                    "Message NOT Sent", Toast.LENGTH_LONG);
+                            TextView centerMessage = toastNoService.getView().findViewById(android.R.id.message);
+                            if (centerMessage != null)
+                                centerMessage.setGravity(Gravity.CENTER);
+                            toastNoService.show();
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_NULL_PDU:
@@ -110,8 +121,12 @@ public class SMSController {
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_RADIO_OFF:
-                            Toast.makeText(mContext, "        Radio Off\n" +
-                                    "Message NOT Sent", Toast.LENGTH_SHORT).show();
+                            Toast toastRadioOff = Toast.makeText(mContext, "Radio Off\n" +
+                                    "Message NOT Sent", Toast.LENGTH_LONG);
+                            TextView centerMessageRadio = toastRadioOff.getView().findViewById(android.R.id.message);
+                            if (centerMessageRadio != null)
+                                centerMessageRadio.setGravity(Gravity.CENTER);
+                            toastRadioOff.show();
                             unregisterSentReceiver();
                             break;
                     }

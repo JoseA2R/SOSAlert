@@ -5,6 +5,7 @@ import android.content.res.ColorStateList;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
@@ -40,6 +41,7 @@ import android.widget.Toast;
 import android.support.v7.widget.Toolbar;
 
 import com.acin.josefigueira.sosalert.Classes.KeyboardUtil;
+import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import com.acin.josefigueira.sosalert.POJO.User;
 import com.acin.josefigueira.sosalert.R;
@@ -63,11 +65,12 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
     EditText etFName, etLName, etDescription, etPhone;
 
     String fname,lname,country,description,phone;
+    String getTVPersonalData,getHintFName,getHintLName,getHintDescription,getHintPhone,getTextNext;
     User user;
     int selectedCountry;
     UserController controller;
     KeyboardUtil keyboardUtil;
-
+    Languages languages;
     Fragment fragment;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
@@ -86,47 +89,51 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
         /*ViewGroup.MarginLayoutParams layoutParams = new ViewGroup.MarginLayoutParams( 0, 0 );
         layoutParams.setMargins(0,25,0,0);*/
-        view = inflater.inflate(R.layout.activity_userdata,container,false);
-        etFName = view.findViewById(R.id.etFName);
-        etLName = view.findViewById(R.id.etSName);
-        spcountry = view.findViewById(R.id.spinnerCountry);
-        etDescription = view.findViewById(R.id.etDescription);
-        etPhone = view.findViewById(R.id.etPhone);
-        btnNext  = view.findViewById(R.id.btnNext);
+
         user = new User();
+        controller = new UserController(getActivity().getBaseContext());
 
-        final View activityRootView = view.findViewById(R.id.coordinatorlayout);
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                //r will be populated with the coordinates of your view that area still visible.
-                activityRootView.getWindowVisibleDisplayFrame(r);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-                int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
-                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                    btnNext.setPadding(0,0,0,10);
-                }else{
-                    btnNext.setPadding(0,10,0,0);
+            view = inflater.inflate(R.layout.activity_userdata, container, false);
+
+            etFName = view.findViewById(R.id.etFName);
+            etLName = view.findViewById(R.id.etSName);
+            spcountry = view.findViewById(R.id.spinnerCountry);
+            etDescription = view.findViewById(R.id.etDescription);
+            etPhone = view.findViewById(R.id.etPhone);
+            btnNext = view.findViewById(R.id.btnNext);
+
+            final View activityRootView = view.findViewById(R.id.coordinatorlayout);
+            activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Rect r = new Rect();
+                    //r will be populated with the coordinates of your view that area still visible.
+                    activityRootView.getWindowVisibleDisplayFrame(r);
+
+                    int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                    if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                        btnNext.setPadding(0, 0, 0, 10);
+                    } else {
+                        btnNext.setPadding(0, 10, 0, 0);
+                    }
                 }
-            }
-        });
+            });
 
-        getActivity() .getWindow().setSoftInputMode(WindowManager.LayoutParams. SOFT_INPUT_ADJUST_PAN );
-        CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
-        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
-
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+            CollapsingToolbarLayout collapsingToolbarLayout = view.findViewById(R.id.collapsing_toolbar);
+            collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+            collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
 
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
-        AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
-        appBarLayout.setPadding(0,(int)px,0,0);
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
+            AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
+            appBarLayout.setPadding(0, (int) px, 0, 0);
 
         /*if(((AppCompatActivity)getActivity()).getSupportActionBar() != null)
             ((AppCompatActivity)getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);*/
 
-        controller = new UserController(getActivity().getBaseContext());
         /*etFName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -135,6 +142,36 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
                 }
             }
         });*/
+
+        }else{
+
+            getTVPersonalData = getResources().getString(R.string.tv_personal_data);
+            getHintFName = getResources().getString(R.string.first_names);
+            getHintLName = getResources().getString(R.string.last_names);
+            getHintDescription = getResources().getString(R.string.edit_comments);
+            getHintPhone = getResources().getString(R.string.phone_number);
+            getTextNext = getResources().getString(R.string.next_btn);
+
+            languages = new Languages();
+            languages.Languages(getActivity());
+            languages.loadLocales();
+
+            view = inflater.inflate(R.layout.activity_userdata_19, container, false);
+
+            etFName = view.findViewById(R.id.etFName_19);
+            etLName = view.findViewById(R.id.etSName_19);
+            spcountry = view.findViewById(R.id.spinnerCountry_19);
+            etDescription = view.findViewById(R.id.etDescription_19);
+            etPhone = view.findViewById(R.id.etPhone_19);
+            btnNext = view.findViewById(R.id.btnNext_19);
+
+            etFName.setHint(getHintFName);
+            etLName.setHint(getHintLName);
+            etDescription.setHint(getHintDescription);
+            etPhone.setHint(getHintPhone);
+            btnNext.setHint(getTextNext);
+
+        }
 
         insertData();
         return view;
@@ -191,8 +228,8 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);*/
-        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.spinner_item_black, controller.getLocales());
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.spinner_selected_black, controller.getLocales());
+        adapter.setDropDownViewResource(R.layout.spinner_item_black);
         spcountry.setAdapter(adapter);
 
     }

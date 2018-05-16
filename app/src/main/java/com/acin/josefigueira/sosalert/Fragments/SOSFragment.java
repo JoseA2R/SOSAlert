@@ -33,6 +33,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Controller.MyLocation;
 import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.Controller.UserController;
@@ -77,6 +78,7 @@ public class SOSFragment extends Fragment {
     public float longitude;
     public float latitude;
     public float precision;
+    Languages languages;
 
     String numcountdown,sendingMessage;
     private Button cancelBtn;

@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -63,67 +64,80 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         getSupportActionBar().hide();
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        setContentView(R.layout.activity_userdata);
 
         user = new User();
         controller = new UserController(this);
 
-        spcountry = findViewById(R.id.spinnerCountry);
-        etFName = (EditText) findViewById(R.id.etFName);
-        etLName = (EditText) findViewById(R.id.etSName);
-        spcountry = findViewById(R.id.spinnerCountry);
-        etDescription = (EditText) findViewById(R.id.etDescription);
-        etPhone = (EditText) findViewById(R.id.etPhone);
-        btnNext  = findViewById(R.id.btnNext);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
-        final View activityRootView = findViewById(R.id.coordinatorlayout);
-        activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                Rect r = new Rect();
-                //r will be populated with the coordinates of your view that area still visible.
-                activityRootView.getWindowVisibleDisplayFrame(r);
+            setContentView(R.layout.activity_userdata);
 
-                int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
-                if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                    btnNext.setPadding(0,0,0,30);
-                }else{
-                    btnNext.setPadding(0,30,0,0);
+            etFName = (EditText) findViewById(R.id.etFName);
+            etLName = (EditText) findViewById(R.id.etSName);
+            spcountry = findViewById(R.id.spinnerCountry);
+            etDescription = (EditText) findViewById(R.id.etDescription);
+            etPhone = (EditText) findViewById(R.id.etPhone);
+            btnNext = findViewById(R.id.btnNext);
+
+            final View activityRootView = findViewById(R.id.coordinatorlayout);
+            activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    Rect r = new Rect();
+                    //r will be populated with the coordinates of your view that area still visible.
+                    activityRootView.getWindowVisibleDisplayFrame(r);
+
+                    int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
+                    if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
+                        btnNext.setPadding(0, 0, 0, 30);
+                    } else {
+                        btnNext.setPadding(0, 30, 0, 0);
+                    }
                 }
-            }
-        });
+            });
 
-        Resources r = getResources();
-        float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
-        CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
-        collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
+            Resources r = getResources();
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
+            CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
+            collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
+            collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
-        setCountriesSpinner();
 
         /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle("Personal Data");
         collapsingToolbarLayout.setTitleEnabled(true);*/
-        //parentLinearLayout = (RelativeLayout) findViewById(R.id.parent_linear_layout);
+            //parentLinearLayout = (RelativeLayout) findViewById(R.id.parent_linear_layout);
 
         /*spcountry.setOnItemSelectedListener(this);
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);*/
 
+            spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    //Toast.makeText(getBaseContext(),adapterView.getItemAtPosition(i)+" selected",Toast.LENGTH_LONG).show();
+                }
 
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
 
-        spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                //Toast.makeText(getBaseContext(),adapterView.getItemAtPosition(i)+" selected",Toast.LENGTH_LONG).show();
-            }
+                }
+            });
+        }else{
+            setContentView(R.layout.activity_userdata_19);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
+            spcountry = findViewById(R.id.spinnerCountry_19);
+            etFName = (EditText) findViewById(R.id.etFName_19);
+            etLName = (EditText) findViewById(R.id.etSName_19);
+            spcountry = findViewById(R.id.spinnerCountry_19);
+            etDescription = (EditText) findViewById(R.id.etDescription_19);
+            etPhone = (EditText) findViewById(R.id.etPhone_19);
+            btnNext = findViewById(R.id.btnNext_19);
 
-            }
-        });
+        }
+
+        setCountriesSpinner();
 
         btnNext.setOnClickListener(new OnClickListener()
         {
@@ -141,11 +155,9 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
 
 
     public void setCountriesSpinner(){
-
         adapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item, controller.getLocales());
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spcountry.setAdapter(adapter);
-
     }
 
     public void onAddField(View v){
@@ -197,7 +209,6 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void initialize(){
-
         fname = etFName.getText().toString().trim();
         lname = etLName.getText().toString().trim();
         country = spcountry.getSelectedItem().toString();

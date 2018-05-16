@@ -44,4 +44,7 @@
     <string name="sending_message_txt">Enviando Mensagem</string>
     <string name="tv_where_are_you">Onde está você? (Prova)</string>
     <string name="no_network_data">Se precisam dados móveis ou Wifi\nPara partilhar no Facebook</string>
+    <string name="settings_btn">Configurações</string>
+    <string name="cancel_btn">Cancelar</string>
+    <string name="gps_settings">Configurações GPS</string>
 </resources>

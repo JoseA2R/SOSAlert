@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
+import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -40,6 +41,7 @@ import com.facebook.share.widget.ShareDialog;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Locale;
 
 /**
  * Created by jose.figueira on 03-04-2018.
@@ -64,16 +66,21 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
 
 
         super.onCreate(savedInstanceState);
-        FacebookSdk.sdkInitialize(this.getApplicationContext());
+        //FacebookSdk.sdkInitialize(this.getApplicationContext());
         setRequestedOrientation (ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         languages = new Languages();
         languages.Languages(this);
         languages.loadLocales();
+
         setContentView(R.layout.main_menu);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        try {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }catch(NullPointerException e){
+            e.printStackTrace();
+        }
         mToolbar.setTitle("");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
@@ -203,4 +210,12 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         super.onRequestPermissionsResult(requestCode,permissions,grantResults);
         Toast.makeText(this, "Enter Parent Context", Toast.LENGTH_LONG).show();
     }
+
+    /*@Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // refresh your views here
+        super.onConfigurationChanged(newConfig);
+        recreate();
+    }*/
+
 }
