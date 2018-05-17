@@ -97,6 +97,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
 
             view = inflater.inflate(R.layout.activity_userdata, container, false);
 
+
             etFName = view.findViewById(R.id.etFName);
             etLName = view.findViewById(R.id.etSName);
             spcountry = view.findViewById(R.id.spinnerCountry);
@@ -127,7 +128,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
             collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
 
-            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
             AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
             appBarLayout.setPadding(0, (int) px, 0, 0);
 
@@ -165,11 +166,11 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
             etPhone = view.findViewById(R.id.etPhone_19);
             btnNext = view.findViewById(R.id.btnNext_19);
 
-            etFName.setHint(getHintFName);
+            /*etFName.setHint(getHintFName);
             etLName.setHint(getHintLName);
             etDescription.setHint(getHintDescription);
             etPhone.setHint(getHintPhone);
-            btnNext.setHint(getTextNext);
+            btnNext.setHint(getTextNext);*/
 
         }
 

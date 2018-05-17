@@ -65,7 +65,7 @@ public class SOSFragment extends Fragment {
     Button button_sos;
     public ImageButton imageButton;
     public TextView sendingsms;
-    TextView FindingYou;
+    //TextView FindingYou;
     LocationManager locationManager;
 
     private SMSController smsController;
@@ -112,7 +112,6 @@ public class SOSFragment extends Fragment {
         button_sos.setVisibility(View.INVISIBLE);
         txtCountDown = (TextView) view.findViewById(R.id.txt_count_down);
         sendingsms = view.findViewById(R.id.tv_sending_message);
-        FindingYou = view.findViewById(R.id.tv_are_you);
         layoutView = view;
         mContext = getActivity();
         userController = new UserController(mContext);
@@ -132,7 +131,6 @@ public class SOSFragment extends Fragment {
 
 
         checkAndroidVersion();
-        view.performClick();
         imageButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -249,7 +247,7 @@ public class SOSFragment extends Fragment {
                                             location = locationHandler.selectMostAccurateLocation();
                                             latitude = (float) location.getLatitude();
                                             longitude = (float) location.getLongitude();
-                                            userController.setPlace(FindingYou.getText().toString());
+                                            //userController.setPlace(FindingYou.getText().toString());
                                             precision = (float) location.getAccuracy();
                                             System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
                                             userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
@@ -274,11 +272,13 @@ public class SOSFragment extends Fragment {
             }
 
         });
-
-        FindingYou.setText("");
-
+        //FindingYou.setText("");
     }
 
+    /*@Override
+    public void performClick(){
+
+    }*/
 
     public void setContext(Context context){
 
@@ -378,7 +378,7 @@ public class SOSFragment extends Fragment {
 
                     final LocationHandler locationHandler = new LocationHandler();
                     final MyLocation myLocation = new MyLocation(locationHandler);
-                    final SMSController smsController = new SMSController();
+                    //final SMSController smsController = new SMSController();
                     MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                         @Override
                         public void gotLocation(Location location) {
@@ -388,7 +388,7 @@ public class SOSFragment extends Fragment {
                                 location = locationHandler.selectMostAccurateLocation();
                                 latitude = (float) location.getLatitude();
                                 longitude = (float) location.getLongitude();
-                                userController.setPlace(FindingYou.getText().toString());
+                                //userController.setPlace(FindingYou.getText().toString());
                                 precision = (float) location.getAccuracy();
                                 System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
                                 try {
@@ -396,9 +396,9 @@ public class SOSFragment extends Fragment {
                                 }catch(NullPointerException e){
                                     e.printStackTrace();
                                 }
-                                Log.d("LOCATION", " Start sending message");
+                                Log.d("LOCATION", "GETTING A LOCATION");
                                 //smsController = new SMSController();
-                                smsController.SMSController(mContext);
+                                //smsController.SMSController(mContext);
                                 //smsController.sendTextMessage();
                                 //locationHandler.clear();
                                 ((Activity) mContext).runOnUiThread(new Runnable() {

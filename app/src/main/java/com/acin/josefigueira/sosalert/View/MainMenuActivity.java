@@ -6,13 +6,11 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.net.wifi.SupplicantState;
-import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -25,7 +23,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,14 +31,11 @@ import com.acin.josefigueira.sosalert.Fragments.FormFragment;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.R;
 import com.facebook.CallbackManager;
-import com.facebook.FacebookActivity;
-import com.facebook.FacebookSdk;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Locale;
 
 /**
  * Created by jose.figueira on 03-04-2018.
@@ -81,7 +75,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         }catch(NullPointerException e){
             e.printStackTrace();
         }
-        mToolbar.setTitle("");
+        //mToolbar.setTitle("");
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.main_menu);
 
@@ -100,6 +94,14 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
             }
         };*/
         navigationView = (NavigationView) findViewById(R.id.nav_view);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            //navigationView.inflateHeaderView(R.layout.action_bar_19);
+            navigationView.inflateMenu(R.menu.navigation_menu);
+        }else{
+            navigationView.inflateHeaderView(R.layout.action_bar_19);
+            navigationView.inflateMenu(R.menu.navigation_menu_19);
+        }
         navigationView.setItemIconTintList(null);
 
         mDrawerLayout.addDrawerListener(mToggle);

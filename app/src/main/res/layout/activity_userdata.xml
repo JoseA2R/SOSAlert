@@ -41,7 +41,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?android:attr/actionBarSize"
                 android:layout_weight="1"
-                android:layout_marginStart="26dp"
+                android:layout_marginStart="30dp"
                 app:titleTextColor="@color/white"
                 app:title="@string/tv_personal_data"
                 app:layout_collapseMode="pin" />

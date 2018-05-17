@@ -13,7 +13,6 @@
         android:id="@+id/sosalerttv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_gravity="center"
         android:layout_marginTop="70dp"
@@ -38,7 +37,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
+        android:layout_alignTop="@+id/txt_count_down"
+        android:layout_marginTop="15dp"
         android:background="@color/colorPrimary"
         app:srcCompat="@drawable/sos_1" />
 
@@ -49,19 +49,6 @@
         android:layout_centerInParent="true"
         android:textColor="@color/white"
         android:textSize="200sp" />
-
-    <EditText
-        android:id="@+id/tv_are_you"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/cancel_btn"
-        android:layout_alignTop="@+id/tv_sending_message"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="20dp"
-        android:layout_alignParentStart="true"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="@string/tv_where_are_you" />
 
     <Button
         android:layout_width="match_parent"

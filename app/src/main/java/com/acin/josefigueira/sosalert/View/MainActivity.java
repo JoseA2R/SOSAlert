@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -59,18 +60,24 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish();
             }
         }
-        setContentView(R.layout.initial_mainpage);
+
+
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            setContentView(R.layout.initial_mainpage);
+            spinner = (Spinner) findViewById(R.id.language_spinner);
+            spinner.setOnItemSelectedListener(this);
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.languages_array, R.layout.spinner_item);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinner.setAdapter(adapter);
+        }else{
+            setContentView(R.layout.initial_mainpage_19);
+        }
 
         _btn = findViewById(R.id.select_language_btn);
-        spinner = (Spinner) findViewById(R.id.language_spinner);
-        spinner.setOnItemSelectedListener(this);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,R.array.languages_array,R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+
         languages = new Languages();
         languages.Languages(this);
-
-
 
         _btn.setOnClickListener(new View.OnClickListener() {
             @Override

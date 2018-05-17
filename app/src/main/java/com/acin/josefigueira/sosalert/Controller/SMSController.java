@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.media.ToneGenerator;
 import android.preference.PreferenceManager;
 import android.telephony.SmsManager;
@@ -20,6 +21,7 @@ import com.acin.josefigueira.sosalert.Classes.SmsReceiver;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.Model.UserModel;
 import com.acin.josefigueira.sosalert.POJO.User;
+import com.acin.josefigueira.sosalert.R;
 
 import java.util.ArrayList;
 
@@ -73,11 +75,9 @@ public class SMSController {
         latitude = SPreferences.getFloat("latitude",0);
         longitude = SPreferences.getFloat("longitude",0);
         precision = SPreferences.getFloat("accuracy",0);
-        String place = userController.getPlace();
-
         String strPhone = "+351965639423";
         String strPhone2 =  phone;
-        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + place + "\n" + precision;
+        String strMessage = fname + " " + lname + " from " + country + " is located at http://maps.google.com/?q="+latitude+","+longitude + "\n" + precision;
 
         try {
             SmsManager sms = SmsManager.getDefault();
@@ -92,19 +92,38 @@ public class SMSController {
             SentReceiver = new BroadcastReceiver() {
                 @Override
                 public void onReceive(Context context, Intent intent) {
+                    final MediaPlayer mp;
                     switch (getResultCode()) {
                         case Activity.RESULT_OK:
                             Toast.makeText(mContext, "Message Sent", Toast.LENGTH_LONG).show();
-                            toneBeep.startTone(ToneGenerator.TONE_CDMA_CONFIRM, 500);
+                            try {
+                                //mp.stop();
+                                /*if (mp.isPlaying()) {
+                                    mp.release();
+                                }*/
+                                mp = MediaPlayer.create(mContext, R.raw.message_sent);
+                                mp.start();
+                                //mp.release();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
                             Toast toastFailure = Toast.makeText(mContext, "Generic failure\n" +
-                                    "Message NOT Sent", Toast.LENGTH_LONG);
+                                    "Message NOT Sent",Toast.LENGTH_LONG);
                             TextView centerMessageFailure = toastFailure.getView().findViewById(android.R.id.message);
                             if (centerMessageFailure != null)
                                 centerMessageFailure.setGravity(Gravity.CENTER);
                             toastFailure.show();
+                            try {
+                                /*mp.stop();
+                                mp.release();*/
+                                mp = MediaPlayer.create(mContext, R.raw.error_sound);
+                                mp.start();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_NO_SERVICE:
@@ -114,10 +133,26 @@ public class SMSController {
                             if (centerMessage != null)
                                 centerMessage.setGravity(Gravity.CENTER);
                             toastNoService.show();
+                            try {
+                                /*mp.stop();
+                                mp.release();*/
+                                mp = MediaPlayer.create(mContext, R.raw.error_sound);
+                                mp.start();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_NULL_PDU:
-                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "Null PDU", Toast.LENGTH_LONG).show();
+                            try {
+                                /*mp.stop();
+                                mp.release();*/
+                                mp = MediaPlayer.create(mContext, R.raw.error_sound);
+                                mp.start();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             unregisterSentReceiver();
                             break;
                         case SmsManager.RESULT_ERROR_RADIO_OFF:
@@ -127,6 +162,14 @@ public class SMSController {
                             if (centerMessageRadio != null)
                                 centerMessageRadio.setGravity(Gravity.CENTER);
                             toastRadioOff.show();
+                            try {
+                                /*mp.stop();
+                                mp.release();*/
+                                mp = MediaPlayer.create(mContext, R.raw.error_sound);
+                                mp.start();
+                            } catch(Exception e) {
+                                e.printStackTrace();
+                            }
                             unregisterSentReceiver();
                             break;
                     }

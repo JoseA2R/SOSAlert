@@ -97,7 +97,7 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             });
 
             Resources r = getResources();
-            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, r.getDisplayMetrics());
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, r.getDisplayMetrics());
             CollapsingToolbarLayout collapsingToolbarLayout = findViewById(R.id.collapsing_toolbar);
             collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
             collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);

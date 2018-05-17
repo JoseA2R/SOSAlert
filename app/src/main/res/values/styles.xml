@@ -50,7 +50,8 @@
 
     <style name="TextAppearance.MyApp.Title.Expanded" parent="android:TextAppearance">
         <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">20sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">35sp</item>
         <item name="android:typeface">normal</item>
     </style>
 
