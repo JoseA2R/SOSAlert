@@ -36,7 +36,7 @@
     <string name="valid_lname">Insira um sobrenome válido</string>
     <string name="valid_description">Insira uma descriçao válida</string>
     <string name="valid_phonenumber">Insira um número de telefone válido</string>
-    <string name="gps_disabled">O GPS está desativado.\nDeseja ativa-lo?</string>
+    <string name="gps_disabled">O GPS está desativado.\nDeseja ativa-lo?\n(Se não ativar, não sera possível o envio de mensagens SOS)</string>
     <string name="yes_btn">Sim</string>
     <string name="no_btn">Não</string>
     <string name="grant_permissions">Por favor dê permissão para utilizar o GPS e enviar mensagens.</string>
@@ -44,7 +44,11 @@
     <string name="sending_message_txt">Enviando Mensagem</string>
     <string name="tv_where_are_you">Onde está você? (Prova)</string>
     <string name="no_network_data">Se precisam dados móveis ou Wifi\nPara partilhar no Facebook</string>
-    <string name="settings_btn">Configurações</string>
+    <string name="settings_btn">Definições</string>
     <string name="cancel_btn">Cancelar</string>
     <string name="gps_settings">Configurações GPS</string>
+    <string name="not_sent_alertTitle">Mensagem não enviada</string>
+    <string name="not_sent_message">A mensagem não foi enviada devido a um erro.\nTente de novo</string>
+    <string name="not_exact_location_alertMessage">Não conseguimos a sua localização exata.\nTente de novo</string>
+
 </resources>

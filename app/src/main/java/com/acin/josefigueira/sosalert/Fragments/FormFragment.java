@@ -128,7 +128,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
             collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
 
-            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 30, getResources().getDisplayMetrics());
+            float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 24, getResources().getDisplayMetrics());
             AppBarLayout appBarLayout = view.findViewById(R.id.app_bar_layout);
             appBarLayout.setPadding(0, (int) px, 0, 0);
 
@@ -183,32 +183,6 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, valueInDp, metrics);
     }
 
-    /*@Override
-    public void onResume() {
-        super.onResume();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-    }
-    @Override
-    public void onStop() {
-        super.onStop();
-        ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-    }*/
-
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig)
-    {
-        super.onConfigurationChanged(newConfig);
-        keyboardUtil = new KeyboardUtil(getActivity(),
-                ((ViewGroup) view.findViewById(android.R.id.content)).getChildAt(0));
-
-        if ((newConfig.keyboardHidden == Configuration.HARDKEYBOARDHIDDEN_NO))
-            Toast.makeText(getActivity(), "soft keyboard visible", Toast.LENGTH_SHORT).show();
-        else if (newConfig.keyboardHidden == Configuration.KEYBOARDHIDDEN_YES) {
-            Toast.makeText(getActivity(), "soft keyboard hidden", Toast.LENGTH_SHORT).show();
-        }
-    }
-
     public void insertData(){
 
         setCountriesSpinner();
@@ -224,39 +198,15 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
     }
 
     public void setCountriesSpinner(){
-
-        /*spcountry.setOnItemSelectedListener(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spcountry.setAdapter(adapter);*/
         adapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),R.layout.spinner_selected_black, controller.getLocales());
         adapter.setDropDownViewResource(R.layout.spinner_item_black);
         spcountry.setAdapter(adapter);
-
     }
-
-    /*public void onAddField(View v){
-       /* if (numberOfRows == 0) {
-            LinearLayout TextLayout = (LinearLayout) findViewById(R.id.phone);
-            LayoutInflater inflating = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View rowPhoneView = inflating.inflate(R.layout.phone_number_text,null);
-            parentLinearLayout.addView(rowPhoneView,parentLinearLayout.getChildCount() -1);
-
-            numberOfRows++;
-
-        }else {
-
-        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        v = inflater.inflate(R.layout.phone_field, null);
-        parentLinearLayout.addView(v, parentLinearLayout.getChildCount() - 1);
-
-        //}
-    }*/
 
     public void hideKeyboard(View view) {
         InputMethodManager inputMethodManager =(InputMethodManager)getActivity().getSystemService(Activity.INPUT_METHOD_SERVICE);
         inputMethodManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
+}
 
     public void btnNextClicked(){
 
@@ -287,14 +237,6 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
         fragmentTransaction.commit();
     }
 
-    public void initialize(){
-
-        fname = etFName.getText().toString();
-        lname = etLName.getText().toString();
-        country = spcountry.getSelectedItem().toString();
-        description = etDescription.getText().toString();
-        phone = etPhone.getText().toString();
-    }
 
     public boolean validate(){
         boolean valid = true;

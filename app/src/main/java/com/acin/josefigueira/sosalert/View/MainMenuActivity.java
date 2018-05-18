@@ -95,7 +95,7 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         };*/
         navigationView = (NavigationView) findViewById(R.id.nav_view);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
             //navigationView.inflateHeaderView(R.layout.action_bar_19);
             navigationView.inflateMenu(R.menu.navigation_menu);
         }else{

@@ -161,12 +161,6 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     public void onAddField(View v){
-        /*if (numberOfRows == 0) {
-            LinearLayout TextLayout = (LinearLayout) findViewById(R.id.phone);
-            LayoutInflater inflating = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            final View rowPhoneView = inflating.inflate(R.layout.phone_number_text,null);
-            parentLinearLayout.addView(rowPhoneView,parentLinearLayout.getChildCount() -1);
-        }else {*/
         LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         final View rowView = inflater.inflate(R.layout.phone_field, null);
         parentLinearLayout.addView(rowView, parentLinearLayout.getChildCount() - 1);

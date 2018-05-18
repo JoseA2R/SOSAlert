@@ -23,6 +23,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -38,6 +39,7 @@ import com.acin.josefigueira.sosalert.Controller.MyLocation;
 import com.acin.josefigueira.sosalert.Controller.GPSController;
 import com.acin.josefigueira.sosalert.Controller.UserController;
 import android.os.CountDownTimer;
+import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Controller.SMSController;
 import com.acin.josefigueira.sosalert.Model.LocationHandler;
@@ -64,7 +66,7 @@ public class SOSFragment extends Fragment {
 
     Button button_sos;
     public ImageButton imageButton;
-    public TextView sendingsms;
+    public TextView sendingsms,sosalerttv;
     //TextView FindingYou;
     LocationManager locationManager;
 
@@ -103,10 +105,10 @@ public class SOSFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment}
+
         view = inflater.inflate(R.layout.fragment_alert_button,container,false);
         getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-        //imageButton.performClick();
+        sosalerttv = view.findViewById(R.id.sosalerttv);
         imageButton = view.findViewById(R.id.sos_img_btn);
         button_sos = view.findViewById(R.id.cancel_btn);
         button_sos.setVisibility(View.INVISIBLE);
@@ -187,10 +189,11 @@ public class SOSFragment extends Fragment {
                             }
                             if (GpsStatus == false) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                                builder.setTitle(R.string.gps_settings);
                                 builder.setMessage(
                                         R.string.gps_disabled)
                                         .setCancelable(false)
-                                        .setPositiveButton(R.string.yes_btn,
+                                        .setPositiveButton(R.string.settings_btn,
                                                 new DialogInterface.OnClickListener() {
 
                                                     public void onClick(DialogInterface dialog,
@@ -232,33 +235,68 @@ public class SOSFragment extends Fragment {
                                 //sendingsms.append("Sending Message");
                                 final LocationHandler locationHandler =  new LocationHandler();
                                 final MyLocation myLocation = new MyLocation(locationHandler);
-                                MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                                final MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
                                     @Override
                                     public void gotLocation(Location location) {
                                         //locationHandler.addLocation(location);
                                         if (locationHandler.hasMinLocations()) {
                                             Log.d("LOCATION", " Send message");
-                                            ((Activity) mContext).runOnUiThread(new Runnable() {
-                                                public void run() {
+                                            try {
+                                                location = locationHandler.selectMostAccurateLocation();
+                                                latitude = (float) location.getLatitude();
+                                                longitude = (float) location.getLongitude();
+                                                //userController.setPlace(FindingYou.getText().toString());
+                                                precision = (float) location.getAccuracy();
+                                                System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
+                                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                                                    public void run() {
+                                                        Toast.makeText(mContext,"latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision,Toast.LENGTH_LONG).show();
+
                                                     /*sendingsms.setText("Sending SMS");
                                                     imageButton.setEnabled(false);*/
+                                                    }
+                                                });
+                                                userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
+                                                smsController = new SMSController();
+                                                smsController.SMSController(mContext);
+                                                smsController.sendTextMessage();
+                                                if (locationHandler.hasMaxLocations()) {
+                                                    locationManager.removeUpdates(myLocation.getListener());
+                                                    locationHandler.clear();
+                                                }
+                                            }catch(NullPointerException e) {
+                                                getActivity().runOnUiThread(new Thread(new Runnable() {
+                                                    public void run() {
+                                                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                                                        // Setting Dialog Title
+                                                        alertDialog.setTitle(R.string.not_sent_alertTitle);
+                                                        // Setting Dialog Message
+                                                        alertDialog.setMessage(R.string.not_sent_message);
+                                                        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                locationManager.removeUpdates(myLocation.getListener());
+                                                                dialog.cancel();
+                                                            }
+                                                        });
+                                                        alertDialog.show();
+                                                    }
+                                                }));
+                                                e.printStackTrace();
+                                            }
+
+                                        }else {
+                                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                                            // Setting Dialog Title
+                                            alertDialog.setTitle(R.string.not_sent_alertTitle);
+                                            // Setting Dialog Message
+                                            alertDialog.setMessage(R.string.not_exact_location_alertMessage);
+                                            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    locationManager.removeUpdates(myLocation.getListener());
+                                                    dialog.cancel();
                                                 }
                                             });
-                                            location = locationHandler.selectMostAccurateLocation();
-                                            latitude = (float) location.getLatitude();
-                                            longitude = (float) location.getLongitude();
-                                            //userController.setPlace(FindingYou.getText().toString());
-                                            precision = (float) location.getAccuracy();
-                                            System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
-                                            userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
-                                            smsController = new SMSController();
-                                            smsController.SMSController(mContext);
-                                            smsController.sendTextMessage();
-                                        }
-
-                                        if (locationHandler.hasMaxLocations()) {
-                                            locationManager.removeUpdates(myLocation.getListener());
-                                            locationHandler.clear();
+                                            alertDialog.show();
                                         }
                                     }
                                 };
@@ -371,51 +409,82 @@ public class SOSFragment extends Fragment {
             // write your logic code if permission already granted
 
             locationManager = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
-            GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
-            if (!GpsStatus) {
+            try {
+                GpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            }catch(NullPointerException e){
+                e.printStackTrace();
+            }
+            if (GpsStatus == false) {
                 gpsController.showSettingsAlert();
             }else{
 
-                    final LocationHandler locationHandler = new LocationHandler();
-                    final MyLocation myLocation = new MyLocation(locationHandler);
-                    //final SMSController smsController = new SMSController();
-                    MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
-                        @Override
-                        public void gotLocation(Location location) {
-                            //locationHandler.addLocation(location);
-                            if (locationHandler.hasMinLocations()) {
-                                //Log.d("LOCATION", " Send message");
+                final LocationHandler locationHandler =  new LocationHandler();
+                final MyLocation myLocation = new MyLocation(locationHandler);
+                final MyLocation.LocationResult locationResult = new MyLocation.LocationResult() {
+                    @Override
+                    public void gotLocation(Location location) {
+                        //locationHandler.addLocation(location);
+                        if (locationHandler.hasMinLocations()) {
+                            Log.d("LOCATION", " Send message");
+                            ((Activity) mContext).runOnUiThread(new Runnable() {
+                                public void run() {
+                                                    /*sendingsms.setText("Sending SMS");
+                                                    imageButton.setEnabled(false);*/
+                                }
+                            });
+                            try {
                                 location = locationHandler.selectMostAccurateLocation();
                                 latitude = (float) location.getLatitude();
                                 longitude = (float) location.getLongitude();
                                 //userController.setPlace(FindingYou.getText().toString());
                                 precision = (float) location.getAccuracy();
                                 System.out.println("latitude: " + latitude + " \nlongitude: " + longitude + " \nAccuracy: " + precision);
-                                try {
-                                userController.putLocation(getContext(), latitude, longitude, precision);
-                                }catch(NullPointerException e){
-                                    e.printStackTrace();
+                                /*userController.putLocation(getActivity().getApplicationContext(), latitude, longitude, precision);
+                                smsController = new SMSController();
+                                smsController.SMSController(mContext);
+                                smsController.sendTextMessage();*/
+                                if (locationHandler.hasMaxLocations()) {
+                                    locationManager.removeUpdates(myLocation.getListener());
+                                    locationHandler.clear();
                                 }
-                                Log.d("LOCATION", "GETTING A LOCATION");
-                                //smsController = new SMSController();
-                                //smsController.SMSController(mContext);
-                                //smsController.sendTextMessage();
-                                //locationHandler.clear();
-                                ((Activity) mContext).runOnUiThread(new Runnable() {
+                            }catch(NullPointerException e) {
+                                /*getActivity().runOnUiThread(new Thread(new Runnable() {
                                     public void run() {
-                                        //alterar aqui
+                                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                                        // Setting Dialog Title
+                                        alertDialog.setTitle("Mesage not Sent");
+                                        // Setting Dialog Message
+                                        alertDialog.setMessage("The message was not sent due to a GPS error. Try to send the message again");
+                                        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                locationManager.removeUpdates(myLocation.getListener());
+                                                dialog.cancel();
+                                            }
+                                        });
+                                        alertDialog.show();
                                     }
-                                });
+                                }));*/
+                                e.printStackTrace();
                             }
 
-                            if (locationHandler.hasMaxLocations()) {
-                                locationManager.removeUpdates(myLocation.getListener());
-                                locationHandler.clear();
-                            }
-
-                        }
-                    };
-                    myLocation.getLocation(mContext, locationResult);
+                        }/*else {
+                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(mContext);
+                            // Setting Dialog Title
+                            alertDialog.setTitle("Mesage not Sent");
+                            // Setting Dialog Message
+                            alertDialog.setMessage("We couldn't get your exact location.\n Try Again");
+                            alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    locationManager.removeUpdates(myLocation.getListener());
+                                    dialog.cancel();
+                                }
+                            });
+                            alertDialog.show();
+                        }*/
+                        locationManager.removeUpdates(myLocation.getListener());
+                    }
+                };
+                myLocation.getLocation(mContext, locationResult);
 
             }
         }

@@ -36,7 +36,7 @@
     <string name="valid_lname">Please Enter a valid last name</string>
     <string name="valid_description">Please Enter a valid Description</string>
     <string name="valid_phonenumber">Please enter a valid Phone Number</string>
-    <string name="gps_disabled">GPS module is disabled.\nWould you like to enable it?</string>
+    <string name="gps_disabled">GPS module is disabled.\nWould you like to enable it?\n(If you don't enable it you will not be able to send messages)</string>
     <string name="yes_btn">Yes</string>
     <string name="no_btn">No</string>
     <string name="grant_permissions">Please Grant Permissions to use GPS and send Messages</string>
@@ -50,5 +50,8 @@
     <string name="gps_content">GPS is not active. Do you want to open settings and activate GPS Module?</string>
     <string name="settings_btn">Settings</string>
     <string name="cancel_btn">Cancel</string>
+    <string name="not_sent_alertTitle">Message not Sent</string>
+    <string name="not_sent_message">The message was not sent due to a GPS error. Try to send the message again</string>
+    <string name="not_exact_location_alertMessage">We couldn\'t get your exact location. Try Again</string>
 
 </resources>

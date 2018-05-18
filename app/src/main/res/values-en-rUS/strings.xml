@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">SOS Button</string>
     <string name="welcome_alert">WELCOME</string>
@@ -8,7 +7,7 @@
     <string name="text_click_button">CLICK THE BUTTON TO SEND HELP</string>
     <string name="first_names">First Names</string>
     <string name="last_names">Last Names</string>
-    <string name="edit_comments">Comments (alergies, type of blood...)</string>
+    <string name="edit_comments">Comments (alergies, type of blood…)</string>
     <string name="phone_number">Emergency Phone Number</string>
     <string name="next_btn">SAVE</string>
     <string name="next_btn1">NEXT</string>
@@ -37,7 +36,7 @@
     <string name="valid_lname">Please Enter a valid last name</string>
     <string name="valid_description">Please Enter a valid Description</string>
     <string name="valid_phonenumber">Please enter a valid Phone Number</string>
-    <string name="gps_disabled">GPS module is disabled.\nWould you like to enable it?</string>
+    <string name="gps_disabled">GPS module is disabled.\nWould you like to enable it?\n(If you don't enable it you will not be able to send messages)</string>
     <string name="yes_btn">Yes</string>
     <string name="no_btn">No</string>
     <string name="grant_permissions">Please Grant Permissions to use GPS and send Messages</string>
@@ -51,4 +50,5 @@
     <string name="gps_content">GPS is not active. Do you want to open settings and activate GPS Module?</string>
     <string name="settings_btn">Settings</string>
     <string name="cancel_btn">Cancel</string>
+
 </resources>

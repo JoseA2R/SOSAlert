@@ -6,6 +6,9 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
@@ -31,6 +34,8 @@ public class MyLocation {
     private boolean gps_enabled = false;
     private boolean network_enabled = false;
     private Criteria criteria;
+    public int counter;
+    private Location location;
     private Location gpsLocation, networkLocation;
     MainMenuActivity mainMenu = new MainMenuActivity();
 
@@ -64,36 +69,50 @@ public class MyLocation {
         try {
             if (gps_enabled)
                 criteria = new Criteria();
-                criteria.setAccuracy(Criteria.ACCURACY_FINE);
-                criteria.setPowerRequirement(Criteria.POWER_HIGH);
-                criteria.setAltitudeRequired(false);
-                criteria.setSpeedRequired(false);
-                criteria.setCostAllowed(true);
-                criteria.setBearingRequired(false);
-                criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
-                criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
-                LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
-                try {
-                    locationManager.requestLocationUpdates(0, 0, criteria, locationListener, null);
-                }catch(NullPointerException e){
-                    e.printStackTrace();
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 900, 0, locationListener);
-                }
+            criteria.setAccuracy(Criteria.ACCURACY_FINE);
+            criteria.setPowerRequirement(Criteria.POWER_HIGH);
+            criteria.setAltitudeRequired(false);
+            criteria.setSpeedRequired(false);
+            criteria.setCostAllowed(true);
+            criteria.setBearingRequired(false);
+            criteria.setHorizontalAccuracy(Criteria.ACCURACY_HIGH);
+            criteria.setVerticalAccuracy(Criteria.ACCURACY_HIGH);
+            LocationManager locationManager = (LocationManager) context.getSystemService(LOCATION_SERVICE);
+            try {
+                locationManager.requestLocationUpdates(0, 0, criteria, locationListener, null);
+            }catch(NullPointerException e){
+                e.printStackTrace();
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 900, 0, locationListener);
+            }
 
             if (network_enabled)
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 900, 0, locationListener);
         }catch(SecurityException ex){
             ex.printStackTrace();
         }
+
+        /*Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                public void run() {
+                    locationManager.removeUpdates(locationListener);
+                    locationResult.gotLocation(locationHandler.selectMostAccurateLocation());
+
+                }
+            }, 5000);*/
+
         timer1 = new Timer();
-        timer1.schedule(new GetLastLocation(), 10000);
+        timer1.schedule(new GetLastLocation(), 10000,1000);
+            //finish();
+
         return true;
     }
+
 
     private LocationListener locationListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-            if (gps_enabled) {
+            locationHandler.addLocation(location);
+            /*if (gps_enabled) {
                 gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
                 locationHandler.addLocation(gpsLocation);
                 Log.d("LOCATION", " got coordinate");
@@ -112,8 +131,8 @@ public class MyLocation {
                     //locationResult.gotLocation(networkLocation);
                     //locationHandler.addLocation(networkLocation);
                 }
-                return;
-            }
+
+            }*/
         }
 
         @Override
@@ -148,6 +167,12 @@ public class MyLocation {
             //locationManager.removeUpdates(locationListener);
             //locationManager.removeUpdates(locationListener);
 
+            if (counter < 10){
+                counter++;
+            }else{
+                locationResult.gotLocation(locationHandler.selectMostAccurateLocation());
+                timer1.cancel();
+            }
             Location networkLocation = null, gpsLocation = null;
             if (gps_enabled) {
                 gpsLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -155,26 +180,8 @@ public class MyLocation {
             }
             if (network_enabled)
                 networkLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-                locationHandler.addLocation(networkLocation);
-            //if there are both values use the latest one
-            if (gpsLocation != null && networkLocation != null) {
-                if (gpsLocation.getTime() > networkLocation.getTime())
-                    locationResult.gotLocation(gpsLocation);
+            locationHandler.addLocation(networkLocation);
 
-                else
-                    locationResult.gotLocation(networkLocation);
-                return;
-            }
-
-            if (gpsLocation != null) {
-                locationResult.gotLocation(gpsLocation);
-                return;
-            }
-            else if (networkLocation != null) {
-                locationResult.gotLocation(networkLocation);
-                return;
-            }
-            locationResult.gotLocation(null);
 
         }
     }

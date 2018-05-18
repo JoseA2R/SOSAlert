@@ -14,9 +14,9 @@ import java.util.List;
 
 public class LocationHandler
 {
-    List<Location> locations;
-    public static final int MIN_LOCATIONS = 3;
-    public static final int MAX_LOCATIONS = 3;
+    public List<Location> locations;
+    public static final int MIN_LOCATIONS = 2;
+    public static final int MAX_LOCATIONS = 2;
 
     public LocationHandler() {
         locations = new ArrayList<>();

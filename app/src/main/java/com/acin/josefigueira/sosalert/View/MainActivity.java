@@ -82,10 +82,6 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         _btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
-                //Iniciar actividad con el FormActivity
-
                 startActivity(new Intent(MainActivity.this,FormActivity.class));
             }
         });
@@ -97,13 +93,9 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         item = spinner.getSelectedItem().toString();
         if (item.contains("English") || item.contains("Inglês")) {
             languages.setLocales("en");
-            //recreate();
-            //startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
         else if (item.contains("Portuguese") || item.contains("Português")){
             languages.setLocales("pt");
-            //recreate();
-            //startActivity(new Intent(MainActivity.this, WelcomeMainActivity.class));
         }
     }
 
