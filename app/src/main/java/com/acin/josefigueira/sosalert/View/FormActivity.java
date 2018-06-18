@@ -6,13 +6,17 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Rect;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,10 +27,12 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Classes.Languages;
@@ -50,6 +56,8 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
     EditText etFName, etLName, etDescription, etPhone;
     Toolbar mToolbar;
     String fname,lname,country,description,phone,item;
+    TextView termsAndConditions;
+    AppCompatCheckBox checkTerms;
     MainActivity main = new MainActivity();
     User user;
     Languages languages;
@@ -78,7 +86,10 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             etDescription = (EditText) findViewById(R.id.etDescription);
             etPhone = (EditText) findViewById(R.id.etPhone);
             btnNext = findViewById(R.id.btnNext);
+            checkTerms = findViewById(R.id.check_terms);
+            termsAndConditions = findViewById(R.id.terms_and_conditions);
 
+            btnNext.setEnabled(false);
             final View activityRootView = findViewById(R.id.coordinatorlayout);
             activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                 @Override
@@ -89,11 +100,42 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
 
                     int heightDiff = activityRootView.getRootView().getHeight() - (r.bottom - r.top);
                     if (heightDiff > 100) { // if more than 100 pixels, its probably a keyboard...
-                        btnNext.setPadding(0, 0, 0, 30);
+                        btnNext.setPadding(0, 0, 0, 10);
                     } else {
-                        btnNext.setPadding(0, 30, 0, 0);
+                        btnNext.setPadding(0, 10, 0, 0);
                     }
                 }
+            });
+
+            checkTerms.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked){
+                        btnNext.setEnabled(true);
+                    }else{
+                        btnNext.setEnabled(false);
+                    }
+                }
+            });
+
+            btnNext.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    btnNextClicked();
+                }
+            });
+
+            termsAndConditions.setOnClickListener(new OnClickListener() {
+
+                @Override
+                public void onClick(View view)
+                {
+                    Intent browser= new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.acin.pt/docs/EN/policy_privacy.pdf"));
+                    startActivity(browser);
+                }
+
             });
 
             Resources r = getResources();
@@ -102,16 +144,6 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
             collapsingToolbarLayout.setCollapsedTitleTextColor(Color.WHITE);
             collapsingToolbarLayout.setExpandedTitleColor(Color.WHITE);
 
-
-        /*CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("Personal Data");
-        collapsingToolbarLayout.setTitleEnabled(true);*/
-            //parentLinearLayout = (RelativeLayout) findViewById(R.id.parent_linear_layout);
-
-        /*spcountry.setOnItemSelectedListener(this);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, getResources().getStringArray(R.array.countries));
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spcountry.setAdapter(adapter);*/
 
             spcountry.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
@@ -138,18 +170,6 @@ public class FormActivity extends AppCompatActivity implements AdapterView.OnIte
         }
 
         setCountriesSpinner();
-
-        btnNext.setOnClickListener(new OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                btnNextClicked();
-                //controller.SaveData(user);
-                //Toast.makeText(getApplicationContext(),controller.viewData(), Toast.LENGTH_LONG).show();
-            }
-        });
-
 
     }
 

@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.acin.josefigueira.sosalert.Classes.Languages;
 import com.acin.josefigueira.sosalert.Fragments.FormFragment;
+import com.acin.josefigueira.sosalert.Fragments.InfoFragment;
 import com.acin.josefigueira.sosalert.Fragments.SOSFragment;
 import com.acin.josefigueira.sosalert.R;
 import com.facebook.CallbackManager;
@@ -145,6 +146,9 @@ public class MainMenuActivity extends AppCompatActivity implements NavigationVie
         else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new FormFragment()).commit();
 
+        }
+        else if (id == R.id.nav_info){
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new InfoFragment()).commit();
         }
         else if (id == R.id.nav_share){
             if (isConnected(this)) {

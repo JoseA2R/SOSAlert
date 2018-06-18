@@ -5,8 +5,8 @@
     <string name="text_data">Insert your Personal Data</string>
     <string name="text_sos_alert">SOS ALERT</string>
     <string name="text_click_button">CLICK THE BUTTON TO SEND HELP</string>
-    <string name="first_names">First Names</string>
-    <string name="last_names">Last Names</string>
+    <string name="first_names">First Name</string>
+    <string name="last_names">Last Name</string>
     <string name="edit_comments">Comments (alergies, type of blood…)</string>
     <string name="phone_number">Emergency Phone Number</string>
     <string name="next_btn">SAVE</string>

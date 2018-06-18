@@ -6,8 +6,8 @@
     <string name="text_data">Insira dados pessoais</string>
     <string name="text_sos_alert">ALERTA SOS</string>
     <string name="text_click_button">CLIQUE PARA PEDIR SOCORRO</string>
-    <string name="first_names">Nomes próprios</string>
-    <string name="last_names">Sobrenomes</string>
+    <string name="first_names">Nome</string>
+    <string name="last_names">Sobrenome</string>
     <string name="edit_comments">Observação (alergias, tipo sanguíneo...)</string>
     <string name="phone_number">Número de telefone de emergência</string>
     <string name="next_btn">GUARDAR</string>

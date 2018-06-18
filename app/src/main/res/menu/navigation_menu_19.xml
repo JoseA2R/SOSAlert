@@ -18,6 +18,9 @@
             android:title="@string/share_nav"
             android:icon="@drawable/ic_facebook"/>
 
+        <item android:id="@+id/nav_info"
+            android:title="@string/info_nav"/>
+
         <!--<item
             android:id="@+id/nav_language"
             android:title="@string/language_nav"

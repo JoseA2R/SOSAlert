@@ -21,6 +21,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -63,6 +64,7 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
     Button btnNext;
     private LinearLayout parentLinearLayout;
     EditText etFName, etLName, etDescription, etPhone;
+    LinearLayoutCompat linearTerms;
 
     String fname,lname,country,description,phone;
     String getTVPersonalData,getHintFName,getHintLName,getHintDescription,getHintPhone,getTextNext;
@@ -104,6 +106,9 @@ public class FormFragment extends Fragment implements AdapterView.OnItemSelected
             etDescription = view.findViewById(R.id.etDescription);
             etPhone = view.findViewById(R.id.etPhone);
             btnNext = view.findViewById(R.id.btnNext);
+            linearTerms = view.findViewById(R.id.linear_terms);
+
+            linearTerms.setVisibility(View.GONE);
 
             final View activityRootView = view.findViewById(R.id.coordinatorlayout);
             activityRootView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

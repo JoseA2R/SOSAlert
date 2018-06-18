@@ -71,8 +71,9 @@
                 android:id="@+id/input_layout_fname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_alignParentTop="true">
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="9dp">
 
                 <EditText
                     android:id="@+id/etFName"
@@ -110,11 +111,12 @@
                 android:id="@+id/spinnerCountry"
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
-                android:layout_marginBottom="20dp"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="8dp"
                 android:layout_below="@+id/input_layout_lname"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/spinner_white_background">
 
             </android.support.v7.widget.AppCompatSpinner>
@@ -159,6 +161,39 @@
                     android:inputType="phone" />
 
             </android.support.design.widget.TextInputLayout>
+
+            <android.support.v7.widget.LinearLayoutCompat
+
+                android:id="@+id/linear_terms"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/input_layout_phone">
+
+                <android.support.v7.widget.AppCompatCheckBox
+                    android:id="@+id/check_terms"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.09"
+                    android:paddingStart="0dp"
+                    android:paddingEnd="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="12dp"/>
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/terms_and_conditions"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.9"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginEnd="15dp"
+                    android:layout_gravity="center_vertical|end"
+                    android:text="@string/link_terms"
+                    android:autoLink="web"
+                    android:linksClickable="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    />
+
+            </android.support.v7.widget.LinearLayoutCompat>
 
             <Button
                 android:id="@+id/btnNext"
